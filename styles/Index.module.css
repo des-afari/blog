@@ -40,18 +40,16 @@
           box-sizing: border-box;
 }
 
-.leftMain ul {
-  width: 100%;
-  height: 100%;
-}
-
 .leftMain ul li {
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 200px 1fr;
       grid-template-columns: 200px 1fr;
-  height: 150px;
+  height: 200px;
   margin-bottom: 1em;
+  padding-bottom: 5em;
+  padding-top: 1em;
+  border-bottom: 1px solid #E6E6E6;
 }
 
 .leftMainCon {
@@ -59,7 +57,7 @@
   display: grid;
   -ms-grid-rows: 1fr 15%;
       grid-template-rows: 1fr 15%;
-  padding-left: 1em;
+  padding-left: 1.5em;
   height: 98%;
 }
 
@@ -92,5 +90,9 @@
   color: white;
   border-radius: 50px;
   padding: .3em .8em;
+}
+
+.leftMainCon div:nth-child(2) small:nth-child(3), .leftMainCon div:nth-child(2) small:nth-child(2) {
+  color: gray;
 }
 /*# sourceMappingURL=Index.module.css.map */
