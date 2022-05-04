@@ -1,0 +1,50 @@
+@import './config';
+
+.header{
+    height: 3.5em;
+    display: flex;
+    position: sticky;
+    top: 0;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    @include padding;    
+    
+    div{
+        border-right: 1px solid $line;
+        height: fill;
+        @include flex(flex-start, center);
+    }
+    
+    div > p{
+        font-family: 'Abril Fatface', sans-serif;
+        font-size: 1.5rem;
+        margin: 0;
+    }
+    
+    nav{
+        @include flex(flex-end, center);
+    }
+
+    nav i{
+        cursor: pointer;
+        position: relative;
+
+        &:hover::after{
+            opacity: 1;
+            transition: opacity 500ms ease;
+        }
+        
+        &::after{
+            position: absolute;
+            display: flex;
+            content: 'write';
+            font-style: normal;
+            transform: translate(-11px, 4.5px);
+            padding: .2em .4em;
+            background-color: black;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            opacity: 0;
+        }
+    }
+}
