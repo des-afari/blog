@@ -11,7 +11,7 @@
 }
 
 .header div {
-  border-right: 1px solid #E6E6E6;
+  border-right: 1px solid #ddd;
   height: -webkit-fill-available;
   height: -moz-available;
   height: fill;

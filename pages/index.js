@@ -84,7 +84,14 @@ export default function Home() {
             <input type='text' placeholder='Search'></input>
           </div>
         </div>
-        <div className={styles.indexRightRecent}></div>
+        <ul className={styles.indexRightRecent}>
+          <h4>Recent</h4>
+          <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+        </ul>
         <footer className={styles.footer}>
           <Link href='/'>
             <a>

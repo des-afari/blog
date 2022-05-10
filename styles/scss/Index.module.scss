@@ -88,15 +88,15 @@
     position: sticky;
     top: 3.5em;
     display: grid;
-    grid-template-rows: 20% 70% 10%;
+    grid-template-rows: 15% 75% 10%;
 }
 
 .indexRightSearch{
-    @include flex(center, center);
+    @include flex(center, flex-end);
     
     & > div{
         @include flex(center, center);
-        border: 1px solid gray;
+        border: 1px solid #ddd;
         padding: .5em;
         border-radius: 50px;
         width: 80%;
@@ -115,7 +115,13 @@
 }
 
 .indexRightRecent{
+    
 
+    h4{
+        margin: 0;
+        text-align: center;
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+    }
 }
 
 .footer{
