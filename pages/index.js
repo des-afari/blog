@@ -3,6 +3,8 @@ import A1 from '../public/img/a1.jpg'
 import A2 from '../public/img/a2.jpg'
 import A3 from '../public/img/a3.jpg'
 import Image from 'next/image'
+import Link from 'next/link'
+import Search from '../public/svg/search.svg'
 
 
 export default function Home() {
@@ -76,9 +78,35 @@ export default function Home() {
         </div>
       </section>
       <section className={styles.indexRight}>
-        <div className={styles.searchContainer}>
-          <div></div>
+        <div className={styles.indexRightSearch}>
+          <div>
+            <Image src={Search} alt='img'></Image>
+            <input type='text' placeholder='Search'></input>
+          </div>
         </div>
+        <div className={styles.indexRightRecent}></div>
+        <footer className={styles.footer}>
+          <Link href='/'>
+            <a>
+              <small>Contact</small>
+            </a>
+          </Link>
+          <Link href='/'>
+            <a>
+              <small>Terms</small>
+            </a>
+          </Link>
+          <Link href='/'>
+            <a>
+              <small>Legal</small>
+            </a>
+          </Link>
+          <Link href='/'>
+            <a>
+              <small>Settings</small>
+            </a>
+          </Link>
+        </footer>
       </section>
     </div>
   )

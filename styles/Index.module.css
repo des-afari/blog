@@ -95,4 +95,68 @@
 .leftMainCon div:nth-child(2) small:nth-child(3), .leftMainCon div:nth-child(2) small:nth-child(2) {
   color: gray;
 }
+
+.indexRight {
+  height: calc(100vh - 3.5em);
+  position: -webkit-sticky;
+  position: sticky;
+  top: 3.5em;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 20% 70% 10%;
+      grid-template-rows: 20% 70% 10%;
+}
+
+.indexRightSearch {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.indexRightSearch > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 1px solid gray;
+  padding: .5em;
+  border-radius: 50px;
+  width: 80%;
+}
+
+.indexRightSearch > div input {
+  border: none;
+  width: 100%;
+  font-size: .93rem;
+}
+
+.indexRightSearch > div input:focus {
+  outline: none;
+}
+
+.footer {
+  border-top: 1px solid #E6E6E6;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
 /*# sourceMappingURL=Index.module.css.map */
