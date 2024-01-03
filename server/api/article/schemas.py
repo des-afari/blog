@@ -11,7 +11,7 @@ class ArticleSchema(BaseModel):
     article_img_url: str
     description: str = None
     content: str
-    tags: List[str]
+    tags: List[int]
 
     def __init__(self, title, **kwargs):
         super.__init__(title=title.lower().replace(' ', '-'), **kwargs)
@@ -22,7 +22,7 @@ class ArticleUpdateSchema(BaseModel):
     article_img_url: str = None
     description: str = None
     content: str = None
-    tags: List[str] = None
+    tags: List[int] = None
     
 
 class ArticleResponse(BaseModel):

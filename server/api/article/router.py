@@ -22,3 +22,58 @@ async def create_article(schema: ArticleSchema, db: Session = Depends(get_db), u
         id=token_hex(16),
         **schema.model_dump(exclude={'tags'})
     )
+    article.tags = db.query(Tag).filter(Tag.id.in_(schema.tags)).all()
+    article.comments = db.query(Comment).filter(Comment.article_id == article.id).all()
+    article.votes = db.query(Vote).filter(Vote.article_id == article.id).all()
+
+    db.add(article)
+    db.commit()
+
+    return article
+
+
+@router.get('/{article_id}', status_code=200, response_model=ArticleResponse)
+async def get_article(article_id: str, db: Session = Depends(get_db)):
+    article = db.query(Article).get(article_id)
+
+    if not article:
+        raise HTTPException(404, detail='Article not found')
+    
+    return article
+
+
+@router.put('/{article_id}/update', status_code=200, response_model=ArticleResponse)
+async def updated_article(
+    article_id: str, schema: ArticleUpdateSchema, db: Session = Depends(get_db), user = Depends(get_user)):
+    check_admin_permission(user)
+
+    article = db.query(Article).get(article_id)
+
+    if not article:
+        raise HTTPException(404, detail='Article not found')
+    
+    form = schema.model_dump(exclude={'tags'}, exclude_unset=True)
+
+    for key, value in form.items():
+        setattr(article, key, value)
+
+    if schema.tags:
+        article.tags = db.query(Tag).filter(Tag.id.in_(schema.tags)).all()
+
+    db.commit()
+    db.refresh(article)
+
+    return article
+
+
+@router.delete('/{article_id}/delete', status_code=204)
+async def delete_article(article_id: str, db: Session = Depends(get_db), user = Depends(get_user)):
+    check_admin_permission(user)
+
+    article = db.query(Article).get(article_id)
+
+    if not article:
+        raise HTTPException(404, detail='Article not found')
+    
+    db.delete(article)
+    db.commit()
