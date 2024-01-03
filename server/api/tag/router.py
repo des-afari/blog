@@ -39,9 +39,9 @@ async def delete_tag(tag_id: int, db: Session = Depends(get_db), user = Depends(
     db.commit()
 
 
-@router.get('/{name}', status_code=200, response_model=List[ArticleResponse])
-async def get_articles_by_tag(name: str, db: Session = Depends(get_db)):
-    articles = db.query(Article).filter(Article.tags.any(name=name)).all()
+@router.get('/{tag_id}', status_code=200, response_model=List[ArticleResponse])
+async def get_articles_by_tag(tag_id: int, db: Session = Depends(get_db)):
+    articles = db.query(Article).filter(Article.tags.any(id=tag_id)).all()
         
     if not articles:
         raise HTTPException(404, detail='Articles not found')

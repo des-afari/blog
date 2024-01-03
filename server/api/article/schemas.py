@@ -13,9 +13,6 @@ class ArticleSchema(BaseModel):
     content: str
     tags: List[int]
 
-    def __init__(self, title, **kwargs):
-        super.__init__(title=title.lower().replace(' ', '-'), **kwargs)
-
 
 class ArticleUpdateSchema(BaseModel):
     title: str = None

@@ -8,7 +8,7 @@ from api.article.schemas import ArticleSchema, ArticleUpdateSchema, ArticleRespo
 from utils.session import get_db
 from api.user.oauth2 import get_user
 from api.user.config import check_admin_permission, check_for_conflict
-from secrets import token_hex
+from secrets import token_urlsafe
 
 router = APIRouter()
 
@@ -17,9 +17,10 @@ router = APIRouter()
 async def create_article(schema: ArticleSchema, db: Session = Depends(get_db), user = Depends(get_user)):
     check_admin_permission(user)
     check_for_conflict(db, Article, 'title', schema.title)
+    schema.title = schema.title.lower().replace(' ', '-')
 
     article = Article(
-        id=token_hex(16),
+        id=token_urlsafe(16),
         **schema.model_dump(exclude={'tags'})
     )
     article.tags = db.query(Tag).filter(Tag.id.in_(schema.tags)).all()
@@ -51,6 +52,9 @@ async def updated_article(
 
     if not article:
         raise HTTPException(404, detail='Article not found')
+    
+    if schema.title:
+        schema.title = schema.title.lower().replace(' ', '-')
     
     form = schema.model_dump(exclude={'tags'}, exclude_unset=True)
 

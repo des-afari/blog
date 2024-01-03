@@ -5,7 +5,6 @@ from api.user.oauth2 import get_user
 from api.comment.model import Comment
 from api.comment.schemas import CommentSchema, CommentResponse
 from api.article.model import Article
-from sqlalchemy.sql import exists
 
 router = APIRouter()
 
@@ -13,6 +12,7 @@ router = APIRouter()
 @router.post('/{article_id}/create', status_code=201, response_model=CommentResponse)
 async def create_comment(
     article_id: str, schema: CommentSchema, db: Session = Depends(get_db), user = Depends(get_user)):
+    
     if not db.query(Article).get(article_id):
         raise HTTPException(404, detail='Article not found')
     
