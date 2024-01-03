@@ -10,7 +10,6 @@ from api.user.oauth2 import (access_private_key, access_public_key, create_token
 from api.user.schemas import (RegisterSchema, AuthResponse, EmailUpdateSchema, EmailUpdateResponse, UserUpdateSchema,
                               PasswordUpdateSchema, PasswordUpdateResponse, LogoutSchema, UserUpdateResponse)
 from uuid import uuid4
-from secrets import token_hex
 from utils.config import settings
 from datetime import datetime
 from sqlalchemy.sql import exists
