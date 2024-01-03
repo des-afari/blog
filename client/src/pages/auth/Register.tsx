@@ -8,7 +8,6 @@ import axios from '@/utils/api'
 import useAuth from '@/hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import axiosError from '@/utils/error'
-import { AxiosError } from 'axios'
 import { Loader2 } from 'lucide-react'
 
 
@@ -98,7 +97,7 @@ const Register: FC = () => {
       role === 'admin' ? navigate('/dashboard') : navigate('/')
 
     } catch (error) {
-      axiosError(error as AxiosError)
+      axiosError(error as Error)
 
     } finally {
       setIsLoading(false)

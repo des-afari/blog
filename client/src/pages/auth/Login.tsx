@@ -6,7 +6,6 @@ import axios from '@/utils/api'
 import useAuth from '@/hooks/useAuth'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axiosError from '@/utils/error'
-import { AxiosError } from 'axios'
 import { Loader2 } from 'lucide-react'
 
 
@@ -51,10 +50,12 @@ const Login: FC = () => {
 
       setAuth({ accessToken, role })
 
-      role === 'admin' ? navigate('/dashboard') : navigate('/')
+      role === 'admin' ? 
+      navigate(from || '/dashboard', {replace: true}) :
+      navigate(from || '/', {replace: true})
 
     } catch (error) {
-      axiosError(error as AxiosError)
+      axiosError(error as Error)
 
     } finally {
       setIsLoading(false)
