@@ -8,15 +8,15 @@ export const axiosError = (error: Error) => {
         toast('Something went wrong', {
           description: error.response.data.detail,
         })
-  
+        
       } else if (error.request) {
         toast('Something went wrong', {
-        description: 'No response received from the server'
+          description: 'No response received from the server',
         })
       } 
     } else {
       toast('Something went wrong', {
-        description: error.message
+        description: error.message,
       })
     }
   }
