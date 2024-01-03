@@ -1,34 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Layout from './Layout'
+import { Routes, Route } from 'react-router-dom'
+import PersistLogin from './components/PersistLogin'
+import RequireAuth from './components/RequireAuth'
+import Index from './pages/public/Index'
+import Privacy from './pages/public/Privacy'
+import Terms from './pages/public/Terms'
+import NotFound from './pages/public/NotFound'
+import Unauthorized from './pages/public/Unauthorized'
+import Login from './pages/auth/Login'
+import Register from './pages/auth/Register'
+import Dashboard from './pages/admin/Dashboard'
+import PublicLayout from './pages/public/Layout'
+import AuthLayout from './pages/auth/Layout'
+import AdminLayout from './pages/admin/Layout'
+
+
+const ROLES = {
+	"ADMIN": "admin",
+	"USER": "user"
+}
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Routes>
+      <Route element={<Layout />}>
+        {/* public routes */}
+        <Route element={<PublicLayout />}>
+          <Route path='/' element={<Index />} />
+        </Route>
+        
+        {/* auth routes */}
+        <Route element={<AuthLayout />}>
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+        </Route>
+
+        <Route element={<PersistLogin />}>
+
+          {/* admin routes */}
+          <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+            <Route element={<AdminLayout />}>
+              <Route path='/dashboard' element={<Dashboard />} />
+            </Route>
+          </Route>
+
+        </Route>
+
+        <Route path='/terms' element={<Terms />} />
+        <Route path='/privacy' element={<Privacy />} />
+        <Route path='/unathorized' element={<Unauthorized />} />
+        <Route path='*' element={<NotFound />} />
+      </Route>
+    </Routes>
   )
 }
 
