@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom'
 import useRefreshToken from '@/hooks/useRefreshToken'
 import useAuth from '@/hooks/useAuth'
 import Loader from './Loader'
-import axios from 'axios'
 import axiosError from '@/utils/error'
 
 const PersistLogin: FC = () => {

@@ -8,7 +8,7 @@ from api.user.config import hash_password, verify_password, check_admin_permissi
 from api.user.oauth2 import (access_private_key, access_public_key, create_token, verify_token,
                             refresh_private_key, refresh_public_key, get_user)
 from api.user.schemas import (RegisterSchema, AuthResponse, EmailUpdateSchema, EmailUpdateResponse, UserUpdateSchema,
-                              PasswordUpdateSchema, PasswordUpdateResponse, LogoutSchema, UserUpdateResponse)
+                              PasswordUpdateSchema, PasswordUpdateResponse, LogoutSchema, UserUpdateResponse, UserResponse)
 from uuid import uuid4
 from utils.config import settings
 from datetime import datetime
@@ -79,6 +79,11 @@ async def refresh(request: Request, db: Session = Depends(get_db)):
         data={"id": payload.id, "role": payload.role}, expiry=settings.ACCESS_EXPIRY, private_key=access_private_key)
     
     return {"access_token": access_token, "role": payload.role, "auth_type": "Bearer"}
+
+
+@router.get('/user/current', status_code=200, response_model=UserResponse)
+async def get_current_user(db: Session = Depends(get_db), user = Depends(get_user)):
+    return db.query(User).get(user.id)
 
 
 @router.patch('/email/update', status_code=200, response_model=EmailUpdateResponse)

@@ -8,6 +8,14 @@ class JWTResponse(BaseModel):
     class Config:
         from_attributes = True
 
+class UserResponse(BaseModel):
+    id: str
+    first_name: str
+    last_name: str
+
+    class Config:
+        from_attributes = True
+
 
 class RegisterSchema(BaseModel):
     first_name: str
