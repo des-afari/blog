@@ -2,10 +2,10 @@ import { FC, FormEvent } from 'react'
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem,
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Dialog, DialogContent, DialogDescription, DialogFooter,
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter,
    DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { EnvelopeClosedIcon, ExitIcon, LockClosedIcon, PersonIcon } from '@radix-ui/react-icons'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import { useEffect, useState } from 'react'
 import axiosError from '@/utils/error'
@@ -31,12 +31,16 @@ const Header: FC = () => {
   const [avatar, setAvatar] = useState<string>('')
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
+  const [userRefresh, setUserRefresh] = useState<boolean>(false)
 
   useEffect(() => {    
     const get_user = async () => {
       try {
         const response: UserResponse = await axiosPrivate.get('/user/current')
         const initials: string = response?.data?.first_name.charAt(0) + response?.data?.last_name.charAt(0)
+        
+        setFirstName(response?.data?.first_name)
+        setLastName(response?.data?.last_name)
         setAvatar(initials.toUpperCase())
   
       } catch (error) {
@@ -47,7 +51,7 @@ const Header: FC = () => {
 
     get_user()
 
-  }, [])
+  }, [userRefresh])
 
   const handleLogout = async () => {
     try {
@@ -78,11 +82,14 @@ const Header: FC = () => {
         "first_name": firstName,
         "last_name": lastName
       }
-      
-      
+
+      await axiosPrivate.put('/user/update', data)
+
+      setUserRefresh(!userRefresh)
       
     } catch (error) {
-      
+      axiosError(error as Error)
+
     }
   }
 
@@ -129,26 +136,28 @@ const Header: FC = () => {
                       </DropdownMenuContent>
                     </DropdownMenu>
                     <DialogContent className="sm:max-w-[425px]">
-                            <DialogHeader>
-                              <DialogTitle>Update name</DialogTitle>
-                              <DialogDescription>
-                                Make changes to your name here. Click save changes when you're done.
-                              </DialogDescription>
-                            </DialogHeader>
-                            <form className="grid gap-y-4 pt-4" onSubmit={handleNameChange}>
-                              <div className="grid gap-1">
-                                <Label htmlFor="first_name" className='text-sm font-medium'>First Name</Label>
-                                <Input id="first_name" placeholder='John' value={firstName} onChange={e => setFirstName(e.target.value)} />
-                              </div>
-                              <div className="grid gap-1">
-                                <Label htmlFor="name" className='text-sm font-medium'>Last Name</Label>
-                                <Input id="name" placeholder='King' value={lastName} onChange={e => setLastName(e.target.value)} />
-                              </div>
-                              <DialogFooter>
-                                <Button type="submit">Save changes</Button>
-                              </DialogFooter>
-                            </form>
-                          </DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Update name</DialogTitle>
+                        <DialogDescription>
+                          Make changes to your name here. Click save changes when you're done.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <form className="grid gap-y-4 pt-4" onSubmit={handleNameChange}>
+                        <div className="grid gap-1">
+                          <Label htmlFor="first_name" className='text-sm font-medium'>First Name</Label>
+                          <Input id="first_name" placeholder='John' value={firstName} onChange={e => setFirstName(e.target.value)} />
+                        </div>
+                        <div className="grid gap-1">
+                          <Label htmlFor="name" className='text-sm font-medium'>Last Name</Label>
+                          <Input id="name" placeholder='King' value={lastName} onChange={e => setLastName(e.target.value)} />
+                        </div>
+                        <DialogFooter>
+                          <DialogClose>
+                            <Button type="submit">Save changes</Button>
+                          </DialogClose>
+                        </DialogFooter>
+                      </form>
+                    </DialogContent>
                   </Dialog>
                 </div>
             </header>

@@ -8,7 +8,7 @@ from api.user.config import hash_password, verify_password, check_admin_permissi
 from api.user.oauth2 import (access_private_key, access_public_key, create_token, verify_token,
                             refresh_private_key, refresh_public_key, get_user)
 from api.user.schemas import (RegisterSchema, AuthResponse, EmailUpdateSchema, EmailUpdateResponse, UserUpdateSchema,
-                              PasswordUpdateSchema, PasswordUpdateResponse, LogoutSchema, UserUpdateResponse, UserResponse)
+                              PasswordUpdateSchema, PasswordUpdateResponse, LogoutSchema, UserResponse)
 from uuid import uuid4
 from utils.config import settings
 from datetime import datetime
@@ -118,9 +118,9 @@ async def update_password(schema: PasswordUpdateSchema, db: Session = Depends(ge
     return {"message": "Password updated successfully"}
 
 
-@router.put('/user/update', status_code=200, response_model=UserUpdateResponse)
+@router.put('/user/update', status_code=200, response_model=UserResponse)
 async def update_user(schema: UserUpdateSchema, db: Session = Depends(get_db), user = Depends(get_user)):
-    current_user = db.query(User).filter_by(id=user.id).first()
+    current_user = db.query(User).get(user.id)
 
     if not current_user:
         raise HTTPException(404, detail=f'User not found')

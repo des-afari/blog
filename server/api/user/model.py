@@ -20,8 +20,8 @@ class User(Base):
     comments = relationship('Comment', backref='user', cascade="all, delete-orphan")
 
     def set_slug(self):
-        self.first_name = self.first_name.lower().replace(' ', '-')
-        self.last_name = self.last_name.lower().replace(' ', '-')
+        self.first_name = self.first_name.title().replace(' ', '-')
+        self.last_name = self.last_name.title().replace(' ', '-')
 
     def __repr__(self) -> str:
         return f"<User email={self.email} />"

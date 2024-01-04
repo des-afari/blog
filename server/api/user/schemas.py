@@ -12,6 +12,7 @@ class UserResponse(BaseModel):
     id: str
     first_name: str
     last_name: str
+    email: EmailStr
 
     class Config:
         from_attributes = True
@@ -67,15 +68,6 @@ class PasswordUpdateResponse(BaseModel):
 class UserUpdateSchema(BaseModel):
     first_name: str = None
     last_name: str = None
-
-
-class UserUpdateResponse(BaseModel):
-    id: str
-    first_name: str
-    last_name: str
-
-    class Config:
-        from_attributes = True
 
 
 class LogoutSchema(BaseModel):
