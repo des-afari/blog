@@ -143,7 +143,7 @@ async def logout(request: Request, response: Response, schema: LogoutSchema, db:
     if schema.access_token: 
         access_payload = verify_token(
             token=schema.access_token, public_key=access_public_key,
-            credential_exception=HTTPException(401, detail='Invalid token', headers={"WWW-Authenticate": "Bearer"}))
+            credential_exception=HTTPException(401, detail='Expired token', headers={"WWW-Authenticate": "Bearer"}))
 
         access_jti = JsonTokenId(id=access_payload.jti)
         db.add(access_jti)
@@ -153,7 +153,7 @@ async def logout(request: Request, response: Response, schema: LogoutSchema, db:
     if refresh_token:
         refresh_payload = verify_token(
             token=refresh_token, public_key=refresh_public_key,
-            credential_exception=HTTPException(401, detail='Invalid token', headers={"WWW-Authenticate": "Bearer"}))
+            credential_exception=HTTPException(401, detail='Expired token', headers={"WWW-Authenticate": "Bearer"}))
 
         refresh_jti = JsonTokenId(id=refresh_payload.jti)
         db.add(refresh_jti)

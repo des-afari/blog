@@ -18,7 +18,6 @@ async def create_tag(schema: TagSchema, db: Session = Depends(get_db), user = De
     check_for_conflict(db, Tag, 'name', schema.name)
 
     tag = Tag(**schema.model_dump())
-    tag.set_slug()
 
     db.add(tag)
     db.commit()
