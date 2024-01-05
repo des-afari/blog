@@ -6,7 +6,6 @@ import axios from '@/utils/api'
 import useAuth from '@/hooks/useAuth'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axiosError from '@/utils/error'
-import { Loader2 } from 'lucide-react'
 
 
 interface LoginResponse {
@@ -85,7 +84,7 @@ const Login: FC = () => {
             <Button className='w-full' disabled={isLoading}>
               {
                 isLoading ? <div className='flex items-center gap-x-2'>
-                  <Loader2 className='animate-spin' />
+                  <svg className='animate-spin' xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
                   <p>Loading...</p>
                 </div> :
                 <p>Log in</p>

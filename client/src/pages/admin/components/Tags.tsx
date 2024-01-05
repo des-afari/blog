@@ -4,13 +4,13 @@ import axiosError from '@/utils/error'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { DeleteIcon, Loader2 } from 'lucide-react'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import { nameRegex } from '@/utils/config'
 import { toast } from 'sonner'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from "@/components/ui/badge"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
+import { ScissorsIcon } from '@radix-ui/react-icons'
 
 
 interface TagResponse {
@@ -84,7 +84,7 @@ const Tags: FC = () => {
     }
 
     try {
-      await axiosPrivate.post('/tag/create', data)
+      await axiosPrivate.post<SelectedInterface>('/tag/create', data)
 
       setTagRefresh(!tagRefresh)
 
@@ -114,7 +114,7 @@ const Tags: FC = () => {
     <section className='grid grid-cols-6' style={{height: "calc(100vh - 9rem)"}}>
       <div className='border-r pr-4 col-span-4'>
         <AlertDialog>
-        <div className='customScroll grid grid-flow-col gap-x-3 py-3 overflow-x-auto'>
+        <div className='customScroll grid grid-flow-col gap-x-3 pb-3 overflow-x-auto'>
           {
             categories?.map(item => (
               <Card key={item.id} className='h-32 w-52'>
@@ -123,7 +123,7 @@ const Tags: FC = () => {
                   <h2 className='text-xl font-extrabold'> {item.name} </h2>
                   <AlertDialogTrigger asChild>
                     <Button title='delete' onClick={() => setSelected(item)} className='absolute bottom-2 right-2 rounded-full' variant={'ghost'} size={'icon'}>
-                      <DeleteIcon />
+                      <ScissorsIcon />
                     </Button>
                   </AlertDialogTrigger>
                 </CardContent>
@@ -131,7 +131,7 @@ const Tags: FC = () => {
             ))
           }
         </div>
-        <div className='p-3 customScroll h-fit max-h-[20rem] grid grid-cols-4 gap-4 overflow-y-auto'>
+        <div className='customScroll h-fit max-h-[20rem] pb-3 grid grid-cols-4 gap-4 overflow-y-auto'>
           {
             tags?.map(item => (
               <Card key={item.id} className='h-32'>
@@ -140,7 +140,7 @@ const Tags: FC = () => {
                   <h2 className='text-xl font-extrabold'> {item.name} </h2>
                   <AlertDialogTrigger asChild>
                     <Button title='delete' onClick={() => setSelected(item)} className='absolute bottom-2 right-2 rounded-full' variant={'ghost'} size={'icon'}>
-                      <DeleteIcon />
+                      <ScissorsIcon />
                     </Button>
                   </AlertDialogTrigger>
                 </CardContent>
@@ -190,7 +190,7 @@ const Tags: FC = () => {
               <Button type='submit' className='w-full' disabled={isLoading}>
                 {
                   isLoading ? <div className='flex items-center gap-x-2'>
-                    <Loader2 className='animate-spin' />
+                    <svg className='animate-spin' xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
                     <p>Loading...</p>
                   </div> :
                   <p>Continue</p>

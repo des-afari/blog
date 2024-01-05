@@ -8,11 +8,12 @@ from api.user.config import hash_password, verify_password, check_admin_permissi
 from api.user.oauth2 import (access_private_key, access_public_key, create_token, verify_token,
                             refresh_private_key, refresh_public_key, get_user)
 from api.user.schemas import (RegisterSchema, AuthResponse, EmailUpdateSchema, EmailUpdateResponse, UserUpdateSchema,
-                              PasswordUpdateSchema, PasswordUpdateResponse, LogoutSchema, UserResponse)
+                              PasswordUpdateSchema, PasswordUpdateResponse, LogoutSchema, UserResponse, UsersResponse)
 from uuid import uuid4
 from utils.config import settings
 from datetime import datetime
 from sqlalchemy.sql import exists
+from typing import List
 
 router = APIRouter()
 
@@ -160,6 +161,13 @@ async def logout(request: Request, response: Response, schema: LogoutSchema, db:
 
     response.delete_cookie('_rt')
     db.commit()
+
+
+@router.get('/users', status_code=200, response_model=List[UsersResponse])
+async def get_all_users(db: Session = Depends(get_db), user = Depends(get_user)):
+    check_admin_permission(user)
+
+    return db.query(User).all()
 
 
 @router.delete('/user/delete', status_code=204)

@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr
+from datetime import datetime
 
 class JWTResponse(BaseModel):
     id: str 
@@ -13,6 +14,19 @@ class UserResponse(BaseModel):
     first_name: str
     last_name: str
     email: EmailStr
+
+    class Config:
+        from_attributes = True
+
+
+class UsersResponse(BaseModel):
+    id: str
+    first_name: str
+    last_name: str
+    email: EmailStr
+    role: str
+    created_at: datetime
+    last_login: datetime
 
     class Config:
         from_attributes = True
