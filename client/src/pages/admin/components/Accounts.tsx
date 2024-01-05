@@ -4,6 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import axiosError from '@/utils/error'
 import { Badge } from '@/components/ui/badge'
+import { formatDate } from '@/utils/config'
 
 
 interface UsersResponse {
@@ -105,8 +106,8 @@ const Accounts: FC = () => {
                 <TableCell> {item.first_name} </TableCell>
                 <TableCell> {item.last_name} </TableCell>
                 <TableCell> {item.email} </TableCell>
-                <TableCell> {new Date(item.last_login).toLocaleDateString('en-US', {'year': 'numeric', "month": 'short', "day": 'numeric', "hour": 'numeric', "minute": 'numeric'})} </TableCell>
-                <TableCell> {new Date(item.created_at).toLocaleDateString('en-US', {'year': 'numeric', "month": 'short', "day": 'numeric', "hour": 'numeric', "minute": 'numeric'})} </TableCell>
+                <TableCell> {formatDate(item.last_login)} </TableCell>
+                <TableCell> {formatDate(item.created_at)} </TableCell>
                 <TableCell className='text-right'>
                   {
                     item.role === 'admin' ? 

@@ -33,7 +33,7 @@ async def root():
 
 @app.get('/api/v1/articles', status_code=200, response_model=List[ArticleResponse])
 async def get_articles(query: Optional[str] = "", db: Session = Depends(get_db)):
-    return db.query(Article.title.contains(query)).all()
+    return db.query(Article).filter(Article.title.contains(query)).all()
 
 
 @app.get('/api/v1/tags', status_code=200, response_model=List[TagResponse])

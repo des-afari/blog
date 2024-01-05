@@ -152,7 +152,7 @@ const Tags: FC = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Tag</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently remove a tag from the servers.
+              This action cannot be undone. This will permanently remove the tag.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
