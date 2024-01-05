@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
-import { FC, useEffect, useState } from 'react'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import axiosError from '@/utils/error'
@@ -34,6 +34,9 @@ interface UserInterface {
 
 const Accounts: FC = () => {
   const [users, setUsers] = useState<UserInterface[]>()
+  const [query, setQuery] = useState<string>('')
+	const [typingTimer, setTypingTimer] = useState<NodeJS.Timeout>()
+  const typingTimeout = 1300
 
   const axiosPrivate = useAxiosPrivate()
 
@@ -53,11 +56,36 @@ const Accounts: FC = () => {
     get_users()
   }, [])
 
+	const handleSubmit = async () => {
+		try {
+			const response: UsersResponse = await axiosPrivate.get(`/users?query=${query}`)
+			setUsers(response?.data)
+
+		} catch (error) {
+			axiosError(error as Error)
+
+		}
+	}
+
+	const  handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+		clearTimeout(typingTimer)
+		setQuery(e.target.value)
+
+		const timer = setTimeout(handleSubmit, typingTimeout)
+		setTypingTimer(timer)
+	}
+
+	useEffect(() => {
+		return () => {
+			clearTimeout(typingTimer)
+		}
+	}, [typingTimer])
+
   return (
     <section style={{height: "calc(100vh - 9rem"}} className='space-y-4'>
       <div className='grid grid-cols-4 gap-1 w-[450px]'>
         <small className='col-span-4 text-muted-foreground'>Provide an email address to filter the table</small>
-        <Input className='col-span-3' placeholder='Filter users'></Input>
+        <Input className='col-span-3' placeholder='Filter users' value={query} onChange={handleChange}></Input>
         <Button variant={'outline'} className='col-span-1 flex items-center justify-center gap-x-1 text-muted-foreground'>
           <MagnifyingGlassIcon />
           Search

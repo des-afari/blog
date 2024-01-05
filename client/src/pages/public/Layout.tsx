@@ -1,7 +1,7 @@
 import { Link, Outlet } from 'react-router-dom'
-import { Menu } from 'lucide-react'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { HamburgerMenuIcon } from '@radix-ui/react-icons'
 
 
 const Layout = () => {
@@ -18,7 +18,7 @@ const Layout = () => {
           </div>
           <div>
             <Button variant={'ghost'} className='lg:hidden'>
-              <Menu />
+              <HamburgerMenuIcon />
             </Button>
             <div className='hidden lg:flex lg:gap-x-2'>
               <Link to='/login' className={cn(

@@ -13,7 +13,7 @@ from uuid import uuid4
 from utils.config import settings
 from datetime import datetime
 from sqlalchemy.sql import exists
-from typing import List
+from typing import List, Optional
 
 router = APIRouter()
 
@@ -164,10 +164,10 @@ async def logout(request: Request, response: Response, schema: LogoutSchema, db:
 
 
 @router.get('/users', status_code=200, response_model=List[UsersResponse])
-async def get_all_users(db: Session = Depends(get_db), user = Depends(get_user)):
+async def get_all_users(query: Optional[str] = "", db: Session = Depends(get_db), user = Depends(get_user)):
     check_admin_permission(user)
 
-    return db.query(User).all()
+    return db.query(User).filter(User.email.contains(query)).all()
 
 
 @router.delete('/user/delete', status_code=204)
