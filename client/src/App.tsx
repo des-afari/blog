@@ -13,6 +13,7 @@ import Dashboard from './pages/admin/Dashboard'
 import PublicLayout from './pages/public/Layout'
 import AuthLayout from './pages/auth/Layout'
 import AdminLayout from './pages/admin/Layout'
+import CreateArticle from './pages/admin/CreateArticle'
 
 
 const ROLES = {
@@ -42,6 +43,7 @@ function App() {
             <Route element={<AdminLayout />}>
               <Route path='/dashboard' element={<Dashboard />} />
             </Route>
+            <Route path='/article/create' element={<CreateArticle />} />
           </Route>
 
         </Route>

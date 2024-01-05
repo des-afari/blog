@@ -2,11 +2,12 @@ import { FC } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Tags from './components/Tags'
 import Accounts from './components/Accounts'
+import Articles from './components/Articles'
 
 const Dashboard: FC = () => {
   return (
     <main className='px-6'>
-      <Tabs defaultValue='accounts'>
+      <Tabs defaultValue='articles'>
         <TabsList className='mt-4 mb-2'>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="tags">Tags</TabsTrigger>
@@ -18,6 +19,9 @@ const Dashboard: FC = () => {
         </TabsContent>
         <TabsContent value='accounts'>
           <Accounts />
+        </TabsContent>
+        <TabsContent value='articles'>
+          <Articles />
         </TabsContent>
       </Tabs>
     </main>

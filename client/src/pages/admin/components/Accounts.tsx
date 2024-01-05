@@ -1,6 +1,4 @@
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
@@ -83,18 +81,14 @@ const Accounts: FC = () => {
 
   return (
     <section style={{height: "calc(100vh - 9rem"}} className='space-y-4'>
-      <div className='grid grid-cols-4 gap-1 w-[450px]'>
+      <div className='w-[450px]'>
         <small className='col-span-4 text-muted-foreground'>Provide an email address to filter the table</small>
         <Input className='col-span-3' placeholder='Filter users' value={query} onChange={handleChange}></Input>
-        <Button variant={'outline'} className='col-span-1 flex items-center justify-center gap-x-1 text-muted-foreground'>
-          <MagnifyingGlassIcon />
-          Search
-        </Button>   
       </div>
       <Table className='border'>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[330px]">Id</TableHead>
+            <TableHead className="w-[340px]">Id</TableHead>
             <TableHead>First Name</TableHead>
             <TableHead>Last Name</TableHead>
             <TableHead>Email</TableHead>

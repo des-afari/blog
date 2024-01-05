@@ -3,12 +3,12 @@ from sqlalchemy.orm import Session
 from utils.session import get_db
 from fastapi.middleware.cors import CORSMiddleware # REMOVE IN PRODUCTION
 from api.api_v1 import api_router
-from typing import List
+from typing import List, Optional
 from api.article.model import Article
 from api.article.schemas import ArticleResponse
 from api.tag.model import Tag
 from api.tag.schemas import TagResponse
-from db.models import Base
+
 
 app = FastAPI()
 
@@ -32,8 +32,8 @@ async def root():
 
 
 @app.get('/api/v1/articles', status_code=200, response_model=List[ArticleResponse])
-async def get_articles(db: Session = Depends(get_db)):
-    return db.query(Article).all()
+async def get_articles(query: Optional[str] = "", db: Session = Depends(get_db)):
+    return db.query(Article.title.contains(query)).all()
 
 
 @app.get('/api/v1/tags', status_code=200, response_model=List[TagResponse])
