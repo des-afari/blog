@@ -183,7 +183,7 @@ const Header: FC = () => {
                   </DialogTrigger>
                   <DropdownMenuSeparator />
                   <DialogTrigger asChild onClick={() => setModal('delete')}>
-                    <DropdownMenuItem className='flex items-center gap-x-2 cursor-pointer' onClick={handleDelete}>
+                    <DropdownMenuItem className='flex items-center gap-x-2 cursor-pointer'>
                       <TrashIcon />
                       Delete Account
                     </DropdownMenuItem>
