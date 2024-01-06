@@ -67,17 +67,17 @@ const UpdateArticle: FC = () => {
     e.preventDefault()
     setIsLoading(true)
 
+    const tagIds = selectedTags.map(item => item.id)
+
+    const data = {
+      "title": title,
+      "article_img_url": articleImageURL,
+      "description": description,
+      "content": content,
+      "tags": tagIds
+    }
+    
     try {
-      const tagIds = selectedTags.map(item => item.id)
-
-      const data = {
-        "title": title,
-        "article_img_url": articleImageURL,
-        "description": description,
-        "content": content,
-        "tags": tagIds
-      }
-
       await axiosPrivate.put(`/article/${id}/update`, data)
       navigate(-1)
 

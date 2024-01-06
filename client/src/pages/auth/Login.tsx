@@ -6,6 +6,8 @@ import axios from '@/utils/api'
 import useAuth from '@/hooks/useAuth'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axiosError from '@/utils/error'
+import { emailRegex, nameRegex } from '@/utils/config'
+import { toast } from 'sonner'
 
 
 interface LoginResponse {
@@ -29,6 +31,22 @@ const Login: FC = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+
+    if (!emailRegex.test(email)) {
+      toast('Something went wrong', {
+        description: "Invalid email",
+      })
+      setIsLoading(false)
+      return
+    }
+
+    if (!nameRegex.test(password)) {
+      toast('Something went wrong', {
+        description: "Password must be longer than two characters",
+      })
+      setIsLoading(false)
+      return
+    }
 
     const data = new URLSearchParams({
       username: email,

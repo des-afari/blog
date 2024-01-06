@@ -85,7 +85,6 @@ const Tags: FC = () => {
 
     try {
       await axiosPrivate.post<SelectedInterface>('/tag/create', data)
-
       setTagRefresh(!tagRefresh)
 
     } catch (error) {

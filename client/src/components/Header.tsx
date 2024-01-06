@@ -3,69 +3,39 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem,
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter,
-   DialogHeader, DialogOverlay, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { EnvelopeClosedIcon, ExitIcon, LockClosedIcon, PersonIcon } from '@radix-ui/react-icons'
+   DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { EnvelopeClosedIcon, ExitIcon, InfoCircledIcon, LockClosedIcon, PersonIcon, TrashIcon } from '@radix-ui/react-icons'
 import { useNavigate } from 'react-router-dom'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import axiosError from '@/utils/error'
 import useAuth from '@/hooks/useAuth'
 import axios from '@/utils/api'
 import { Label } from '@radix-ui/react-label'
 import { Input } from './ui/input'
-import { Button } from './ui/button'
+import { Button, buttonVariants } from './ui/button'
 import { emailRegex, nameRegex, passwordRegex } from '@/utils/config'
 import { toast } from 'sonner'
 
-
-interface UserResponse {
-  data: {
-    id: string
-    first_name: string
-    last_name: string
-    email: string
-  }
-}
 
 const Header: FC = () => {
   const axiosPrivate = useAxiosPrivate()
   const { auth } = useAuth()
   const navigate = useNavigate()
-  const [avatar, setAvatar] = useState<string>('')
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const [oldPassword, setOldPassword] = useState<string>('')
   const [newPassword, setNewPassword] = useState<string>('')
-  const [userRefresh, setUserRefresh] = useState<boolean>(false)
   const [modal, setModal] = useState('')
-
-  useEffect(() => {    
-    const get_user = async () => {
-      try {
-        const response: UserResponse = await axiosPrivate.get('/user/current')
-        const initials: string = response?.data?.first_name.charAt(0) + response?.data?.last_name.charAt(0)
-        
-        setFirstName(response?.data?.first_name)
-        setLastName(response?.data?.last_name)
-        setEmail(response?.data?.email)
-        setAvatar(initials.toUpperCase())
-  
-      } catch (error) {
-        axiosError(error as Error)
-  
-      }
-    }
-
-    get_user()
-
-  }, [userRefresh])
+ 
 
   const handleLogout = async () => {
+    const data = {
+      "access_token": auth?.accessToken
+    }
+
     try {
-      const data = {
-        "access_token": auth?.accessToken
-      }
       
       await axios.post('/logout', data, {
         headers: {
@@ -98,20 +68,18 @@ const Header: FC = () => {
       })
       return
     }
+    
+    const data = {
+      "first_name": firstName,
+      "last_name": lastName
+    }
 
     try {
-      const data = {
-        "first_name": firstName,
-        "last_name": lastName
-      }
 
       await axiosPrivate.put('/user/update', data)
       
     } catch (error) {
       axiosError(error as Error)
-
-    } finally {
-      setUserRefresh(!userRefresh)
 
     }
   }
@@ -125,20 +93,17 @@ const Header: FC = () => {
       })
       return
     }
+    
+    const data = {
+      "email": email
+    }
 
     try {
-      const data = {
-        "email": email
-      }
-
       await axiosPrivate.patch('/email/update', data)
     
     } catch (error) {
       axiosError(error as Error)
       
-    } finally {
-      setUserRefresh(!userRefresh)
-
     }
   }
 
@@ -152,12 +117,12 @@ const Header: FC = () => {
       return
     }
 
-    try {
-      const data = {
-        "old_password": oldPassword,
-        "new_password": newPassword
-      }
+    const data = {
+      "old_password": oldPassword,
+      "new_password": newPassword
+    }
 
+    try {
       await axiosPrivate.patch('/password/update', data)
 
     } catch (error) {
@@ -165,6 +130,16 @@ const Header: FC = () => {
 
     }
 
+  }
+
+  const handleDelete = async () => {
+    try {
+      await axiosPrivate.delete('/user/delete')
+
+    } catch (error) {
+      axiosError(error as Error)
+
+    }
   }
 
   return (
@@ -182,7 +157,7 @@ const Header: FC = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Avatar className='cursor-pointer'>
-                  <AvatarFallback> {avatar} </AvatarFallback>
+                  <AvatarFallback> <PersonIcon /> </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent className='w-56'>
@@ -190,7 +165,7 @@ const Header: FC = () => {
                 <DropdownMenuSeparator />
                   <DialogTrigger asChild onClick={() => setModal('information')}>
                     <DropdownMenuItem className='flex items-center gap-x-2 cursor-pointer'>
-                      <PersonIcon />
+                      <InfoCircledIcon />
                       Information
                     </DropdownMenuItem>
                   </DialogTrigger>
@@ -204,6 +179,13 @@ const Header: FC = () => {
                     <DropdownMenuItem className='flex items-center gap-x-2 cursor-pointer'>
                       <LockClosedIcon />
                       Password
+                    </DropdownMenuItem>
+                  </DialogTrigger>
+                  <DropdownMenuSeparator />
+                  <DialogTrigger asChild onClick={() => setModal('delete')}>
+                    <DropdownMenuItem className='flex items-center gap-x-2 cursor-pointer' onClick={handleDelete}>
+                      <TrashIcon />
+                      Delete Account
                     </DropdownMenuItem>
                   </DialogTrigger>
                   <DropdownMenuSeparator />
@@ -285,6 +267,25 @@ const Header: FC = () => {
                       </DialogClose>
                     </DialogFooter>
                   </form>
+                </DialogContent>
+              )
+            } {
+              modal === 'delete' && (
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Delete User</DialogTitle>
+                    <DialogDescription>
+                      This action cannot be undone. This will permanently remove the user.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter>
+                    <DialogClose className={buttonVariants({"variant": "outline"})}>
+                      Cancel
+                    </DialogClose>
+                    <DialogClose onClick={handleDelete} className={buttonVariants({"variant": "default"})}>
+                      Continue
+                    </DialogClose>
+                  </DialogFooter>
                 </DialogContent>
               )
             }
