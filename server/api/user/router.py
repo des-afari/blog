@@ -82,11 +82,6 @@ async def refresh(request: Request, db: Session = Depends(get_db)):
     return {"access_token": access_token, "role": payload.role, "auth_type": "Bearer"}
 
 
-@router.get('/user/current', status_code=200, response_model=UserResponse)
-async def get_current_user(db: Session = Depends(get_db), user = Depends(get_user)):
-    return db.query(User).get(user.id)
-
-
 @router.patch('/email/update', status_code=200, response_model=EmailUpdateResponse)
 async def update_email(schema: EmailUpdateSchema, db: Session = Depends(get_db), user = Depends(get_user)):
     check_for_conflict(db, User, 'email', schema.email)
@@ -180,7 +175,7 @@ async def delete_user(db: Session = Depends(get_db), user = Depends(get_user)):
     db.delete(current_user)
     db.commit()
 
-@router.delete('/admin/user/{user_id}/delete', status_code=204)
+@router.delete('/user/{user_id}/delete', status_code=204)
 async def admin_delete_user(user_id: str, db: Session = Depends(get_db), user = Depends(get_user)):
     check_admin_permission(user)
 

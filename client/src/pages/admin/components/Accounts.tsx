@@ -87,7 +87,7 @@ const Accounts: FC = () => {
 
   const handleDelete = async () => {
     try {
-      await axiosPrivate.delete(`/admin/user/${selected}/delete`)
+      await axiosPrivate.delete(`/user/${selected}/delete`)
 
       setTagRefresh(!tagRefresh)
 
