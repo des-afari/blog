@@ -131,7 +131,7 @@ const Tags: FC = () => {
             ))
           }
         </div>
-        <div className='customScroll h-fit max-h-[20rem] pb-3 grid grid-cols-4 gap-4 overflow-y-auto'>
+        <div className=' customScroll  max-h-[20rem] pb-3 grid grid-cols-4 gap-4 overflow-y-auto'>
           {
             tags?.map(item => (
               <Card key={item.id} className='h-32'>
