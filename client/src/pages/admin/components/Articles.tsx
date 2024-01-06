@@ -2,10 +2,10 @@ import { Badge } from '@/components/ui/badge'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { ChatBubbleIcon, HeartIcon, ScissorsIcon } from '@radix-ui/react-icons'
+import { ChatBubbleIcon, HeartIcon, ScissorsIcon, UpdateIcon } from '@radix-ui/react-icons'
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios, { axiosPrivate } from '@/utils/api'
 import axiosError from '@/utils/error'
 
@@ -79,7 +79,9 @@ const Articles: FC = () => {
   const [selected, setSelected] = useState<ArticlesInterface | null>(null)
   const [articlesRefresh, setArticlesRefresh] = useState<boolean>(false)
   const [typingTimer, setTypingTimer] = useState<NodeJS.Timeout>()
+  
   const typingTimeout = 1300
+  const navigate = useNavigate()
 
   useEffect(() => {
     const get_articles = async () => {
@@ -132,7 +134,7 @@ const Articles: FC = () => {
 		}
 	}, [typingTimer])
 
-  const handleDeleteTag = async () => {
+  const handleDelete = async () => {
     setIsLoading(true)
 
     try {
@@ -146,6 +148,10 @@ const Articles: FC = () => {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handleUpdate = (item: ArticlesInterface) => {
+    navigate(`/article/update`, { state: {item}})
   }
 
   return (
@@ -182,7 +188,7 @@ const Articles: FC = () => {
                   </div>
                   <h2 className='px-1 text-lg font-extrabold leading-tight text-center'>  {item.title} </h2>
                   <div className='px-2 flex items-center justify-between self-end'>
-                    <div className='flex gap-x-3'>
+                    <div className='flex gap-x-2'>
                       <div className='flex items-center gap-x-1'>
                         <ChatBubbleIcon />
                         <p className='text-sm'> {item.comments.length} </p>
@@ -192,7 +198,10 @@ const Articles: FC = () => {
                         <p className='text-sm'> {item.votes.length} </p>
                       </div>
                     </div>
-                    <div>
+                    <div className='flex gap-x-2'>
+                      <Button title='update' onClick={() => handleUpdate(item)} className='rounded-full' variant={'secondary'} size={'icon'}>
+                        <UpdateIcon />
+                      </Button>
                       <AlertDialogTrigger asChild>
                         <Button title='delete' onClick={() => setSelected(item)} className='rounded-full' variant={'secondary'} size={'icon'}>
                           <ScissorsIcon />
@@ -214,7 +223,7 @@ const Articles: FC = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteTag}>Continue</AlertDialogAction>
+            <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
         </AlertDialog>
