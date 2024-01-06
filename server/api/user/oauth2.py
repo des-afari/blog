@@ -7,7 +7,7 @@ from utils.session import get_db
 from utils.config import settings
 from datetime import datetime, timedelta
 from secrets import token_hex
-from jose import jwt, JWTError
+from jose import jwt, JWTError, ExpiredSignatureError
 from api.user.schemas import JWTResponse
 from api.json_token_id.model import JsonTokenId
 from sqlalchemy.sql import exists
@@ -71,7 +71,7 @@ def verify_token(token: str, public_key, credential_exception):
 
     except JWTError:
         raise credential_exception
-    
+
     return JWTResponse(id=id, jti=jti, role=role)
 
 # get user
@@ -87,7 +87,7 @@ async def get_user(token: str = Depends(oauth2_scheme), db: Session = Depends(ge
     if db.query(exists().where(getattr(JsonTokenId, 'id') == payload.jti)).scalar():
         raise HTTPException(
         401,
-        detail='Authentication failed',
+        detail='Token Expired',
         headers={"WWW-Authenticate": "Bearer"}
         )
 

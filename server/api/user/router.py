@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends, Request, Response
+from jose import ExpiredSignatureError
 from utils.session import get_db
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
@@ -67,11 +68,19 @@ async def refresh(request: Request, db: Session = Depends(get_db)):
     refresh_token = request.cookies.get('_rt')
 
     if not refresh_token:
-        raise HTTPException(404, detail='Refresh token not found')
+        raise HTTPException(404, detail='Sign in to continue', headers={"WWW-Authenticate": "Bearer"})
     
-    payload = verify_token(token=refresh_token, public_key=refresh_public_key, 
+    try:
+        payload = verify_token(token=refresh_token, public_key=refresh_public_key, 
                            credential_exception=HTTPException(
-                            401, detail='Invalid token', headers={"WWW-Authenticate": "Bearer"}))
+                            401, detail='Token error', headers={"WWW-Authenticate": "Bearer"}))
+        
+    except HTTPException as e:
+        if isinstance(e, ExpiredSignatureError):
+            raise HTTPException(404, detail='Sign in to continue', headers={"WWW-Authenticate": "Bearer"})
+        
+        else:
+            raise HTTPException(404, detail='Token error', headers={"WWW-Authenticate": "Bearer"})
 
     if db.query(exists().where(JsonTokenId.id == payload.jti)).scalar():
         raise HTTPException(401, detail='Token expired')
@@ -136,23 +145,39 @@ async def update_user(schema: UserUpdateSchema, db: Session = Depends(get_db), u
 
 @router.post('/logout', status_code=204)
 async def logout(request: Request, response: Response, schema: LogoutSchema, db: Session = Depends(get_db)):
-    if schema.access_token: 
-        access_payload = verify_token(
-            token=schema.access_token, public_key=access_public_key,
-            credential_exception=HTTPException(401, detail='Expired token', headers={"WWW-Authenticate": "Bearer"}))
+    if schema.access_token:
+        try:
+            access_payload = verify_token(
+                token=schema.access_token, public_key=access_public_key,
+                credential_exception=HTTPException(401, detail='Token error', headers={"WWW-Authenticate": "Bearer"}))
 
-        access_jti = JsonTokenId(id=access_payload.jti)
-        db.add(access_jti)
+            access_jti = JsonTokenId(id=access_payload.jti)
+            db.add(access_jti)
+
+        except HTTPException as e:
+            if isinstance(e, ExpiredSignatureError):
+                pass
+
+            else:
+                HTTPException(401, detail='Token error', headers={"WWW-Authenticate": "Bearer"})
 
     refresh_token = request.cookies.get('_rt')
 
     if refresh_token:
-        refresh_payload = verify_token(
-            token=refresh_token, public_key=refresh_public_key,
-            credential_exception=HTTPException(401, detail='Expired token', headers={"WWW-Authenticate": "Bearer"}))
+        try:
+            refresh_payload = verify_token(
+                token=refresh_token, public_key=refresh_public_key,
+                credential_exception=HTTPException(401, detail='Token error', headers={"WWW-Authenticate": "Bearer"}))
 
-        refresh_jti = JsonTokenId(id=refresh_payload.jti)
-        db.add(refresh_jti)
+            refresh_jti = JsonTokenId(id=refresh_payload.jti)
+            db.add(refresh_jti)
+
+        except HTTPException as e:
+            if isinstance(e, ExpiredSignatureError):
+                pass
+
+            else:
+                HTTPException(401, detail='Token error', headers={"WWW-Authenticate": "Bearer"})
 
     response.delete_cookie('_rt')
     db.commit()
