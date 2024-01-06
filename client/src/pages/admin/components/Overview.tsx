@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { FileTextIcon, LightningBoltIcon, MixIcon, PersonIcon } from '@radix-ui/react-icons'
 import { FC, useEffect, useState } from 'react'
 import { UserInterface, UsersResponse } from './Accounts'

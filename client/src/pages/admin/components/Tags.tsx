@@ -41,7 +41,7 @@ const Tags: FC = () => {
   const [category, setCategory] = useState<string>('')
   const [tag, setTag] = useState<string>('')
   const [tagRefresh, setTagRefresh] = useState<boolean>(false)
-  const [selected, setSelected] = useState<SelectedInterface | null>(null)
+  const [selected, setSelected] = useState<number>()
 
   const axiosPrivate = useAxiosPrivate()
 
@@ -99,9 +99,9 @@ const Tags: FC = () => {
     }
   }
 
-  const handleDeleteTag = async () => {
+  const handleDelete = async () => {
     try {
-      await axiosPrivate.delete(`/tag/${selected?.id}/delete`)
+      await axiosPrivate.delete(`/tag/${selected}/delete`)
 
       setTagRefresh(!tagRefresh)
 
@@ -122,8 +122,8 @@ const Tags: FC = () => {
                   <Badge className='text-[.6rem]'>Category</Badge>
                   <h2 className='text-xl font-extrabold'> {item.name} </h2>
                   <AlertDialogTrigger asChild>
-                    <Button title='delete' onClick={() => setSelected(item)} className='absolute bottom-2 right-2 rounded-full' variant={'ghost'} size={'icon'}>
-                      <ScissorsIcon />
+                    <Button title='delete' onClick={() => setSelected(item.id)} className='absolute bottom-2 right-2 rounded-full' variant={'ghost'} size={'icon'}>
+                      <ScissorsIcon />                   
                     </Button>
                   </AlertDialogTrigger>
                 </CardContent>
@@ -139,7 +139,7 @@ const Tags: FC = () => {
                   <Badge className='text-[.6rem]' variant={'secondary'}> {categories?.find(value => value.id === item.parent_id)?.name} </Badge>
                   <h2 className='text-xl font-extrabold'> {item.name} </h2>
                   <AlertDialogTrigger asChild>
-                    <Button title='delete' onClick={() => setSelected(item)} className='absolute bottom-2 right-2 rounded-full' variant={'ghost'} size={'icon'}>
+                    <Button title='delete' onClick={() => setSelected(item.id)} className='absolute bottom-2 right-2 rounded-full' variant={'ghost'} size={'icon'}>
                       <ScissorsIcon />
                     </Button>
                   </AlertDialogTrigger>
@@ -157,7 +157,7 @@ const Tags: FC = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteTag}>Continue</AlertDialogAction>
+            <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

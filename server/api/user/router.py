@@ -179,3 +179,15 @@ async def delete_user(db: Session = Depends(get_db), user = Depends(get_user)):
     
     db.delete(current_user)
     db.commit()
+
+@router.delete('/admin/user/{user_id}/delete', status_code=204)
+async def admin_delete_user(user_id: str, db: Session = Depends(get_db), user = Depends(get_user)):
+    check_admin_permission(user)
+
+    current_user = db.query(User).get(user_id)
+    
+    if not current_user:
+        raise HTTPException(404, detail=f'User not found')
+    
+    db.delete(current_user)
+    db.commit()
