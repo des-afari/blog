@@ -80,6 +80,7 @@ async def refresh(request: Request, db: Session = Depends(get_db)):
             raise HTTPException(404, detail='Sign in to continue', headers={"WWW-Authenticate": "Bearer"})
         
         else:
+            
             raise HTTPException(404, detail='Token error', headers={"WWW-Authenticate": "Bearer"})
 
     if db.query(exists().where(JsonTokenId.id == payload.jti)).scalar():

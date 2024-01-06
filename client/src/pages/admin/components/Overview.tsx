@@ -106,7 +106,7 @@ const Overview: FC = () => {
       <div className='grid grid-cols-6 gap-4'>
         <Card className='col-span-4'></Card>
         <Card className='customScroll h-[365px] col-span-2 overflow-y-auto'>
-          <CardHeader>
+          <CardHeader className='sticky top-0 backdrop-blur-lg'>
             <CardTitle>Users</CardTitle>
           </CardHeader>
           <div className='space-y-2'>
