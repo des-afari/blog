@@ -10,7 +10,7 @@ import axios, { axiosPrivate } from '@/utils/api'
 import axiosError from '@/utils/error'
 
 
-interface ArticlesResponse {
+export interface ArticlesResponse {
   data: {
     id: string
     title: string
@@ -42,7 +42,7 @@ interface ArticlesResponse {
   }[]
 }
 
-interface ArticlesInterface {
+export interface ArticlesInterface {
   id: string
   title: string
   article_img_url: string

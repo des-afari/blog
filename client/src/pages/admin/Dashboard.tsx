@@ -8,7 +8,7 @@ import Articles from './components/Articles'
 const Dashboard: FC = () => {
   return (
     <main className='px-6'>
-      <Tabs defaultValue='articles'>
+      <Tabs defaultValue='overview'>
         <TabsList className='mt-4 mb-2'>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="tags">Tags</TabsTrigger>

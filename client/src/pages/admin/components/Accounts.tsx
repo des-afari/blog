@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { formatDate } from '@/utils/config'
 
 
-interface UsersResponse {
+export interface UsersResponse {
   data: {
     id: string
     first_name: string
@@ -19,7 +19,7 @@ interface UsersResponse {
   }[]
 }
 
-interface UserInterface {
+export interface UserInterface {
   id: string
   first_name: string
   last_name: string
