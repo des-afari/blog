@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Inter';
-    src: url('./src/assets/font/Inter.ttf');
+    src: url('../font/Inter.ttf');
   }
 
   *, html {
@@ -24,10 +24,17 @@
     background: #555; 
   } */
 
-/* .quill > .ql-container > .ql-editor.ql-blank::before{
-  font-size: 20px;
+.quill > .ql-container > .ql-editor.ql-blank::before{
+  font-style: normal;
+}
 
-} */
+.ql-editor {
+  min-height: 245px;
+}
+
+.ql-editor::placeholder {
+  font-style: normal;
+}
 
 @media (min-width: 768px) {
   .ql-toolbar {

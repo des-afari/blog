@@ -173,7 +173,7 @@ const Articles: FC = () => {
                   <div>
                     <img src={item.article_img_url} alt="article_image" />
                   </div>
-                  <div className='px-2 flex flex-wrap gap-2'>
+                  <div className='px-2 flex flex-wrap gap-1'>
                     {
                       item.tags.map(tag => (
                         <Badge key={tag.id} className='text-[.6rem]' variant={'secondary'}> {tag.name} </Badge>

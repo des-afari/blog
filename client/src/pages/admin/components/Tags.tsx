@@ -13,7 +13,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { ScissorsIcon } from '@radix-ui/react-icons'
 
 
-interface TagResponse {
+export interface TagResponse {
   data: {
     id: number
     parent_id: number
@@ -21,13 +21,13 @@ interface TagResponse {
   }[]
 }
 
-interface TagInterface {
+export interface TagInterface {
     id: number
     parent_id: number
     name: string 
 }[]
 
-interface SelectedInterface {
+export interface SelectedInterface {
     id: number
     parent_id: number
     name: string 
