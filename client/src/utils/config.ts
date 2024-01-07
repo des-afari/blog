@@ -9,8 +9,27 @@ export const nameRegex = /\w{2,}/
 // 	}
 // }
 
-export const formatDate = (date: Date) => {
-	date = new Date(date)
+export function formatTitle(input: string|null) {
+	if (input) {
+		return input.toLowerCase().replace(/\s+/g, '-')
+	}
+}
 
-	return date.toLocaleDateString("en-US", {"year": "numeric", "month": "short", "day": "numeric", "hour": "numeric", "minute": "numeric"})
+export const formatDate = (date: Date) => {
+	if (date) {
+		date = new Date(date)
+		return date.toLocaleDateString("en-US", {"year": "numeric", "month": "short", "day": "numeric", "hour": "numeric", "minute": "numeric"})
+	}
+}
+
+export const formatArticleDate = (date: Date) => {
+	if (date) {
+		date = new Date(date)
+		return date.toLocaleDateString("en-US", {"year": "numeric", "month": "short", "day": "numeric"})
+	}
+}
+
+export function htmlToText(htmlString: string) {
+  const doc = new DOMParser().parseFromString(htmlString, 'text/html')
+  return doc.body.textContent || ""
 }

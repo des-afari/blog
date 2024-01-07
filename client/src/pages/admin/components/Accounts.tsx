@@ -37,7 +37,7 @@ const Accounts: FC = () => {
   const [users, setUsers] = useState<UserInterface[]>()
   const [query, setQuery] = useState<string>()
 	const [typingTimer, setTypingTimer] = useState<NodeJS.Timeout>()
-  const [selected, setSelected] = useState<string>()
+  const [accountId, setAccountId] = useState<string>()
   const [tagRefresh, setTagRefresh] = useState<boolean>()
 
   const typingTimeout = 1300
@@ -87,7 +87,7 @@ const Accounts: FC = () => {
 
   const handleDelete = async () => {
     try {
-      await axiosPrivate.delete(`/user/${selected}/delete`)
+      await axiosPrivate.delete(`/user/${accountId}/delete`)
 
       setTagRefresh(!tagRefresh)
 
@@ -136,7 +136,7 @@ const Accounts: FC = () => {
                   <TableCell className='text-right'>
                     <AlertDialogTrigger asChild>
                       <Button 
-                        onClick={() => setSelected(item.id)} 
+                        onClick={() => setAccountId(item.id)} 
                         size={'icon'} 
                         variant={'destructive'} 
                         className='rounded-full'

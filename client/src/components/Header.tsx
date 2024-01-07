@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem,
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter,
-   DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+   DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { EnvelopeClosedIcon, ExitIcon, HamburgerMenuIcon, InfoCircledIcon, LockClosedIcon, PersonIcon, TrashIcon } from '@radix-ui/react-icons'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
@@ -166,9 +166,9 @@ const Header: FC = () => {
         <Dialog>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Avatar title='account' className='h-9 w-9 border border-gray-400 cursor-pointer'>
-                <AvatarFallback>
-                  <PersonIcon width={16} height={16} className='text-gray-400' /> 
+              <Avatar title='account' className='h-9 w-9 cursor-pointer'>
+                <AvatarFallback className='bg-white border border-black'>
+                  <PersonIcon width={16} height={16} /> 
                 </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>

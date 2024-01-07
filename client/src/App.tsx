@@ -15,6 +15,8 @@ import AuthLayout from './pages/auth/Layout'
 import AdminLayout from './pages/admin/Layout'
 import CreateArticle from './pages/admin/CreateArticle'
 import UpdateArticle from './pages/admin/UpdateArticle'
+import TagView from './pages/public/TagView'
+import ArticleView from './pages/public/ArticleView'
 
 
 const ROLES = {
@@ -29,7 +31,10 @@ function App() {
         {/* public routes */}
         <Route element={<PublicLayout />}>
           <Route path='/' element={<Index />} />
+          <Route path='/tag/:tagName' element={<TagView />} />
+          <Route path='/article/:articleTitle' element={<ArticleView />} />
         </Route>
+        
         
         {/* auth routes */}
         <Route element={<AuthLayout />}>

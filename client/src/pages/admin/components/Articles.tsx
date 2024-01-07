@@ -76,7 +76,7 @@ const Articles: FC = () => {
   const [articles, setArticles] = useState<ArticlesInterface[]>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [query, setQuery] = useState<string>('')
-  const [selected, setSelected] = useState<ArticlesInterface | null>(null)
+  const [articleId, setArticleId] = useState<string>()
   const [articlesRefresh, setArticlesRefresh] = useState<boolean>(false)
   const [typingTimer, setTypingTimer] = useState<NodeJS.Timeout>()
   
@@ -138,7 +138,7 @@ const Articles: FC = () => {
     setIsLoading(true)
 
     try {
-      await axiosPrivate.delete(`/article/${selected?.id}/delete`)
+      await axiosPrivate.delete(`/article/${articleId}/delete`)
 
       setArticlesRefresh(!articlesRefresh)
 
@@ -203,7 +203,7 @@ const Articles: FC = () => {
                         <UpdateIcon />
                       </Button>
                       <AlertDialogTrigger asChild>
-                        <Button title='delete' onClick={() => setSelected(item)} className='rounded-full' variant={'secondary'} size={'icon'}>
+                        <Button title='delete' onClick={() => setArticleId(item.id)} className='rounded-full' variant={'secondary'} size={'icon'}>
                           <ScissorsIcon />
                         </Button>
                       </AlertDialogTrigger>

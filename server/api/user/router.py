@@ -191,11 +191,6 @@ async def get_all_users(query: Optional[str] = "", db: Session = Depends(get_db)
     return db.query(User).filter(User.email.contains(query)).all()
 
 
-@router.get('/authenticated', status_code=200)
-async def check_authentication(db: Session = Depends(get_db), user: User = Depends(get_user)):
-    pass
-
-
 @router.delete('/user/delete', status_code=204)
 async def delete_user(db: Session = Depends(get_db), user = Depends(get_user)):
     current_user = db.query(User).filter_by(id=user.id).first()

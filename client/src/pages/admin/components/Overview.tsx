@@ -19,29 +19,37 @@ const Overview: FC = () => {
     const get_users = async () => {
       try {
         const response: UsersResponse = await axiosPrivate.get('/users')
-        setUsers(response?.data?.filter(user => user.role === 'user'))
-
+        
+        const items = response?.data?.filter(user => user.role === 'user')
+        setUsers(items)
+        
       } catch (error) {
         axiosError(error as Error)
         
       }
     }
-
+    
     const get_articles = async () => {
       try {
         const response: ArticlesResponse = await axios.get('/articles')
-        setArticles(response?.data)
-
+        
+        const items = response?.data
+        setArticles(items)
+        sessionStorage.setItem('articles', JSON.stringify(items))
+        
       } catch (error) {
         axiosError(error as Error)
-
+        
       }
     }
-
+    
     const get_tags = async () => {
       try {
         const response: TagResponse = await axios.get('/tags')
-        setTags(response?.data?.filter(value => value.parent_id !== null))
+        
+        const items = response?.data?.filter(tag => tag.parent_id !== null)
+        setTags(items)
+        sessionStorage.setItem('tags', JSON.stringify(items))
         
       } catch (error) {
         axiosError(error as Error)
@@ -49,9 +57,13 @@ const Overview: FC = () => {
       }
     }
     
-    get_users()
-    get_articles()
+    const storedUsers = sessionStorage.getItem('users')
+    const storedArticles = sessionStorage.getItem('articles')
+
+    storedUsers ? setUsers(JSON.parse(storedUsers)) : get_users()
+    storedArticles ? setArticles(JSON.parse(storedArticles)) : get_articles()
     get_tags()
+
   }, [])
 
 
