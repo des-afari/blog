@@ -66,11 +66,18 @@ const Login: FC = () => {
       const role: string = response?.data?.role
 
       setAuth({ accessToken, role })
+      localStorage.setItem('SI', '1')
 
-      role === 'admin' ? 
-      navigate(from || '/dashboard', {replace: true}) :
-      navigate(from || '/', {replace: true})
+      const timeoutId = setTimeout(() => {
+        localStorage.removeItem('SI')
+      }, 2147483647)
 
+      role === 'user' ?
+      navigate(from || '/', {replace: true}) :
+      navigate(from || '/dashboard', {replace: true})
+      
+      return () => clearTimeout(timeoutId)
+      
     } catch (error) {
       axiosError(error as Error)
 
@@ -78,7 +85,6 @@ const Login: FC = () => {
       setIsLoading(false)
 
     }
-    
   }
 
   return (

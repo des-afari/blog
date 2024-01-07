@@ -92,8 +92,17 @@ const Register: FC = () => {
       const role: string = response?.data?.role
 
       setAuth({ accessToken, role })
+      localStorage.setItem('SI', '1')
 
-      role === 'admin' ? navigate('/dashboard') : navigate('/')
+      const timeoutId = setTimeout(() => {
+        localStorage.removeItem('SI')
+      }, 2147483647)
+
+      role === 'user' ?
+      navigate('/dashboard') :
+      navigate('/')
+
+      return () => clearTimeout(timeoutId)
 
     } catch (error) {
       axiosError(error as Error)

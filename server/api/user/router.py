@@ -64,7 +64,7 @@ async def login(response: Response, form: OAuth2PasswordRequestForm = Depends(),
 
 
 @router.get('/refresh', status_code=200, response_model=AuthResponse)
-async def refresh(request: Request, db: Session = Depends(get_db)):
+async def refresh(request: Request, response: Response, db: Session = Depends(get_db)):
     refresh_token = request.cookies.get('_rt')
 
     if not refresh_token:
@@ -77,10 +77,10 @@ async def refresh(request: Request, db: Session = Depends(get_db)):
         
     except HTTPException as e:
         if isinstance(e, ExpiredSignatureError):
+            response.delete_cookie('_rt')
             raise HTTPException(404, detail='Sign in to continue', headers={"WWW-Authenticate": "Bearer"})
         
         else:
-            
             raise HTTPException(404, detail='Token error', headers={"WWW-Authenticate": "Bearer"})
 
     if db.query(exists().where(JsonTokenId.id == payload.jti)).scalar():
@@ -189,6 +189,11 @@ async def get_all_users(query: Optional[str] = "", db: Session = Depends(get_db)
     check_admin_permission(user)
 
     return db.query(User).filter(User.email.contains(query)).all()
+
+
+@router.get('/authenticated', status_code=200)
+async def check_authentication(db: Session = Depends(get_db), user: User = Depends(get_user)):
+    pass
 
 
 @router.delete('/user/delete', status_code=204)
