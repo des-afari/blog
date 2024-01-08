@@ -39,9 +39,9 @@ const TagView: FC = () => {
   return (
     <main>
       <div className='bg-gray-100 border-b'>
-        <h1 className='px-6 flex items-center sm:max-w-3xl mx-auto text-5xl font-extrabold h-32'>{tagName}</h1>
+        <h1 className='px-6 py-2 flex items-center sm:max-w-3xl mx-auto text-4xl md:text-5xl font-extrabold min-h-24 md:min-h-32'>{tagName}</h1>
       </div>
-      <div className='sm:max-w-3xl mx-auto grid p-6'>
+      <div className='sm:max-w-3xl mx-auto p-6'>
       {
         articles?.map(item => (
           <div
@@ -54,17 +54,17 @@ const TagView: FC = () => {
             <div className='md:col-span-1'>
               <img className='' src={item.article_img_url} alt="article_image" />
             </div>
-            <div className='grid gap-y-3 md:col-span-3 md:gap-y-1'>
-              <div className=' flex items-center flex-wrap gap-3'>
+            <div className='md:col-span-3 grid gap-y-3 md:gap-y-1'>
+              <div className='flex items-center flex-wrap gap-2'>
                 {
                   item.tags.map(tag => (
                     <Badge key={tag.id} variant={'outline'}> {tag.name} </Badge>
                     ))
                   }
               </div>
-              <h1 className='text-2xl font-extrabold md:text-xl md:font-bold leading-tight'> {item.title} </h1>
-              <p className='md:text-sm'> {item.description} </p>
-              <small className='text-muted-foreground'> {formatArticleDate(item.updated_at ? item.updated_at : item.created_at)} </small>
+              <h1 className='sourceSerif text-2xl font-extrabold leading-tight'> {item.title} </h1>
+              <p className='sourceSerif'> {item.description} </p>
+              <p className='text-xs text-muted-foreground'> {formatArticleDate(item.updated_at ? item.updated_at : item.created_at)} </p>
             </div>
           </div>
         ))
