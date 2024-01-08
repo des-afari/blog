@@ -55,7 +55,7 @@ const TagView: FC = () => {
               <img className='' src={item.article_img_url} alt="article_image" />
             </div>
             <div className='md:col-span-3 grid gap-y-3 md:gap-y-1'>
-              <div className='flex items-center flex-wrap gap-2'>
+              <div className='flex flex-wrap gap-2'>
                 {
                   item.tags.map(tag => (
                     <Badge key={tag.id} variant={'outline'}> {tag.name} </Badge>
