@@ -35,7 +35,6 @@ const Overview: FC = () => {
         
         const items = response?.data
         setArticles(items)
-        sessionStorage.setItem('articles', JSON.stringify(items))
         
       } catch (error) {
         axiosError(error as Error)
@@ -49,19 +48,15 @@ const Overview: FC = () => {
         
         const items = response?.data?.filter(tag => tag.parent_id !== null)
         setTags(items)
-        sessionStorage.setItem('tags', JSON.stringify(items))
         
       } catch (error) {
         axiosError(error as Error)
 
       }
     }
-    
-    const storedUsers = sessionStorage.getItem('users')
-    const storedArticles = sessionStorage.getItem('articles')
 
-    storedUsers ? setUsers(JSON.parse(storedUsers)) : get_users()
-    storedArticles ? setArticles(JSON.parse(storedArticles)) : get_articles()
+    get_users()
+    get_articles()
     get_tags()
 
   }, [])
@@ -118,7 +113,7 @@ const Overview: FC = () => {
       <div className='grid grid-cols-6 gap-4'>
         <Card className='col-span-4'></Card>
         <Card className='customScroll h-[365px] col-span-2 overflow-y-auto'>
-          <CardHeader className='sticky top-0 backdrop-blur-lg'>
+          <CardHeader className='sticky top-0 bg-white'>
             <CardTitle>Users</CardTitle>
           </CardHeader>
           <div className='space-y-2'>

@@ -174,7 +174,7 @@ const Articles: FC = () => {
         <div className='h-[420px] customScroll grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 overflow-y-auto'>
           {
             articles?.map(item => (
-              <Card key={item.id} className='h-[360px]'>
+              <Card key={item.id} className='pb-1'>
                 <CardContent className='p-0 space-y-3'>
                   <div>
                     <img src={item.article_img_url} alt="article_image" />
@@ -186,7 +186,7 @@ const Articles: FC = () => {
                       ))
                     }
                   </div>
-                  <h2 className='px-1 text-lg font-extrabold leading-tight text-center'>  {item.title} </h2>
+                  <h2 className='px-1 text-lg font-extrabold leading-tight'>  {item.title} </h2>
                   <div className='px-2 flex items-center justify-between self-end'>
                     <div className='flex gap-x-2'>
                       <div className='flex items-center gap-x-1'>

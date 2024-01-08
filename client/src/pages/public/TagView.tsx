@@ -46,7 +46,7 @@ const TagView: FC = () => {
         articles?.map(item => (
           <div
             key={item.id}
-            className='grid gap-y-3 py-6 md:grid-cols-4 md:gap-x-3 md:border-b cursor-pointer'
+            className='grid gap-y-3 py-6 md:grid-cols-4 md:gap-x-3 border-b cursor-pointer'
             data-title={item.title}
             data-id={item.id}
             onClick={handleClick}
@@ -54,11 +54,11 @@ const TagView: FC = () => {
             <div className='md:col-span-1'>
               <img className='' src={item.article_img_url} alt="article_image" />
             </div>
-            <div className='grid gap-y-3 md:col-span-3 md:gap-y-0'>
+            <div className='grid gap-y-3 md:col-span-3 md:gap-y-1'>
               <div className=' flex items-center flex-wrap gap-3'>
                 {
                   item.tags.map(tag => (
-                    <Badge key={tag.id} className='text-[.68rem] ' variant={'secondary'}> {tag.name} </Badge>
+                    <Badge key={tag.id} variant={'outline'}> {tag.name} </Badge>
                     ))
                   }
               </div>
