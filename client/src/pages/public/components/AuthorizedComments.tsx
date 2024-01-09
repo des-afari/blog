@@ -54,8 +54,8 @@ const AuthorizedComments: FC<ArticleCommentInterface> = ({ article, setArticle }
   }
 
   return (
-    <form onSubmit={handleSubmit} className='pb-6'>
-      <Input className='shadow-md' onChange={e => setComment(e.target.value)} value={comment} placeholder='What are your thoughts?' />
+    <form onSubmit={handleSubmit} className='pb-8'>
+      <Input className='shadow-md h-12 text-md' onChange={e => setComment(e.target.value)} value={comment} placeholder='What are your thoughts?' />
     </form>
   )
 }

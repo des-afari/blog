@@ -4,8 +4,7 @@ import axios from '@/utils/api'
 import { ArticlesInterface, ArticlesResponse } from '@/pages/admin/components/Articles'
 import axiosError from '@/utils/error'
 import { Badge } from '@/components/ui/badge'
-import { formatArticleDate, formatTitle } from '@/utils/config'
-import { CalendarIcon } from '@radix-ui/react-icons'
+import { formatDate } from '@/utils/config'
 
 const TagView: FC = () => {
   const [articles, setArticles] = useState<ArticlesInterface[]>()
@@ -63,9 +62,8 @@ const TagView: FC = () => {
               </div>
               <h1 className='text-xl font-extrabold leading-tight'> {item.title} </h1>
               <p className='sourceSerif'> {item.description} </p>
-              <p className='text-xs text-muted-foreground flex gap-x-1'>
-                <CalendarIcon />
-                {formatArticleDate(item.updated_at ? item.updated_at : item.created_at)} 
+              <p className='text-xs text-muted-foreground'>
+                {formatDate(item.updated_at ? item.updated_at : item.created_at)} 
               </p>
             </div>
           </div>
