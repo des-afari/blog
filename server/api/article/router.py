@@ -8,7 +8,7 @@ from api.article.schemas import ArticleSchema, ArticleUpdateSchema, ArticleRespo
 from utils.session import get_db
 from api.user.oauth2 import get_user
 from api.user.config import check_admin_permission
-from secrets import token_urlsafe
+from secrets import token_hex
 
 router = APIRouter()
 
@@ -17,10 +17,8 @@ router = APIRouter()
 async def create_article(schema: ArticleSchema, db: Session = Depends(get_db), user = Depends(get_user)):
     check_admin_permission(user)
 
-    article = Article(
-        id=token_urlsafe(16),
-        **schema.model_dump(exclude={'tags'})
-    )
+    article = Article(**schema.model_dump(exclude={'tags'}))
+    article.id = f"{article.title.lower().replace(' ', '-')}-{token_hex(5)}"
     article.tags = db.query(Tag).filter(Tag.id.in_(schema.tags)).all()
     article.comments = db.query(Comment).filter(Comment.article_id == article.id).all()
     article.votes = db.query(Vote).filter(Vote.article_id == article.id).all()

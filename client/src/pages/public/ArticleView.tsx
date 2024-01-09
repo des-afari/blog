@@ -1,5 +1,5 @@
 import { FC, FormEvent, useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from '@/utils/api'
 import axiosError from '@/utils/error'
 import { CalendarIcon, ChatBubbleIcon, HeartFilledIcon, HeartIcon } from '@radix-ui/react-icons'
@@ -8,7 +8,6 @@ import parser from 'html-react-parser'
 import { Badge } from '@/components/ui/badge'
 import 'quill/dist/quill.core.css'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
-import { toast } from 'sonner'
 
 export interface ArticlesResponse {
   data: {
@@ -84,11 +83,10 @@ const ArticleView: FC = () => {
   const [article, setArticle] = useState<ArticlesInterface>()
   const [voteCheck, setVoteCheck] = useState<boolean>()
   
-  const location = useLocation()
   const navigate = useNavigate()
+  const { articleId } = useParams()
   const axiosPrivate = useAxiosPrivate()
   
-  const articleId = location.state && location.state.articleId
   const userId = localStorage.getItem('id')
   const SI = localStorage.getItem('SI')
   

@@ -32,9 +32,8 @@ const TagView: FC = () => {
 
   const handleClick = (e: FormEvent) => {
     const articleId = e.currentTarget.getAttribute('data-id')
-    const articleTitle = formatTitle(e.currentTarget.getAttribute('data-title'))
 
-    articleId && articleTitle && navigate(`/article/${articleTitle}`, {state: {articleId}})
+    articleId && navigate(`/article/${articleId}`)
   }
 
   return (
@@ -48,7 +47,6 @@ const TagView: FC = () => {
           <div
             key={item.id}
             className='grid gap-y-3 py-6 md:grid-cols-4 md:gap-x-3 border-b cursor-pointer'
-            data-title={item.title}
             data-id={item.id}
             onClick={handleClick}
             >

@@ -32,7 +32,7 @@ function App() {
         <Route element={<PublicLayout />}>
           <Route path='/' element={<Index />} />
           <Route path='/tag/:tagName' element={<TagView />} />
-          <Route path='/article/:articleTitle' element={<ArticleView />} />
+          <Route path='/article/:articleId' element={<ArticleView />} />
         </Route>
         
         
