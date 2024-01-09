@@ -18,7 +18,7 @@ async def create_article(schema: ArticleSchema, db: Session = Depends(get_db), u
     check_admin_permission(user)
 
     article = Article(**schema.model_dump(exclude={'tags'}))
-    article.id = f"{article.title.lower().replace(' ', '-')}-{token_hex(5)}"
+    article.id = f"{article.title.lower().strip().replace(' ', '-')}-{token_hex(5)}"
     article.tags = db.query(Tag).filter(Tag.id.in_(schema.tags)).all()
     article.comments = db.query(Comment).filter(Comment.article_id == article.id).all()
     article.votes = db.query(Vote).filter(Vote.article_id == article.id).all()

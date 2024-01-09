@@ -3,8 +3,6 @@ import { Routes, Route } from 'react-router-dom'
 import PersistLogin from './components/PersistLogin'
 import RequireAuth from './components/RequireAuth'
 import Index from './pages/public/Index'
-import Privacy from './pages/public/Privacy'
-import Terms from './pages/public/Terms'
 import NotFound from './pages/public/NotFound'
 import Unauthorized from './pages/public/Unauthorized'
 import Login from './pages/auth/Login'
@@ -55,8 +53,6 @@ function App() {
 
         </Route>
 
-        <Route path='/terms' element={<Terms />} />
-        <Route path='/privacy' element={<Privacy />} />
         <Route path='/unathorized' element={<Unauthorized />} />
         <Route path='*' element={<NotFound />} />
       </Route>

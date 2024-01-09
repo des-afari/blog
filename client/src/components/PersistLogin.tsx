@@ -18,7 +18,8 @@ const PersistLogin: FC = () => {
       await refresh()
   
 		} catch (error) {
-        axiosError(error as Error)
+      localStorage.removeItem('SI')
+      axiosError(error as Error)
 
 		} finally {
 		  isMounted && setIsLoading(false)

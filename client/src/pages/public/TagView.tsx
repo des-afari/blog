@@ -61,7 +61,7 @@ const TagView: FC = () => {
                     ))
                   }
               </div>
-              <h1 className='sourceSerif text-2xl font-extrabold leading-tight'> {item.title} </h1>
+              <h1 className='text-xl font-extrabold leading-tight'> {item.title} </h1>
               <p className='sourceSerif'> {item.description} </p>
               <p className='text-xs text-muted-foreground flex gap-x-1'>
                 <CalendarIcon />

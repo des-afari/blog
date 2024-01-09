@@ -2,14 +2,17 @@ import { FC, FormEvent, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from '@/utils/api'
 import axiosError from '@/utils/error'
-import { CalendarIcon, ChatBubbleIcon, HeartFilledIcon, HeartIcon } from '@radix-ui/react-icons'
+import { CalendarIcon, ChatBubbleIcon, DotsHorizontalIcon, HeartFilledIcon, HeartIcon } from '@radix-ui/react-icons'
 import { formatArticleDate, formatTitle } from '@/utils/config'
 import parser from 'html-react-parser'
 import { Badge } from '@/components/ui/badge'
 import 'quill/dist/quill.core.css'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
+import AuthorizedComments from './components/AuthorizedComments'
+import UnAuthorizedComments from './components/UnAuthorizedComments'
+import Footer from '@/components/Footer'
 
-export interface ArticlesResponse {
+export interface ArticleResponse {
   data: {
     id: string
     title: string
@@ -41,7 +44,7 @@ export interface ArticlesResponse {
   }
 }
 
-export interface ArticlesInterface {
+export interface ArticleInterface {
   id: string
   title: string
   article_img_url: string
@@ -80,7 +83,7 @@ interface VoteResponse {
 }
 
 const ArticleView: FC = () => {
-  const [article, setArticle] = useState<ArticlesInterface>()
+  const [article, setArticle] = useState<ArticleInterface>()
   const [voteCheck, setVoteCheck] = useState<boolean>()
   
   const navigate = useNavigate()
@@ -93,7 +96,7 @@ const ArticleView: FC = () => {
   useEffect(() => {
     const get_article = async () => {
       try {
-        const response: ArticlesResponse = await axios.get(`/article/${articleId}`)
+        const response: ArticleResponse = await axios.get(`/article/${articleId}`)
         setArticle(response?.data)
 
         setVoteCheck(response?.data?.votes?.some(
@@ -184,10 +187,10 @@ const ArticleView: FC = () => {
             ))
           }
           </div>
-          <h1 className='sourceSerif text-[32px] leading-[38px] md:text-5xl font-extrabold'> {article?.title} </h1>
+          <h1 className='text-[32px] leading-[38px] md:text-5xl font-extrabold'> {article?.title} </h1>
           <p className='sourceSerif text-xl md:text-2xl md:leading-7'> {article?.description} </p>
           <div className='flex items-center gap-x-5'>
-            <div onClick={handleVote} className='text-lg flex items-center gap-x-1 cursor-pointer'>
+            <div onClick={handleVote} className='flex items-center gap-x-1 cursor-pointer'>
               {
                 voteCheck ?
                 <HeartFilledIcon width={18} height={18} /> : 
@@ -195,7 +198,7 @@ const ArticleView: FC = () => {
               }
               {article?.votes.length}
             </div>
-            <div className='text-lg flex items-center gap-x-1'>
+            <div onClick={() => document.getElementById('comments')?.scrollIntoView()} className='flex items-center gap-x-1 cursor-pointer'>
               <ChatBubbleIcon width={18} height={18} />
               {article?.comments.length}
             </div>
@@ -209,8 +212,36 @@ const ArticleView: FC = () => {
           </div>
           <img src={article?.article_img_url} className='w-full' alt="article_image" />
           <div className='mainArticle'> {parser(article?.content || "")}  </div>
+          <div>
+            <h2 className='text-xl md:text-2xl font-extrabold py-3'>Comments ({article?.comments.length}) </h2>
+            {
+              SI ? <AuthorizedComments article={article} setArticle={setArticle} /> : <UnAuthorizedComments />
+            }
+            <div>
+              
+              {
+                article?.comments?.map(comment => (
+                  <div key={comment.id} id='comments' className='grid grid-cols-2'>
+                    <div>
+                      <p> {comment.user.first_name} {comment.user.last_name} </p>
+                      <p className='text-muted-foreground text-xs'>
+                        {comment?.updated_at ? formatArticleDate(comment.updated_at) : formatArticleDate(comment.created_at)}
+                      </p>
+                      <p> {comment.comment} </p>
+                    </div>  
+                    <div>
+                      <span>
+                        <DotsHorizontalIcon />
+                      </span>
+                    </div>  
+                  </div>
+                )) 
+              }
+            </div>
+          </div>
         </article>
       }
+      <Footer />
     </main>
   )
 }
