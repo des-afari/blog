@@ -5,6 +5,7 @@ import { ArticlesInterface, ArticlesResponse } from '@/pages/admin/components/Ar
 import axiosError from '@/utils/error'
 import { Badge } from '@/components/ui/badge'
 import { formatArticleDate, formatTitle } from '@/utils/config'
+import { CalendarIcon } from '@radix-ui/react-icons'
 
 const TagView: FC = () => {
   const [articles, setArticles] = useState<ArticlesInterface[]>()
@@ -55,16 +56,19 @@ const TagView: FC = () => {
               <img className='' src={item.article_img_url} alt="article_image" />
             </div>
             <div className='md:col-span-3 grid gap-y-3 md:gap-y-1'>
-              <div className='flex flex-wrap gap-2'>
+              <div className='flex items-center flex-wrap gap-2'>
                 {
                   item.tags.map(tag => (
-                    <Badge key={tag.id} variant={'outline'}> {tag.name} </Badge>
+                    <Badge className='text-xs' key={tag.id} variant={'outline'}> {tag.name} </Badge>
                     ))
                   }
               </div>
               <h1 className='sourceSerif text-2xl font-extrabold leading-tight'> {item.title} </h1>
               <p className='sourceSerif'> {item.description} </p>
-              <p className='text-xs text-muted-foreground'> {formatArticleDate(item.updated_at ? item.updated_at : item.created_at)} </p>
+              <p className='text-xs text-muted-foreground flex gap-x-1'>
+                <CalendarIcon />
+                {formatArticleDate(item.updated_at ? item.updated_at : item.created_at)} 
+              </p>
             </div>
           </div>
         ))

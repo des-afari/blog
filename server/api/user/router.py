@@ -38,7 +38,7 @@ async def register(response: Response, schema: RegisterSchema, db: Session = Dep
         key='_rt', value=refresh_token, expires=settings.REFRESH_EXPIRY * 60, path='/', secure=True,
         httponly=True, domain=None, samesite='lax')
     
-    return {"access_token": access_token, "role": user.role, "auth_type": "Bearer"}
+    return {"id": user.id, "access_token": access_token, "role": user.role, "auth_type": "Bearer"}
 
 
 @router.post('/login', status_code=201, response_model=AuthResponse)
@@ -60,7 +60,7 @@ async def login(response: Response, form: OAuth2PasswordRequestForm = Depends(),
     user.last_login = datetime.now()
     db.commit()
 
-    return {"access_token": access_token, "role": user.role, "auth_type": "Bearer"}
+    return {"id": user.id, "access_token": access_token, "role": user.role, "auth_type": "Bearer"}
 
 
 @router.get('/refresh', status_code=200, response_model=AuthResponse)
@@ -89,7 +89,7 @@ async def refresh(request: Request, response: Response, db: Session = Depends(ge
     access_token = create_token(
         data={"id": payload.id, "role": payload.role}, expiry=settings.ACCESS_EXPIRY, private_key=access_private_key)
     
-    return {"access_token": access_token, "role": payload.role, "auth_type": "Bearer"}
+    return {"id": payload.id, "access_token": access_token, "role": payload.role, "auth_type": "Bearer"}
 
 
 @router.patch('/email/update', status_code=200, response_model=EmailUpdateResponse)

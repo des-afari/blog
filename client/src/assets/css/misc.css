@@ -59,6 +59,6 @@
   line-height: 28px;
 }
 
-/* .mainArticle h2  strong {
+.mainArticle h2  strong, .ql-large {
   font-size: 28px;
-} */
+}

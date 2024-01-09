@@ -2,6 +2,7 @@ import axios from '@/utils/api'
 import useAuth from './useAuth'
 
 interface AuthState {
+    id: string | null
     accessToken: string | null
     role: string | null
 }

@@ -49,6 +49,7 @@ const Header: FC = () => {
       })
 
       localStorage.removeItem('SI')
+      localStorage.removeItem('id')
 
       location.pathname === '/' ?
       navigate(0) :

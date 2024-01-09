@@ -44,6 +44,7 @@ class RegisterSchema(BaseModel):
 
 
 class AuthResponse(BaseModel):
+    id: str
     access_token: str
     role: str
     auth_type: str = 'Bearer'

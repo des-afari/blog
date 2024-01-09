@@ -12,6 +12,7 @@ import { toast } from 'sonner'
 
 interface LoginResponse {
   data: {
+    id: string
     access_token: string
     role: string
     auth_type: string
@@ -62,14 +63,17 @@ const Login: FC = () => {
         withCredentials: true
       })
 
+      const id: string = response?.data?.id
       const accessToken: string = response?.data?.access_token
       const role: string = response?.data?.role
 
       setAuth({ accessToken, role })
       localStorage.setItem('SI', '1')
+      localStorage.setItem('id', id)
 
       const timeoutId = setTimeout(() => {
         localStorage.removeItem('SI')
+        localStorage.removeItem('id')
       }, 2147483647)
 
       role === 'user' ?
@@ -108,7 +112,7 @@ const Login: FC = () => {
             <Button className='w-full' disabled={isLoading}>
               {
                 isLoading ? <div className='flex items-center gap-x-2'>
-                  <svg className='animate-spin' xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+                  <svg className='animate-spin' xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
                   <p>Loading...</p>
                 </div> :
                 <p>Log in</p>

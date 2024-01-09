@@ -3,8 +3,9 @@ from sqlalchemy.orm import Session
 from utils.session import get_db
 from api.user.oauth2 import get_user
 from api.vote.model import Vote
-from api.vote.schemas import VoteOutcome
+from api.vote.schemas import VoteOutcome, VoteCheck
 from api.article.model import Article
+from sqlalchemy.sql import exists
 
 router = APIRouter()
 
@@ -22,12 +23,12 @@ async def vote_on_article(article_id: str, db: Session = Depends(get_db), user =
         vote = Vote(article_id=article_id, user_id=user.id)
 
         db.add(vote)
-        message = 'Article liked successfully'
+        state = 'add'
     
     else:
         db.delete(query)
-        message = 'Article unliked successfully'
+        state = 'remove'
 
     db.commit()
 
-    return {"message": message}
+    return {"state": state, "user_id": user.id, "article_id": article_id}

@@ -10,7 +10,16 @@ class VoteResponse(BaseModel):
 
 
 class VoteOutcome(BaseModel):
-    message: str
+    state: str
+    user_id: str
+    article_id: str
+
+    class Config:
+        from_attributes = True
+
+
+class VoteCheck(BaseModel):
+    vote_check: bool
 
     class Config:
         from_attributes = True

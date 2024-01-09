@@ -3,7 +3,6 @@ const useReactQuillModules = () => {
     toolbar: [
       [{ size: ["small", false, "large", "huge"] }],
       ["bold", "italic", "underline", "strike", "blockquote"],
-      [{ 'script': 'super' }, { 'script': 'sub' }],
       [{ list: "ordered" }, { list: "bullet" }],
       ["link", "image"],
       [

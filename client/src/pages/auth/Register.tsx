@@ -12,6 +12,7 @@ import axiosError from '@/utils/error'
 
 interface RegistrationResponse {
   data: {
+    id: string
     access_token: string
     role: string
     auth_type: string
@@ -88,19 +89,24 @@ const Register: FC = () => {
         withCredentials: true
       })
 
+      const id: string = response?.data?.id
       const accessToken: string = response?.data?.access_token
       const role: string = response?.data?.role
 
       setAuth({ accessToken, role })
       localStorage.setItem('SI', '1')
+      localStorage.setItem('id', id)
 
       const timeoutId = setTimeout(() => {
         localStorage.removeItem('SI')
+        localStorage.removeItem('id')
       }, 2147483647)
 
-      role === 'user' ?
-      navigate('/dashboard') :
-      navigate('/')
+      if (role === 'user') {
+        navigate('/dashboard')
+      } else {
+        navigate('/')
+      }
 
       return () => clearTimeout(timeoutId)
 
