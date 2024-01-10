@@ -1,11 +1,11 @@
-import { Input } from '@/components/ui/input'
 import { axiosPrivate } from '@/utils/api'
 import { Dispatch, FC, FormEvent, SetStateAction, useState } from 'react'
 import { ArticleInterface } from '../ArticleView'
 import axiosError from '@/utils/error'
+import { Input } from '@/components/ui/input'
 
 
-interface CommentResponse {
+export interface CommentResponse {
   data: {
     id: 0,
     comment: string
@@ -25,7 +25,7 @@ interface ArticleCommentInterface {
 }
 
 const AuthorizedComments: FC<ArticleCommentInterface> = ({ article, setArticle }) => {
-  const [comment, setComment] = useState<string>()
+  const [comment, setComment] = useState<string>('')
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -55,7 +55,13 @@ const AuthorizedComments: FC<ArticleCommentInterface> = ({ article, setArticle }
 
   return (
     <form onSubmit={handleSubmit} className='pb-8'>
-      <Input className='shadow-md h-12 text-md' onChange={e => setComment(e.target.value)} value={comment} placeholder='What are your thoughts?' />
+      <Input 
+        value={comment}
+        onChange={e => setComment(e.target.value)}
+        placeholder='What are your thoughts?'
+        className='shadow-md h-12 text-md'
+      />
+    
     </form>
   )
 }

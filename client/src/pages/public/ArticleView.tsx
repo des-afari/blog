@@ -14,8 +14,11 @@ import Footer from '@/components/Footer'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger} from '@/components/ui/dialog'
-import { buttonVariants } from '@/components/ui/button'
-import { Item } from '@radix-ui/react-select'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { CommentResponse } from './components/AuthorizedComments'
+
 
 export interface ArticleResponse {
   data: {
@@ -92,10 +95,12 @@ const ArticleView: FC = () => {
   const [voteCheck, setVoteCheck] = useState<boolean>()
   const [modal, setModal] = useState<string>()
   const [commentId, setCommentId] = useState<number>()
+  const [comment, setComment] = useState<string>("")
   
   const navigate = useNavigate()
   const { articleId } = useParams()
   const axiosPrivate = useAxiosPrivate()
+
   
   const userId = localStorage.getItem('id')
   const SI = localStorage.getItem('SI')
@@ -179,8 +184,8 @@ const ArticleView: FC = () => {
 
       setArticle(prevArticle => {
         if (prevArticle) {
-          const updatedComments =prevArticle.comments.filter(comment => {
-            return comment.id !== commentId
+          const updatedComments =prevArticle.comments.filter(item => {
+            return item.id !== commentId
           })
 
           return {
@@ -195,132 +200,185 @@ const ArticleView: FC = () => {
     }
   }
 
+  const handleCommentChange = async (e: FormEvent) => {
+    e.preventDefault()
+
+    const data = {
+      "comment": comment
+    }
+
+    try {
+      const response: CommentResponse = await axiosPrivate.patch(`/comment/${commentId}/update`, data)
+      
+      setArticle(prevArticle => {
+        if (prevArticle) {
+          const updatedComments = prevArticle.comments.filter(item => item.id !== commentId)
+      
+          return {
+            ...prevArticle,
+            comments: [...updatedComments, response?.data]
+          }
+        }
+      
+        return prevArticle
+      });
+
+    } catch (error) {
+      axiosError(error as Error)
+    }
+  }
+
   return (
     <main>
       {
         article &&
-        <article className='sm:max-w-3xl mx-auto grid gap-y-3 p-6 pt-10'>
-          <div className='flex items-center flex-wrap gap-2'>
-          {
-            article?.tags.map(item => (
-              <Badge 
-                key={item.id}
-                variant={'outline'}
-                onClick={handleTagClick}
-                data-id={item.id}
-                data-name={item.name}
-                className='cursor-pointer'
-                > 
-                  {item.name} 
-                </Badge>
-            ))
-          }
-          </div>
-          <h1 className='text-[32px] leading-[38px] md:text-5xl font-extrabold'> {article?.title} </h1>
-          <p className='sourceSerif text-xl md:text-[22px] md:leading-7'> {article?.description} </p>
-          <div className='flex items-center gap-x-5'>
-            <div onClick={handleVote} className='flex items-center gap-x-1 cursor-pointer'>
-              {
-                voteCheck ?
-                <HeartFilledIcon width={18} height={18} /> : 
-                <HeartIcon width={18} height={18} />
-              }
-              {article?.votes.length}
-            </div>
-            <div onClick={() => document.getElementById('comments')?.scrollIntoView()} className='flex items-center gap-x-1 cursor-pointer'>
-              <ChatBubbleIcon width={18} height={18} />
-              {article?.comments.length}
-            </div>
-          </div>
-          <div className='text-muted-foreground'>
-            <p className='text-sm'>
-              {article?.updated_at ? formatDate(article.updated_at) : formatDate(article.created_at)}
-            </p>
-          </div>
-          <img src={article?.article_img_url} className='w-full' alt="article_image" />
-          <div className='mainArticle'> {parser(article?.content || "")}  </div>
-          <div id='comments' className='mb-40'>
-            <h2 className='text-xl md:text-2xl font-extrabold py-3'>Comments ({article?.comments.length}) </h2>
+        <div>
+          <article className='sm:max-w-3xl mx-auto grid gap-y-3 p-6 pt-10'>
+            <div className='flex items-center flex-wrap gap-2'>
             {
-              SI ? <AuthorizedComments article={article} setArticle={setArticle} /> : <UnAuthorizedComments />
+              article.tags.map(item => (
+                <Badge 
+                  key={item.id}
+                  variant={'outline'}
+                  onClick={handleTagClick}
+                  data-id={item.id}
+                  data-name={item.name}
+                  className='cursor-pointer'
+                  > 
+                    {item.name} 
+                  </Badge>
+              ))
             }
-            <Dialog>
-            <DropdownMenu>
-              <div className='border-t pt-8 space-y-7'>
+            </div>
+            <h1 className='text-[32px] leading-[38px] md:text-5xl font-extrabold'> {article.title} </h1>
+            <p className='sourceSerif text-xl md:text-[22px] md:leading-7'> {article.description} </p>
+            <div className='flex items-center gap-x-5'>
+              <div onClick={handleVote} className='flex items-center gap-x-1 cursor-pointer'>
                 {
-                  article?.comments?.map(comment => (
-                    <div key={comment.id} className='flex justify-between'>
-                      <div className='flex gap-x-2'>
-                        <div>
-                          <Avatar>
-                            <AvatarFallback> {comment.user.first_name.charAt(0)}{comment.user.last_name.charAt(0)} </AvatarFallback>
-                          </Avatar>
-                        </div>
-                        <div>
-                          <p className='font-bold'> {comment.user.first_name} {comment.user.last_name} </p>
-                          <p className='text-xs text-muted-foreground'> {comment.updated_at ? formatDate(comment.updated_at) : formatDate(comment.created_at)} </p>
-                          <p className='mt-4'> {comment.comment} </p>
-                        </div>
-                      </div>
-                      <div className='w-12 grid items-start justify-end'>
-                        {
-                          comment.user.id !== userId ? 
-                          "" :
-                          <DropdownMenuTrigger>
-                            <DotsHorizontalIcon />
-                          </DropdownMenuTrigger>
-                        }
-                      </div>
-                      <DropdownMenuContent>
-                        <DialogTrigger asChild onClick={() => {
-                          setModal('update')
-                          setCommentId(comment.id)
-                        }}>
-                          <DropdownMenuItem className='flex items-center gap-x-2'>
-                            <UpdateIcon />
-                            <p>update</p>
-                          </DropdownMenuItem>
-                        </DialogTrigger>
-                        <DialogTrigger asChild onClick={() => {
-                          setModal('delete')
-                          setCommentId(comment.id)
-                        }}>
-                          <DropdownMenuItem className='flex items-center gap-x-2'>
-                            <TrashIcon />
-                            <p>delete</p>
-                          </DropdownMenuItem>
-                        </DialogTrigger>
-                      </DropdownMenuContent>
-                    </div>
-                  )) 
+                  voteCheck ?
+                  <HeartFilledIcon width={18} height={18} /> : 
+                  <HeartIcon width={18} height={18} />
                 }
+                {article.votes.length}
               </div>
-            </DropdownMenu>
-            {
-            modal === 'delete' && (
-              <DialogContent>
+              <div onClick={() => document.getElementById('comments')?.scrollIntoView()} className='flex items-center gap-x-1 cursor-pointer'>
+                <ChatBubbleIcon width={18} height={18} />
+                {article.comments.length}
+              </div>
+            </div>
+            <div className='text-muted-foreground'>
+              <p className='text-sm'>
+                {article.updated_at ? formatDate(article.updated_at) : formatDate(article.created_at)}
+              </p>
+            </div>
+            <img src={article.article_img_url} className='w-full' alt="article_image" />
+            <div className='mainArticle'> {parser(article.content)}  </div>
+            <div id='comments' className='mb-40'>
+              <h2 className='text-xl md:text-2xl font-extrabold py-3'>Comments ({article.comments.length}) </h2>
+              {
+                SI ? <AuthorizedComments article={article} setArticle={setArticle} /> : <UnAuthorizedComments />
+              }
+              <Dialog>
+                <div className='border-t pt-8 space-y-7'>
+                  {
+                    article.comments.map(comment => (
+                      <div key={comment.id} className='flex justify-between'>
+                        <div className='flex gap-x-2'>
+                          <div>
+                            <Avatar>
+                              <AvatarFallback> {comment.user.first_name.charAt(0)}{comment.user.last_name.charAt(0)} </AvatarFallback>
+                            </Avatar>
+                          </div>
+                          <div>
+                            <p className='font-bold'> {comment.user.first_name} {comment.user.last_name} </p>
+                            <p className='text-xs text-muted-foreground'> {comment.updated_at ? formatDate(comment.updated_at) : formatDate(comment.created_at)} </p>
+                            <p className='mt-3'> {comment.comment} </p>
+                          </div>
+                        </div>
+                        <div className='w-12 grid items-start justify-end'>
+                          {
+                            comment.user.id !== userId ? 
+                            "" :
+                            <DropdownMenu>
+                              <DropdownMenuTrigger>
+                                <DotsHorizontalIcon />
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent>
+                                <DialogTrigger asChild onClick={() => {
+                                  setModal('update')
+                                  setCommentId(comment.id)
+                                  setComment(article.comments.find(item => item.id === comment.id)?.comment || "")
+                                }}>
+                                  <DropdownMenuItem className='flex items-center gap-x-2'>
+                                    <UpdateIcon />
+                                    <p>update</p>
+                                  </DropdownMenuItem>
+                                </DialogTrigger>
+                                <DialogTrigger asChild onClick={() => {
+                                  setModal('delete')
+                                  setCommentId(comment.id)
+                                }}>
+                                  <DropdownMenuItem className='flex items-center gap-x-2'>
+                                    <TrashIcon />
+                                    <p>delete</p>
+                                  </DropdownMenuItem>
+                                </DialogTrigger>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          }
+                        </div>
+                      </div>
+                    )) 
+                  }
+                </div>
+                
+              {
+              modal === 'delete' && (
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Delete Comment</DialogTitle>
+                    <DialogDescription>
+                      This action cannot be undone. This will permanently remove the comment.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter className='grid gap-y-2 md:grid-flow-col'>
+                    <DialogClose className={buttonVariants({"variant": "outline"})}>
+                      Cancel
+                    </DialogClose>
+                    <DialogClose onClick={handleCommentDelete} className={buttonVariants({"variant": "default"})}>
+                      Continue
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              )} 
+              {
+              modal === 'update' && (
+              <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>Delete Comment</DialogTitle>
+                  <DialogTitle>Update comment</DialogTitle>
                   <DialogDescription>
-                    This action cannot be undone. This will permanently remove the comment.
+                    Make changes to your comment here. Click save changes when you're done.
                   </DialogDescription>
                 </DialogHeader>
-                <DialogFooter className='grid gap-y-2 md:grid-flow-col'>
-                  <DialogClose className={buttonVariants({"variant": "outline"})}>
-                    Cancel
-                  </DialogClose>
-                  <DialogClose onClick={handleCommentDelete} className={buttonVariants({"variant": "default"})}>
-                    Continue
-                  </DialogClose>
-                </DialogFooter>
+                <form className="grid gap-y-4" onSubmit={handleCommentChange}>
+                  <div className="grid gap-1">
+                    <Label htmlFor="Updatecomment" className='text-sm font-medium'>Comment</Label>
+                    <Input id="Updatecomment" value={comment} onChange={e => setComment(e.target.value)} />
+                  </div>
+                  <DialogFooter>
+                    <DialogClose>
+                      <Button type="submit">Save changes</Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </form>
               </DialogContent>
-            )
-          }
-            </Dialog>
-          </div>
-        </article>
+              )}
+              </Dialog>
+            </div>
+          </article>
+          <Footer />
+        </div>
       }
-      <Footer />
     </main>
   )
 }

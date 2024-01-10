@@ -51,9 +51,7 @@ const Header: FC = () => {
       localStorage.removeItem('SI')
       localStorage.removeItem('id')
 
-      location.pathname === '/' ?
-      navigate(0) :
-      navigate('/')
+      navigate(0)
 
     } catch (error) {
       axiosError(error as Error)
