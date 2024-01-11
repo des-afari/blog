@@ -1,16 +1,15 @@
 import { FC, useEffect } from 'react'
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem,
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Dialog, DialogTrigger } from "@/components/ui/dialog"
-import { EnvelopeClosedIcon, ExitIcon, HamburgerMenuIcon, InfoCircledIcon, LockClosedIcon, PersonIcon, TrashIcon } from '@radix-ui/react-icons'
+import { EnvelopeClosedIcon, ExitIcon, IdCardIcon, InfoCircledIcon, LockClosedIcon, MagnifyingGlassIcon, PersonIcon, TrashIcon } from '@radix-ui/react-icons'
 import { useNavigate, Link } from 'react-router-dom'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import { useState } from 'react'
 import axiosError from '@/utils/error'
 import useAuth from '@/hooks/useAuth'
 import axios from '@/utils/api'
-import { Button, buttonVariants } from './ui/button'
+import { buttonVariants } from './ui/button'
 import { cn } from '@/lib/utils'
 import { CurrentUserInterface, CurrentUserResponse } from './Interfaces'
 import Information from './Information'
@@ -91,13 +90,18 @@ const Header: FC = () => {
         <div>
         <Dialog>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Avatar title='account' className='h-9 w-9 cursor-pointer'>
-                <AvatarFallback className='bg-white border border-black'>
-                  <PersonIcon width={16} height={16} /> 
-                </AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
+            <div className='flex items-center gap-x-3'>
+              <Link to='/search' className={cn(
+                buttonVariants({"variant": "ghost", "size": "icon"}), "rounded-full hover:bg-gray-200 h-10 w-10")}>
+                <MagnifyingGlassIcon width={24} height={24} />
+              </Link>
+              <DropdownMenuTrigger title='account' asChild>
+                <span className={cn(
+                  buttonVariants({"variant": "ghost", "size": "icon"}), "rounded-full hover:bg-gray-200 h-10 w-10")}>
+                  <PersonIcon width={24} height={24} />
+                </span>
+              </DropdownMenuTrigger>
+            </div>
             <DropdownMenuContent className='w-56'>
               <DropdownMenuLabel>Update Profile</DropdownMenuLabel>
               <DropdownMenuSeparator />
@@ -140,14 +144,29 @@ const Header: FC = () => {
         </Dialog>
         </div> :
         <div>
-         <Button variant={'ghost'} className='lg:hidden'>
-           <HamburgerMenuIcon />
-         </Button>
-         <div className='hidden lg:flex lg:gap-x-2'>
-           <Link to='/login' className={cn(
-             buttonVariants({"variant": "secondary", "size": "md"}), "font-semibold")}>Log in</Link>
-           <Link to='/register' className={cn(
-             buttonVariants({"variant": "default", "size": "md"}), "font-semibold")}>Register</Link>
+         <div className='md:hidden flex items-center gap-x-3'>
+            <Link to='/search' className={cn(
+              buttonVariants({"variant": "ghost", "size": "icon"}), "rounded-full hover:bg-gray-200 h-10 w-10")}>
+              <MagnifyingGlassIcon width={24} height={24} />
+            </Link>
+            <Link to='/register' title="register" className={cn(
+              buttonVariants({"variant": "ghost", "size": "icon"}), "rounded-full hover:bg-gray-200 h-10 w-10")}>
+              <PersonIcon width={24} height={24} />
+            </Link>
+            <Link to='/login' title='login' className={cn(
+              buttonVariants({"variant": "ghost", "size": "icon"}), "rounded-full hover:bg-gray-200 h-10 w-10")}>
+              <IdCardIcon width={24} height={24} />
+            </Link>
+          </div>
+          <div className='hidden md:flex md:items-center md:gap-x-3'>
+            <Link to='/search' className={cn(
+              buttonVariants({"variant": "ghost", "size": "icon"}), "rounded-full hover:bg-gray-200 h-10 w-10")}>
+              <MagnifyingGlassIcon width={24} height={24} />
+            </Link>
+            <Link to='/login' className={cn(
+              buttonVariants({"variant": "secondary", "size": "md"}), "font-semibold")}>Log in</Link>
+            <Link to='/register' className={cn(
+              buttonVariants({"variant": "default", "size": "md"}), "font-semibold")}>Register</Link>
          </div>
         </div>
       }

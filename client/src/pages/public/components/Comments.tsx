@@ -20,7 +20,7 @@ const Comments: FC<CommentComponentInterface> = ({ article, setArticle }) => {
   const [comment, setComment] = useState<string>("")
 
   const SI = localStorage.getItem('SI')
-  const userId = localStorage.getItem('userId')
+  const userId = localStorage.getItem('id')
   const axiosPrivate = useAxiosPrivate()
 
   const handleCommentDelete = async ()  => {

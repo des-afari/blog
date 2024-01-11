@@ -15,6 +15,7 @@ import CreateArticle from './pages/admin/CreateArticle'
 import UpdateArticle from './pages/admin/UpdateArticle'
 import TagView from './pages/public/TagView'
 import ArticleView from './pages/public/ArticleView'
+import Search from './pages/public/Search'
 
 
 const ROLES = {
@@ -31,6 +32,7 @@ function App() {
           <Route path='/' element={<Index />} />
           <Route path='/tag/:tagName' element={<TagView />} />
           <Route path='/article/:articleId' element={<ArticleView />} />
+          <Route path='/search' element={<Search />} />
         </Route>
         
         
