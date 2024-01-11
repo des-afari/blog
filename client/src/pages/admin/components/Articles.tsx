@@ -8,69 +8,8 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Link, useNavigate } from 'react-router-dom'
 import axios, { axiosPrivate } from '@/utils/api'
 import axiosError from '@/utils/error'
+import { ArticlesInterface, ArticlesResponse } from '@/components/Interfaces'
 
-
-export interface ArticlesResponse {
-  data: {
-    id: string
-    title: string
-    article_img_url: string
-    description: string
-    content: string
-    created_at: Date
-    updated_at: Date
-    tags: {
-      id: number
-      parent_id: number
-      name: string
-    }[]
-    votes: {
-      article_id: string
-      user_id: string
-    }[]
-    comments: {
-      id: number
-      comment: string
-      created_at: Date
-      updated_at: Date
-      user: {
-        id: string
-        first_name: string
-        last_name: string
-      }
-    }[]
-  }[]
-}
-
-export interface ArticlesInterface {
-  id: string
-  title: string
-  article_img_url: string
-  description: string
-  content: string
-  created_at: Date
-  updated_at: Date
-  tags: {
-    id: number
-    parent_id: number
-    name: string
-  }[]
-  votes: {
-    article_id: string
-    user_id: string
-  }[]
-  comments: {
-    id: number
-    comment: string
-    created_at: Date
-    updated_at: Date
-    user: {
-      id: string
-      first_name: string
-      last_name: string
-    }
-  }[]
-}[]
 
 const Articles: FC = () => {
   const [articles, setArticles] = useState<ArticlesInterface[]>()

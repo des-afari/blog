@@ -8,33 +8,10 @@ import { formatDate } from '@/utils/config'
 import { Button } from '@/components/ui/button'
 import { ScissorsIcon } from '@radix-ui/react-icons'
 import { AlertDialogFooter, AlertDialogHeader, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
-
-
-export interface UsersResponse {
-  data: {
-    id: string
-    first_name: string
-    last_name: string
-    role: string
-    email: string
-    last_login: Date
-    created_at: Date
-  }[]
-}
-
-export interface UserInterface {
-  id: string
-  first_name: string
-  last_name: string
-  role: string
-  email: string
-  last_login: Date
-  created_at: Date
-}[]
-
+import { UsersInterface, UsersResponse } from '@/components/Interfaces'
 
 const Accounts: FC = () => {
-  const [users, setUsers] = useState<UserInterface[]>()
+  const [users, setUsers] = useState<UsersInterface[]>()
   const [query, setQuery] = useState<string>()
 	const [typingTimer, setTypingTimer] = useState<NodeJS.Timeout>()
   const [accountId, setAccountId] = useState<string>()

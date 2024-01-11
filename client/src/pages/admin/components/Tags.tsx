@@ -11,33 +11,13 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from "@/components/ui/badge"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { ScissorsIcon } from '@radix-ui/react-icons'
-
-
-export interface TagResponse {
-  data: {
-    id: number
-    parent_id: number
-    name: string 
-  }[]
-}
-
-export interface TagInterface {
-    id: number
-    parent_id: number
-    name: string 
-}[]
-
-export interface SelectedInterface {
-    id: number
-    parent_id: number
-    name: string 
-}
+import { TagsInterface, TagsResponse, TagInterface } from '@/components/Interfaces'
 
 
 const Tags: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [categories, setCategories] = useState<TagInterface[]>()
-  const [tags, setTags] = useState<TagInterface[]>()
+  const [categories, setCategories] = useState<TagsInterface[]>()
+  const [tags, setTags] = useState<TagsInterface[]>()
   const [category, setCategory] = useState<string>('')
   const [tag, setTag] = useState<string>('')
   const [tagRefresh, setTagRefresh] = useState<boolean>(false)
@@ -49,7 +29,7 @@ const Tags: FC = () => {
   useEffect(() => {
     const get_tags = async () => {
       try {
-        const response: TagResponse = await axios.get('/tags')
+        const response: TagsResponse = await axios.get('/tags')
 
         setCategories(response?.data?.filter(value => value.parent_id === null))
         setTags(response?.data?.filter(value => value.parent_id !== null))
@@ -84,7 +64,7 @@ const Tags: FC = () => {
     }
 
     try {
-      await axiosPrivate.post<SelectedInterface>('/tag/create', data)
+      await axiosPrivate.post<TagInterface>('/tag/create', data)
       setTagRefresh(!tagRefresh)
 
     } catch (error) {

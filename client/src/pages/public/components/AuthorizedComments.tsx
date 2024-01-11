@@ -1,30 +1,12 @@
 import { axiosPrivate } from '@/utils/api'
-import { Dispatch, FC, FormEvent, SetStateAction, useState } from 'react'
-import { ArticleInterface } from '../ArticleView'
+import { FC, FormEvent, useState } from 'react'
 import axiosError from '@/utils/error'
 import { Input } from '@/components/ui/input'
+import { CommentResponse, AuthorizedCommentComponentInterface } from '@/components/Interfaces'
 
 
-export interface CommentResponse {
-  data: {
-    id: 0,
-    comment: string
-    created_at: Date
-    updated_at: Date
-    user: {
-      id: string
-      first_name: string
-      last_name: string
-    }
-  }
-}
 
-interface ArticleCommentInterface {
-  article: ArticleInterface
-  setArticle: Dispatch<SetStateAction<ArticleInterface | undefined>>
-}
-
-const AuthorizedComments: FC<ArticleCommentInterface> = ({ article, setArticle }) => {
+const AuthorizedComments: FC<AuthorizedCommentComponentInterface> = ({ article, setArticle }) => {
   const [comment, setComment] = useState<string>('')
 
   const handleSubmit = async (e: FormEvent) => {

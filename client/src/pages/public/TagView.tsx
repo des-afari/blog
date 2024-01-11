@@ -1,7 +1,7 @@
 import { FC, FormEvent, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axios from '@/utils/api'
-import { ArticlesInterface, ArticlesResponse } from '@/pages/admin/components/Articles'
+import { ArticlesInterface, ArticlesResponse } from '@/components/Interfaces'
 import axiosError from '@/utils/error'
 import { Badge } from '@/components/ui/badge'
 import { formatDate } from '@/utils/config'
@@ -63,7 +63,7 @@ const TagView: FC = () => {
               <h1 className='text-xl font-extrabold leading-tight'> {item.title} </h1>
               <p className='sourceSerif'> {item.description} </p>
               <p className='text-xs text-muted-foreground'>
-                {formatDate(item.updated_at ? item.updated_at : item.created_at)} 
+                {item.updated_at ? formatDate(item.updated_at) : formatDate(item.created_at)} 
               </p>
             </div>
           </div>

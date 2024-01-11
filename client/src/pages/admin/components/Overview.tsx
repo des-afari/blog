@@ -1,9 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { FileTextIcon, LightningBoltIcon, MixIcon, PersonIcon } from '@radix-ui/react-icons'
 import { FC, useEffect, useState } from 'react'
-import { UserInterface, UsersResponse } from './Accounts'
-import { ArticlesInterface, ArticlesResponse } from './Articles'
-import { TagInterface, TagResponse } from './Tags'
+import { UsersInterface, UsersResponse, ArticlesInterface, ArticlesResponse,TagsInterface, TagsResponse } from '@/components/Interfaces'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import axiosError from '@/utils/error'
 import axios from '@/utils/api'
@@ -11,9 +9,9 @@ import axios from '@/utils/api'
 
 const Overview: FC = () => {
   const axiosPrivate = useAxiosPrivate()
-  const [users, setUsers] = useState<UserInterface[]>()
+  const [users, setUsers] = useState<UsersInterface[]>()
   const [articles, setArticles] = useState<ArticlesInterface[]>()
-  const [tags, setTags] = useState<TagInterface[]>()
+  const [tags, setTags] = useState<TagsInterface[]>()
 
   useEffect(() => {
     const get_users = async () => {
@@ -44,7 +42,7 @@ const Overview: FC = () => {
     
     const get_tags = async () => {
       try {
-        const response: TagResponse = await axios.get('/tags')
+        const response: TagsResponse = await axios.get('/tags')
         
         const items = response?.data?.filter(tag => tag.parent_id !== null)
         setTags(items)
