@@ -8,7 +8,7 @@ from api.user.model import User
 from api.user.config import hash_password, verify_password, check_admin_permission, check_for_conflict
 from api.user.oauth2 import (access_private_key, access_public_key, create_token, verify_token,
                             refresh_private_key, refresh_public_key, get_user)
-from api.user.schemas import (RegisterSchema, AuthResponse, EmailUpdateSchema, EmailUpdateResponse, UserUpdateSchema,
+from api.user.schemas import (RegisterSchema, AuthResponse, EmailUpdateSchema, UserUpdateSchema,
                               PasswordUpdateSchema, PasswordUpdateResponse, LogoutSchema, UserResponse, UsersResponse)
 from uuid import uuid4
 from utils.config import settings
@@ -92,7 +92,7 @@ async def refresh(request: Request, response: Response, db: Session = Depends(ge
     return {"id": payload.id, "access_token": access_token, "role": payload.role, "auth_type": "Bearer"}
 
 
-@router.patch('/email/update', status_code=200, response_model=EmailUpdateResponse)
+@router.patch('/email/update', status_code=200, response_model=UserResponse)
 async def update_email(schema: EmailUpdateSchema, db: Session = Depends(get_db), user = Depends(get_user)):
     check_for_conflict(db, User, 'email', schema.email)
     current_user = db.query(User).filter_by(id=user.id).first()
@@ -182,6 +182,11 @@ async def logout(request: Request, response: Response, schema: LogoutSchema, db:
 
     response.delete_cookie('_rt')
     db.commit()
+
+
+@router.get('/current_user', status_code=200, response_model=UserResponse)
+async def get_current_user(db: Session = Depends(get_db), user = Depends(get_user)):
+    return db.query(User).get(user.id)
 
 
 @router.get('/users', status_code=200, response_model=List[UsersResponse])

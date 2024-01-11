@@ -60,14 +60,6 @@ class EmailUpdateSchema(BaseModel):
         super().__init__(email=email.lower())
 
 
-class EmailUpdateResponse(BaseModel):
-    id: str
-    email: EmailStr
-
-    class Config:
-        from_attributes = True
-
-
 class PasswordUpdateSchema(BaseModel):
     old_password: str
     new_password: str

@@ -204,8 +204,30 @@ interface TagInterface {
     id: number
     parent_id: number
     name: string 
+} 
+
+interface CurrentUserInterface {
+  id: string
+  first_name: string
+  last_name: string
+  email: string
+}
+
+interface CurrentUserResponse {
+  data: {
+    id: string
+    first_name: string
+    last_name: string
+    email: string
+  }
+}
+
+interface UserComponentInterface {
+  user: CurrentUserInterface
+  setUser: Dispatch<SetStateAction<CurrentUserInterface>>
 }
 
 
 export type {ArticlesInterface, ArticlesResponse, ArticleInterface, ArticleResponse, VoteResponse, VoteComponentInterface, CommentResponse,
-CommentComponentInterface, AuthorizedCommentComponentInterface, UsersInterface, UsersResponse, TagsInterface, TagsResponse, TagInterface}
+CommentComponentInterface, AuthorizedCommentComponentInterface, UsersInterface, UsersResponse, TagsInterface, TagsResponse, TagInterface,
+CurrentUserInterface, CurrentUserResponse, UserComponentInterface}
