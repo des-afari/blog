@@ -1,6 +1,6 @@
 import { FC, FormEvent, useEffect, useState } from 'react'
 import axios from '@/utils/api'
-import { TagResponse, TagInterface } from '@/pages/admin/components/Tags'
+import { TagsResponse, TagsInterface } from '@/components/Interfaces'
 import axiosError from '@/utils/error'
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom'
@@ -8,14 +8,14 @@ import { formatTitle } from '@/utils/config'
 
 
 const Index: FC = () => {
-  const [tags, setTags] = useState<TagInterface[]>()
+  const [tags, setTags] = useState<TagsInterface[]>()
 
   const navigate = useNavigate()
 
   useEffect(() => {
     const get_tags = async () => {
       try {
-        const response: TagResponse = await axios.get('/tags')
+        const response: TagsResponse = await axios.get('/tags')
 
         const items = response?.data?.filter(tag => tag.parent_id !== null)
         setTags(items)
@@ -30,7 +30,6 @@ const Index: FC = () => {
     const storedTags = sessionStorage.getItem('tags')
     storedTags ? setTags(JSON.parse(storedTags)) : get_tags()
 
-    get_tags()
   }, [])
 
   const handleTagClick = (e: FormEvent) => {

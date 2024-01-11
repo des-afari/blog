@@ -102,7 +102,7 @@ const ArticleView: FC = () => {
                 </p>
               </div>
               <img src={article.article_img_url} className='w-full' alt="article_image" />
-              <div className='mainArticle'> {parser(article.content)}  </div>
+              <div className='mainArticle mt-4'> {parser(article.content)}  </div>
               <Comments 
                 article={article}
                 setArticle={setArticle}
