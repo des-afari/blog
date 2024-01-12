@@ -77,7 +77,7 @@ const Login: FC = () => {
       }, 2147483647)
 
       role === 'user' ?
-      navigate(from || '/', {replace: true}) :
+      navigate(from || -1, {replace: true}) :
       navigate(from || '/dashboard', {replace: true})
       
       return () => clearTimeout(timeoutId)

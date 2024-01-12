@@ -206,14 +206,6 @@ interface TagInterface {
   name: string 
 }
 
-interface TagResponse {
-  data: {
-    id: string
-    parent_id: string
-    name: string
-  }
-}
-
 interface CurrentUserInterface {
   id: string
   first_name: string
@@ -238,4 +230,4 @@ interface UserComponentInterface {
 
 export type {ArticlesInterface, ArticlesResponse, ArticleInterface, ArticleResponse, VoteResponse, VoteComponentInterface, CommentResponse,
 CommentComponentInterface, AuthorizedCommentComponentInterface, UsersInterface, UsersResponse, TagsInterface, TagsResponse, TagInterface,
-TagResponse, CurrentUserInterface, CurrentUserResponse, UserComponentInterface}
+CurrentUserInterface, CurrentUserResponse, UserComponentInterface}
