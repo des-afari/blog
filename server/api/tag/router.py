@@ -18,6 +18,7 @@ async def create_tag(schema: TagSchema, db: Session = Depends(get_db), user = De
     check_for_conflict(db, Tag, 'name', schema.name)
 
     tag = Tag(**schema.model_dump())
+    tag.id = schema.name.lower().strip().replace(' ', '-')
 
     db.add(tag)
     db.commit()
@@ -26,7 +27,7 @@ async def create_tag(schema: TagSchema, db: Session = Depends(get_db), user = De
 
 
 @router.delete('/{tag_id}/delete', status_code=204)
-async def delete_tag(tag_id: int, db: Session = Depends(get_db), user = Depends(get_user)):
+async def delete_tag(tag_id: str, db: Session = Depends(get_db), user = Depends(get_user)):
     check_admin_permission(user)
 
     tag = db.query(Tag).get(tag_id)
@@ -38,6 +39,11 @@ async def delete_tag(tag_id: int, db: Session = Depends(get_db), user = Depends(
     db.commit()
 
 
-@router.get('/{tag_id}', status_code=200, response_model=List[ArticleResponse])
-async def get_articles_by_tag(tag_id: int, db: Session = Depends(get_db)):
+@router.get('/articles/{tag_id}', status_code=200, response_model=List[ArticleResponse])
+async def get_articles_by_tag(tag_id: str, db: Session = Depends(get_db)):
     return db.query(Article).filter(Article.tags.any(id=tag_id)).all()
+
+
+@router.get('/{tag_id}', status_code=200, response_model=TagResponse)
+async def get_tag(tag_id: str, db: Session = Depends(get_db)):
+    return db.query(Tag).get(tag_id)

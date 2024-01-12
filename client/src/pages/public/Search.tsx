@@ -30,12 +30,6 @@ const Search: FC = () => {
     }
   }
 
-  const handleClick = (e: FormEvent) => {
-    const articleId = e.currentTarget.getAttribute('data-id')
-
-    articleId && navigate(`/article/${articleId}`)
-  }
-
   return (
     <main>
       <form onSubmit={handleSubmit} className='px-6 py-2 flex items-center bg-gray-100 border-b  font-extrabold min-h-24 md:min-h-32'>
@@ -58,7 +52,7 @@ const Search: FC = () => {
                 key={item.id}
                 className='grid gap-y-3 py-6 md:grid-cols-4 md:gap-x-3 border-b cursor-pointer'
                 data-id={item.id}
-                onClick={handleClick}
+                onClick={() => navigate(`/article/${item.id}`)}
                 >
                 <div className='md:col-span-1'>
                   <img className='' src={item.article_img_url} alt="article_image" />

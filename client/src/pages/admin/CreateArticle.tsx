@@ -3,7 +3,7 @@ import 'quill/dist/quill.snow.css'
 import ReactQuill from 'react-quill'
 import useTextAreaExpansion from '@/hooks/useTextAreaExpansion'
 import { Input } from '@/components/ui/input'
-import { TagResponse, TagInterface, SelectedInterface } from './components/Tags'
+import { TagsResponse, TagsInterface, TagInterface } from '@/components/Interfaces'
 import axios from '@/utils/api'
 import axiosError from '@/utils/error'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -20,8 +20,8 @@ const CreateArticle: FC = () => {
   const [description, setDescription] = useState<string>('')
   const [articleImageURL, setArticleImageURL] = useState<string>('')
   const [content, setContent] = useState<string>('')
-  const [selectedTags, setSelectedTags] = useState<SelectedInterface[]>([])
-  const [tags, setTags] = useState<TagInterface[]>()
+  const [selectedTags, setSelectedTags] = useState<TagInterface[]>([])
+  const [tags, setTags] = useState<TagsInterface[]>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const titleArea = useRef<HTMLTextAreaElement>(null)
@@ -41,7 +41,7 @@ const CreateArticle: FC = () => {
   useEffect(() => {
     const get_tags = async () => {
       try {
-        const response: TagResponse = await axios.get('/tags')
+        const response: TagsResponse = await axios.get('/tags')
         setTags(response?.data?.filter(value => value.parent_id !== null))
         
       } catch (error) {
@@ -54,7 +54,7 @@ const CreateArticle: FC = () => {
 
   }, [])
 
-  const handleClick = (item: SelectedInterface) => {
+  const handleClick = (item: TagInterface) => {
     selectedTags.some(tag => tag.id === item.id) ? 
     setSelectedTags(prevTags => prevTags.filter(tag => tag.id !== item.id)) :
     setSelectedTags(prevTags => [...prevTags, item])

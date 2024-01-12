@@ -20,29 +20,26 @@ const Tags: FC = () => {
   const [tags, setTags] = useState<TagsInterface[]>()
   const [category, setCategory] = useState<string>('')
   const [tag, setTag] = useState<string>('')
-  const [tagRefresh, setTagRefresh] = useState<boolean>(false)
-  const [selected, setSelected] = useState<number>()
+  const [selected, setSelected] = useState<string>()
 
   const axiosPrivate = useAxiosPrivate()
 
+  const get_tags = async () => {
+    try {
+      const response: TagsResponse = await axios.get('/tags')
+
+      setCategories(response?.data?.filter(value => value.parent_id === null))
+      setTags(response?.data?.filter(value => value.parent_id !== null))
+      
+    } catch (error) {
+      axiosError(error as Error)
+
+    }
+  }
 
   useEffect(() => {
-    const get_tags = async () => {
-      try {
-        const response: TagsResponse = await axios.get('/tags')
-
-        setCategories(response?.data?.filter(value => value.parent_id === null))
-        setTags(response?.data?.filter(value => value.parent_id !== null))
-        
-      } catch (error) {
-        axiosError(error as Error)
-
-      }
-    } 
-
     get_tags()
-
-  }, [tagRefresh])
+  }, [])
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -56,7 +53,7 @@ const Tags: FC = () => {
       return
     }
 
-    const parent_id = categories?.find(value => value.name === category)?.id || undefined
+    const parent_id = categories?.find(value => value.name === category)?.id
 
     const data = {
       "parent_id": parent_id,
@@ -65,7 +62,8 @@ const Tags: FC = () => {
 
     try {
       await axiosPrivate.post<TagInterface>('/tag/create', data)
-      setTagRefresh(!tagRefresh)
+      
+      get_tags()
 
     } catch (error) {
       axiosError(error as Error)
@@ -82,7 +80,7 @@ const Tags: FC = () => {
     try {
       await axiosPrivate.delete(`/tag/${selected}/delete`)
 
-      setTagRefresh(!tagRefresh)
+      get_tags()
 
     } catch (error) {
       axiosError(error as Error)
@@ -169,7 +167,7 @@ const Tags: FC = () => {
               <Button type='submit' className='w-full' disabled={isLoading}>
                 {
                   isLoading ? <div className='flex items-center gap-x-2'>
-                    <svg className='animate-spin' xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+                    <svg className='animate-spin' xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
                     <p>Loading...</p>
                   </div> :
                   <p>Continue</p>

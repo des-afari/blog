@@ -2,13 +2,13 @@ from pydantic import BaseModel
 
 
 class TagSchema(BaseModel):
-    parent_id: int = None
+    parent_id: str = None
     name: str
 
  
 class TagResponse(BaseModel):
-    id: int
-    parent_id: int | None
+    id: str
+    parent_id: str | None
     name: str
 
     class Config:

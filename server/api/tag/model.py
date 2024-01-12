@@ -1,12 +1,12 @@
-from sqlalchemy import Column, String, Integer, func, TIMESTAMP, ForeignKey
+from sqlalchemy import Column, String, func, TIMESTAMP, ForeignKey
 from db.base import Base
 
 
 class Tag(Base):
     __tablename__ = 'tags'
 
-    id = Column(Integer, primary_key=True)
-    parent_id = Column(Integer, ForeignKey('tags.id'))
+    id = Column(String(255), primary_key=True)
+    parent_id = Column(String(255), ForeignKey('tags.id'))
     name = Column(String(255), nullable=False, unique=True, index=True)
     created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
 

@@ -7,7 +7,7 @@ association_table = Table(
     'article_tag_association',
     Base.metadata,
     Column('article_id', String(255), ForeignKey('articles.id')),
-    Column('tag_id', Integer, ForeignKey('tags.id'))
+    Column('tag_id', String(255), ForeignKey('tags.id'))
 )
 
 class Article(Base):

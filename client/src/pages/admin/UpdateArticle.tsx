@@ -3,7 +3,7 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useTextAreaExpansion from '@/hooks/useTextAreaExpansion'
 import { FC, FormEvent, useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { TagResponse, TagInterface, SelectedInterface } from './components/Tags'
+import { TagsResponse, TagsInterface, TagInterface } from '@/components/Interfaces'
 import axiosError from '@/utils/error'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -22,8 +22,8 @@ const UpdateArticle: FC = () => {
   const [description, setDescription] = useState<string>(article.description)
   const [articleImageURL, setArticleImageURL] = useState<string>(article.article_img_url)
   const [content, setContent] = useState<string>(article.content)
-  const [selectedTags, setSelectedTags] = useState<SelectedInterface[]>(article.tags)
-  const [tags, setTags] = useState<TagInterface[]>()
+  const [selectedTags, setSelectedTags] = useState<TagInterface[]>(article.tags)
+  const [tags, setTags] = useState<TagsInterface[]>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const titleArea = useRef<HTMLTextAreaElement>(null)
@@ -43,7 +43,7 @@ const UpdateArticle: FC = () => {
   useEffect(() => {
     const get_tags = async () => {
       try {
-        const response: TagResponse = await axios.get('/tags')
+        const response: TagsResponse = await axios.get('/tags')
         setTags(response?.data?.filter(value => value.parent_id !== null))
         
       } catch (error) {
@@ -56,7 +56,7 @@ const UpdateArticle: FC = () => {
 
   }, [])
 
-  const handleClick = (item: SelectedInterface) => {
+  const handleClick = (item: TagInterface) => {
     selectedTags.some(tag => tag.id === item.id) ? 
     setSelectedTags(prevTags => prevTags.filter(tag => tag.id !== item.id)) :
     setSelectedTags(prevTags => [...prevTags, item])

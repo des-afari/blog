@@ -10,8 +10,8 @@ interface ArticlesResponse {
     created_at: Date
     updated_at: Date
     tags: {
-      id: number
-      parent_id: number
+      id: string
+      parent_id: string
       name: string
     }[]
     votes: {
@@ -41,8 +41,8 @@ interface ArticlesInterface {
   created_at: Date
   updated_at: Date
   tags: {
-    id: number
-    parent_id: number
+    id: string
+    parent_id: string
     name: string
   }[]
   votes: {
@@ -72,8 +72,8 @@ interface ArticleResponse {
     created_at: Date
     updated_at: Date
     tags: {
-      id: number
-      parent_id: number
+      id: string
+      parent_id: string
       name: string
     }[]
     votes: {
@@ -103,8 +103,8 @@ interface ArticleInterface {
   created_at: Date
   updated_at: Date
   tags: {
-    id: number
-    parent_id: number
+    id: string
+    parent_id: string
     name: string
   }[]
   votes: {
@@ -188,23 +188,31 @@ interface UsersInterface {
 
 interface TagsResponse {
   data: {
-    id: number
-    parent_id: number
+    id: string
+    parent_id: string
     name: string 
   }[]
 }
 
 interface TagsInterface {
-    id: number
-    parent_id: number
-    name: string 
+  id: string
+  parent_id: string
+  name: string 
 }[]
 
 interface TagInterface {
-    id: number
-    parent_id: number
-    name: string 
-} 
+  id: string
+  parent_id: string
+  name: string 
+}
+
+interface TagResponse {
+  data: {
+    id: string
+    parent_id: string
+    name: string
+  }
+}
 
 interface CurrentUserInterface {
   id: string
@@ -230,4 +238,4 @@ interface UserComponentInterface {
 
 export type {ArticlesInterface, ArticlesResponse, ArticleInterface, ArticleResponse, VoteResponse, VoteComponentInterface, CommentResponse,
 CommentComponentInterface, AuthorizedCommentComponentInterface, UsersInterface, UsersResponse, TagsInterface, TagsResponse, TagInterface,
-CurrentUserInterface, CurrentUserResponse, UserComponentInterface}
+TagResponse, CurrentUserInterface, CurrentUserResponse, UserComponentInterface}

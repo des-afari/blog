@@ -1,10 +1,9 @@
-import { FC, FormEvent, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import axios from '@/utils/api'
 import { TagsResponse, TagsInterface } from '@/components/Interfaces'
 import axiosError from '@/utils/error'
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom'
-import { formatTitle } from '@/utils/config'
 
 
 const Index: FC = () => {
@@ -29,17 +28,7 @@ const Index: FC = () => {
 
     const storedTags = sessionStorage.getItem('tags')
     storedTags ? setTags(JSON.parse(storedTags)) : get_tags()
-
   }, [])
-
-  const handleTagClick = (e: FormEvent) => {
-    const tagId = e.currentTarget.getAttribute('data-id')
-    const tagName = e.currentTarget.getAttribute('data-name')
-    const tagFormatedName = formatTitle(e.currentTarget.getAttribute('data-name'))
-
-    tagId && tagName && navigate(`/tag/${tagFormatedName}`, {state: {tagId, tagName}})
-  }
-
 
   return (
     <div>
@@ -51,9 +40,7 @@ const Index: FC = () => {
               variant={"outline"} 
               size={"sm"} 
               className='hover:bg-white'
-              onClick={handleTagClick}
-              data-id={item.id}
-              data-name={item.name}
+              onClick={() => navigate(`tag/${item.id}`)}
               >
               {item.name}
             </Button>

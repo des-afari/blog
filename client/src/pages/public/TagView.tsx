@@ -1,24 +1,22 @@
-import { FC, FormEvent, useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { FC, useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from '@/utils/api'
-import { ArticlesInterface, ArticlesResponse } from '@/components/Interfaces'
+import { ArticlesInterface, ArticlesResponse, TagResponse, TagInterface } from '@/components/Interfaces'
 import axiosError from '@/utils/error'
 import { Badge } from '@/components/ui/badge'
 import { formatDate } from '@/utils/config'
 
 const TagView: FC = () => {
   const [articles, setArticles] = useState<ArticlesInterface[]>()
+  const [tag, setTag] = useState<TagInterface>()
 
-  const location = useLocation()
   const navigate = useNavigate()
-
-  const tagId = location.state && location.state.tagId
-  const tagName = location.state && location.state.tagName
+  const { tagId } = useParams() 
 
   useEffect(() => {
     const get_articles = async () => {
      try {
-      const response: ArticlesResponse = await axios.get(`/tag/${tagId}`)
+      const response: ArticlesResponse = await axios.get(`/tag/articles/${tagId}`)
       setArticles(response?.data)
 
      } catch (error) {
@@ -26,19 +24,24 @@ const TagView: FC = () => {
      }
     }
 
+    const get_tag = async () => {
+      try {
+        const response: TagResponse = await axios.get(`/tag/${tagId}`)
+        setTag(response?.data)
+
+      } catch (error) {
+        axiosError(error as Error)
+      }
+    }
+
+    get_tag()
     get_articles()
   }, [])
-
-  const handleClick = (e: FormEvent) => {
-    const articleId = e.currentTarget.getAttribute('data-id')
-
-    articleId && navigate(`/article/${articleId}`)
-  }
 
   return (
     <main>
       <div className='bg-gray-100 border-b'>
-        <h1 className='px-6 py-2 flex items-center sm:max-w-3xl mx-auto text-4xl md:text-5xl font-extrabold min-h-24 md:min-h-32'>{tagName}</h1>
+        <h1 className='px-6 py-2 flex items-center sm:max-w-3xl mx-auto text-4xl md:text-5xl font-extrabold min-h-24 md:min-h-32'>{tag?.name}</h1>
       </div>
       <div className='sm:max-w-3xl mx-auto p-6'>
       {
@@ -46,8 +49,7 @@ const TagView: FC = () => {
           <div
             key={item.id}
             className='grid gap-y-3 py-6 md:grid-cols-4 md:gap-x-3 border-b cursor-pointer'
-            data-id={item.id}
-            onClick={handleClick}
+            onClick={() => navigate(`/article/${item.id}`)}
             >
             <div className='md:col-span-1'>
               <img className='' src={item.article_img_url} alt="article_image" />

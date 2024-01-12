@@ -1,9 +1,9 @@
-import { FC, FormEvent, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from '@/utils/api'
 import axiosError from '@/utils/error'
 import {ChatBubbleIcon } from '@radix-ui/react-icons'
-import { formatDate, formatTitle } from '@/utils/config'
+import { formatDate } from '@/utils/config'
 import parser from 'html-react-parser'
 import { Badge } from '@/components/ui/badge'
 import 'quill/dist/quill.core.css'
@@ -44,15 +44,6 @@ const ArticleView: FC = () => {
     get_article()
   }, [])
 
-  const handleTagClick = (e: FormEvent) => {
-    const tagId = e.currentTarget.getAttribute('data-id')
-    const tagName = e.currentTarget.getAttribute('data-name')
-    const tagFormatedName = formatTitle(e.currentTarget.getAttribute('data-name'))
-
-    tagId && tagName && navigate(`/tag/${tagFormatedName}`, {state: {tagId, tagName}})
-  }
-
-
   return (
     <main>
       {
@@ -71,9 +62,7 @@ const ArticleView: FC = () => {
                   <Badge 
                     key={item.id}
                     variant={'outline'}
-                    onClick={handleTagClick}
-                    data-id={item.id}
-                    data-name={item.name}
+                    onClick={() => navigate(`/tag/${item.id}`)}
                     className='cursor-pointer'
                     > 
                       {item.name} 
@@ -82,7 +71,7 @@ const ArticleView: FC = () => {
               }
               </div>
               <h1 className='text-[32px] leading-[38px] md:text-5xl font-extrabold'> {article.title} </h1>
-              <p className='sourceSerif text-xl md:text-[22px] md:leading-7'> {article.description} </p>
+              <p className='sourceSerif text-[20px] md:text-[22px] md:leading-7'> {article.description} </p>
               <div className='flex items-center gap-x-5'>
                 <Votes 
                   article={article}
