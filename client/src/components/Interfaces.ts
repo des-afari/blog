@@ -1,43 +1,12 @@
 import { Dispatch, SetStateAction } from "react"
 
-interface ArticlesResponse {
-  data: {
-    id: string
-    title: string
-    article_img_url: string
-    description: string
-    content: string
-    created_at: Date
-    updated_at: Date
-    tags: {
-      id: string
-      parent_id: string
-      name: string
-    }[]
-    votes: {
-      article_id: string
-      user_id: string
-    }[]
-    comments: {
-      id: number
-      comment: string
-      created_at: Date
-      updated_at: Date
-      user: {
-        id: string
-        first_name: string
-        last_name: string
-      }
-    }[]
-  }[]
-}
-
 interface ArticlesInterface {
   id: string
   title: string
   article_img_url: string
   description: string
   content: string
+  featured: boolean
   created_at: Date
   updated_at: Date
   tags: {
@@ -62,36 +31,8 @@ interface ArticlesInterface {
   }[]
 }[]
 
-interface ArticleResponse {
-  data: {
-    id: string
-    title: string
-    article_img_url: string
-    description: string
-    content: string
-    created_at: Date
-    updated_at: Date
-    tags: {
-      id: string
-      parent_id: string
-      name: string
-    }[]
-    votes: {
-      article_id: string
-      user_id: string
-    }[]
-    comments: {
-      id: number
-      comment: string
-      created_at: Date
-      updated_at: Date
-      user: {
-        id: string
-        first_name: string
-        last_name: string
-      }
-    }[]
-  }
+interface ArticlesResponse {
+  data: ArticlesInterface[]
 }
 
 interface ArticleInterface {
@@ -100,6 +41,7 @@ interface ArticleInterface {
   article_img_url: string
   description: string
   content: string
+  featured: boolean
   created_at: Date
   updated_at: Date
   tags: {
@@ -122,6 +64,10 @@ interface ArticleInterface {
       last_name: string
     }
   }[]
+}
+
+interface ArticleResponse {
+  data: ArticleInterface
 }
 
 interface VoteResponse {
@@ -164,18 +110,6 @@ interface AuthorizedCommentComponentInterface {
   setArticle: Dispatch<SetStateAction<ArticleInterface|undefined>>
 }
 
-interface UsersResponse {
-  data: {
-    id: string
-    first_name: string
-    last_name: string
-    role: string
-    email: string
-    last_login: Date
-    created_at: Date
-  }[]
-}
-
 interface UsersInterface {
   id: string
   first_name: string
@@ -186,12 +120,8 @@ interface UsersInterface {
   created_at: Date
 }[]
 
-interface TagsResponse {
-  data: {
-    id: string
-    parent_id: string
-    name: string 
-  }[]
+interface UsersResponse {
+  data: UsersInterface[]
 }
 
 interface TagsInterface {
@@ -199,6 +129,11 @@ interface TagsInterface {
   parent_id: string
   name: string 
 }[]
+
+interface TagsResponse {
+  data: TagsInterface[]
+}
+
 
 interface TagInterface {
   id: string
@@ -214,12 +149,7 @@ interface CurrentUserInterface {
 }
 
 interface CurrentUserResponse {
-  data: {
-    id: string
-    first_name: string
-    last_name: string
-    email: string
-  }
+  data: CurrentUserInterface
 }
 
 interface UserComponentInterface {

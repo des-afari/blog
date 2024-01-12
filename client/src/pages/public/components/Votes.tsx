@@ -17,12 +17,10 @@ const Votes: FC<VoteComponentInterface> = ({ article, setArticle, articleId, vot
         const response: VoteResponse = await axiosPrivate.get(`/vote/${articleId}`)
         
         const state: string = response?.data?.state
-        const user_id: string = response?.data?.user_id
-        const article_id: string = response?.data?.article_id
-
+        
         const vote = {
-          "article_id": article_id,
-          "user_id": user_id
+          "article_id": response?.data?.article_id,
+          "user_id": response?.data?.user_id
         }
 
         if (state === 'add') {

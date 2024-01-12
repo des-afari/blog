@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { ChatBubbleIcon, HeartIcon, ScissorsIcon, UpdateIcon } from '@radix-ui/react-icons'
+import { ChatBubbleIcon, HeartIcon, ScissorsIcon, StarFilledIcon, StarIcon, UpdateIcon } from '@radix-ui/react-icons'
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { Link, useNavigate } from 'react-router-dom'
@@ -16,32 +16,30 @@ const Articles: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [query, setQuery] = useState<string>('')
   const [articleId, setArticleId] = useState<string>()
-  const [articlesRefresh, setArticlesRefresh] = useState<boolean>(false)
   const [typingTimer, setTypingTimer] = useState<NodeJS.Timeout>()
   
   const typingTimeout = 1300
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const get_articles = async () => {
-      setIsLoading(true)
+  const get_articles = async () => {
+    setIsLoading(true)
 
-      try {
-        const response: ArticlesResponse = await axios.get('/articles')
-        setArticles(response?.data)
+    try {
+      const response: ArticlesResponse = await axios.get('/articles')
+      setArticles(response?.data)
 
-      } catch (error) {
-        axiosError(error as Error)
+    } catch (error) {
+      axiosError(error as Error)
 
-      } finally {
-        setIsLoading(false)
+    } finally {
+      setIsLoading(false)
 
-      }
     }
+  }
 
+  useEffect(() => {
     get_articles()
-
-  }, [articlesRefresh])
+  }, [])
 
   const handleSubmit = async () => {
     setIsLoading(true)
@@ -78,9 +76,8 @@ const Articles: FC = () => {
 
     try {
       await axiosPrivate.delete(`/article/${articleId}/delete`)
-
-      setArticlesRefresh(!articlesRefresh)
-
+      get_articles()
+    
     } catch (error) {
       axiosError(error as Error)
 
@@ -91,6 +88,16 @@ const Articles: FC = () => {
 
   const handleUpdate = (item: ArticlesInterface) => {
     navigate(`/article/update`, { state: {item}})
+  }
+
+  const handleFeature = async (id: string) => {
+    try {
+      await axiosPrivate.get(`/article/${id}/featured`)
+      get_articles()
+
+    } catch (error) {
+      axiosError(error as Error)
+    }
   }
 
   return (
@@ -115,7 +122,10 @@ const Articles: FC = () => {
             articles?.map(item => (
               <Card key={item.id} className='pb-1'>
                 <CardContent className='p-0 space-y-3'>
-                  <div>
+                  <div className='relative'>
+                    <div className='absolute top-2 left-2'>
+                      {item.featured && <StarFilledIcon width={18} height={18} color='red' />}
+                    </div>
                     <img src={item.article_img_url} alt="article_image" />
                   </div>
                   <div className='px-2 flex flex-wrap gap-1'>
@@ -138,6 +148,9 @@ const Articles: FC = () => {
                       </div>
                     </div>
                     <div className='flex gap-x-2'>
+                      <Button title='feature' onClick={() => handleFeature(item.id)} className='rounded-full' variant={'secondary'} size={'icon'}>
+                        <StarIcon />
+                      </Button>
                       <Button title='update' onClick={() => handleUpdate(item)} className='rounded-full' variant={'secondary'} size={'icon'}>
                         <UpdateIcon />
                       </Button>

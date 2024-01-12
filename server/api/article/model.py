@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, TIMESTAMP, TEXT, ForeignKey, func, Table
+from sqlalchemy import Column, String, Boolean, TIMESTAMP, TEXT, ForeignKey, func, Table
 from sqlalchemy.orm import relationship
 from db.base import Base
 
@@ -18,6 +18,7 @@ class Article(Base):
     article_img_url = Column(String(1000), nullable=False)
     description = Column(String(1000))
     content = Column(TEXT, nullable=False)
+    featured = Column(Boolean, default=False, nullable=False, index=True)
     created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
     updated_at = Column(TIMESTAMP, onupdate=func.now())
 

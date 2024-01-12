@@ -9,6 +9,7 @@ from utils.session import get_db
 from api.user.oauth2 import get_user
 from api.user.config import check_admin_permission
 from secrets import token_hex
+from sqlalchemy.sql import exists
 
 router = APIRouter()
 
@@ -74,3 +75,26 @@ async def delete_article(article_id: str, db: Session = Depends(get_db), user = 
     
     db.delete(article)
     db.commit()
+
+
+@router.get('/{article_id}/featured', status_code=200, response_model=ArticleResponse)
+async def change_featured_article(
+    article_id: str, db: Session = Depends(get_db), user = Depends(get_user)):
+    check_admin_permission(user)
+
+    article = db.query(Article).get(article_id)
+    
+    if not article:
+        raise HTTPException(404, detail='Article not found')
+
+    featured_article = db.query(Article).filter(Article.featured == True).first()
+
+    if featured_article:
+        featured_article.featured = False
+
+    article.featured = True
+
+    db.commit()
+    db.refresh(article)
+
+    return article
