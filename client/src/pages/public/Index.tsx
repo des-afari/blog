@@ -76,11 +76,10 @@ const Index: FC = () => {
       <main style={{minHeight: "calc(100vh - 2.75rem - 4rem"}} className='p-6'>
         {
           featuredArticle && (
-          <div className='space-y-3 mb-12 cursor-pointer' onClick={() => navigate(`/article/${featuredArticle.id}`)}>
-            <p className='text-muted-foreground text-sm'> {featuredArticle.updated_at ? formatDate(featuredArticle.updated_at) : formatDate(featuredArticle.created_at)}</p>
-            <h1 className='text-2xl md:text-5xl leading-7 font-extrabold'> {featuredArticle.title} </h1>
-            <img src={featuredArticle.article_img_url} alt="featured_image" />
-            <div className='flex items-center flex-wrap gap-2'>
+          <div className='articleContainer space-y-3 mb-12 cursor-pointer' onClick={() => navigate(`/article/${featuredArticle.id}`)}>
+            <h1 className='articleTitle text-2xl md:text-3xl lg:text-5xl leading-7 md:leading-8 font-extrabold'> {featuredArticle.title} </h1>
+            <img src={featuredArticle.article_img_url} alt="featured_image" className='articleImage' />
+            <div className='articleTags flex items-center flex-wrap gap-2'>
               {
                 featuredArticle.tags.map(item => (
                   <Badge key={item.id} variant={'outline'}> 
@@ -89,31 +88,35 @@ const Index: FC = () => {
                 ))
               }
             </div>
-            <p className='text-sm'> {featuredArticle.description} </p>
+            <p className='articleDescription text-sm md:text-base'> {featuredArticle.description} </p>
+            <p className='articleDate text-muted-foreground text-sm'> {featuredArticle.updated_at ? formatDate(featuredArticle.updated_at) : formatDate(featuredArticle.created_at)}</p>
           </div>
           )
         }
-        <div className='grid gap-y-12 md:grid-cols-2 md:gap-6 lg:grid-cols-3 mb-12'>
-          {
-            articles?.map(article => (
-              <div className='space-y-3 cursor-pointer' onClick={() => navigate(`/article/${article.id}`)}>
-                <img src={article.article_img_url} alt="article_img" />
-                <div className='flex items-center flex-wrap gap-2'>
-                  {
-                    article.tags.map(item => (
-                      <Badge key={item.id} variant={'outline'}> 
-                        {item.name} 
-                      </Badge>
-                    ))
-                  }
+        {
+          articles &&
+          <div className='grid gap-y-12 md:grid-cols-2 md:gap-6 lg:grid-cols-3 mb-12'>
+            {
+              articles?.map(article => (
+                <div className='space-y-3 cursor-pointer' onClick={() => navigate(`/article/${article.id}`)}>
+                  <img src={article.article_img_url} alt="article_img" />
+                  <div className='flex items-center flex-wrap gap-2'>
+                    {
+                      article.tags.map(item => (
+                        <Badge key={item.id} variant={'outline'}> 
+                          {item.name} 
+                        </Badge>
+                      ))
+                    }
+                  </div>
+                  <h1 className='text-2xl leading-7 font-extrabold'> {article.title} </h1>
+                  <p className='text-sm md:text-base'> {article.description} </p>
+                  <p className='text-muted-foreground text-sm'> {article.updated_at ? formatDate(article.updated_at) : formatDate(article.created_at)}</p>  
                 </div>
-                <h1 className='text-2xl leading-7 font-extrabold'> {article.title} </h1>
-                <p className='text-sm md:text-base'> {article.description} </p>
-                <p className='text-muted-foreground text-sm'> {article.updated_at ? formatDate(article.updated_at) : formatDate(article.created_at)}</p>  
-              </div>
-            ))
-          }
-        </div>
+              ))
+            }
+          </div>
+        }
       </main>
       <Footer />
     </div>

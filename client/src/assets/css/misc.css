@@ -62,3 +62,37 @@
 .mainArticle h2  strong, .ql-large {
   font-size: 28px;
 }
+
+@media (min-width: 768px) {
+  .articleContainer {
+    display: grid;
+    column-gap: 1.5rem;
+    grid-template-areas:
+      "img title"
+      "img tags"
+      "img description"
+      "img date";
+    grid-template-rows: auto auto auto 1fr;
+  }
+  
+  .articleImage {
+    grid-area: img;
+  }
+  
+  .articleDate {
+    grid-template: date;
+  }
+  
+  .articleTitle {
+    margin-top: .5rem;
+    grid-template: title;
+  }
+  
+  .articleTags {
+    grid-template: tags;
+  }
+  
+  .articleDescription {
+    grid-template: description;
+  } 
+}
