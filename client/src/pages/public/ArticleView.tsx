@@ -70,8 +70,8 @@ const ArticleView: FC = () => {
                 ))
               }
               </div>
-              <h1 className='text-[32px] leading-[38px] md:text-5xl font-extrabold'> {article.title} </h1>
-              <p className='sourceSerif text-[20px] md:text-[22px] md:leading-7'> {article.description} </p>
+              <h1 className='text-3xl md:text-5xl font-extrabold'> {article.title} </h1>
+              <p className='sourceSerif text-xl md:text-2xl'> {article.description} </p>
               <div className='flex items-center gap-x-5'>
                 <Votes 
                   article={article}
@@ -85,13 +85,11 @@ const ArticleView: FC = () => {
                   {article.comments.length}
                 </div>
               </div>
-              <div className='text-muted-foreground'>
-                <p className='text-sm'>
-                  {formatDate(article.created_at)}
-                </p>
-              </div>
-              <img src={article.article_img_url} className='w-full' alt="article_image" />
-              <div className='mainArticle mt-4'> {parser(article.content)}  </div>
+              <p className='text-sm text-muted-foreground'>
+                {formatDate(article.created_at)}
+              </p>
+              <img src={article.article_img_url} alt="article_image" />
+              <div className='mainArticle mt-4 text-lg md:text-xl'> {parser(article.content)}  </div>
               <Comments 
                 article={article}
                 setArticle={setArticle}
