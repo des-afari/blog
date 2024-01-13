@@ -89,7 +89,7 @@ const Index: FC = () => {
               }
             </div>
             <p className='articleDescription text-sm md:text-base'> {featuredArticle.description} </p>
-            <p className='articleDate text-muted-foreground text-sm'> {featuredArticle.updated_at ? formatDate(featuredArticle.updated_at) : formatDate(featuredArticle.created_at)}</p>
+            <p className='articleDate text-muted-foreground text-sm'> {formatDate(featuredArticle.created_at)}</p>
           </div>
           )
         }
@@ -98,7 +98,7 @@ const Index: FC = () => {
           <div className='grid gap-y-12 md:grid-cols-2 md:gap-6 lg:grid-cols-3 mb-12'>
             {
               articles?.map(article => (
-                <div className='space-y-3 cursor-pointer' onClick={() => navigate(`/article/${article.id}`)}>
+                <div key={article.id} className='space-y-3 cursor-pointer' onClick={() => navigate(`/article/${article.id}`)}>
                   <img src={article.article_img_url} alt="article_img" />
                   <div className='flex items-center flex-wrap gap-2'>
                     {
@@ -111,7 +111,7 @@ const Index: FC = () => {
                   </div>
                   <h1 className='text-2xl leading-7 font-extrabold'> {article.title} </h1>
                   <p className='text-sm md:text-base'> {article.description} </p>
-                  <p className='text-muted-foreground text-sm'> {article.updated_at ? formatDate(article.updated_at) : formatDate(article.created_at)}</p>  
+                  <p className='text-muted-foreground text-sm'> {formatDate(article.created_at)}</p>  
                 </div>
               ))
             }

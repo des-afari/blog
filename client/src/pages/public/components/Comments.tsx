@@ -93,7 +93,7 @@ const Comments: FC<CommentComponentInterface> = ({ article, setArticle }) => {
                   </div>
                   <div>
                     <p className='font-bold'> {comment.user.first_name} {comment.user.last_name} </p>
-                    <p className='text-xs text-muted-foreground'> {comment.updated_at ? formatDate(comment.updated_at) : formatDate(comment.created_at)} </p>
+                    <p className='text-xs text-muted-foreground'> {formatDate(comment.created_at)} </p>
                     <p className='mt-3'> {comment.comment} </p>
                   </div>
                 </div>

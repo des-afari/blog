@@ -68,7 +68,7 @@ const Search: FC = () => {
                   <h1 className='text-xl font-extrabold leading-tight'> {item.title} </h1>
                   <p className='sourceSerif'> {item.description} </p>
                   <p className='text-xs text-muted-foreground'>
-                    {item.updated_at ? formatDate(item.updated_at) : formatDate(item.created_at)} 
+                    {formatDate(item.created_at)} 
                   </p>
                 </div>
               </div>

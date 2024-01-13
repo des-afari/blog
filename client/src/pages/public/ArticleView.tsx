@@ -87,7 +87,7 @@ const ArticleView: FC = () => {
               </div>
               <div className='text-muted-foreground'>
                 <p className='text-sm'>
-                  {article.updated_at ? formatDate(article.updated_at) : formatDate(article.created_at)}
+                  {formatDate(article.created_at)}
                 </p>
               </div>
               <img src={article.article_img_url} className='w-full' alt="article_image" />
