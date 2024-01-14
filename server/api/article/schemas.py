@@ -28,7 +28,6 @@ class ArticleResponse(BaseModel):
     article_img_url: str
     description: str
     content: str
-    featured: bool
     created_at: datetime
     updated_at: datetime | None
     tags: List[TagResponse]
