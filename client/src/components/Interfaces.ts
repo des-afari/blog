@@ -6,7 +6,6 @@ interface ArticlesInterface {
   article_img_url: string
   description: string
   content: string
-  featured: boolean
   created_at: Date
   updated_at: Date
   tags: {
@@ -41,7 +40,6 @@ interface ArticleInterface {
   article_img_url: string
   description: string
   content: string
-  featured: boolean
   created_at: Date
   updated_at: Date
   tags: {

@@ -27,6 +27,8 @@ const ArticleView: FC = () => {
 
       try {
         const response: ArticleResponse = await axios.get(`/article/${articleId}`)
+
+        response?.data.comments.reverse()
         setArticle(response?.data)
 
         setVoteCheck(response?.data?.votes?.some(
@@ -71,7 +73,7 @@ const ArticleView: FC = () => {
               }
               </div>
               <h1 className='text-3xl md:text-5xl font-extrabold'> {article.title} </h1>
-              <p className='sourceSerif text-xl md:text-2xl'> {article.description} </p>
+              <p className='text-lg md:text-xl'> {article.description} </p>
               <div className='flex items-center gap-x-5'>
                 <Votes 
                   article={article}
@@ -88,8 +90,8 @@ const ArticleView: FC = () => {
               <p className='text-sm text-muted-foreground'>
                 {formatDate(article.created_at)}
               </p>
-              <img src={article.article_img_url} alt="article_image" />
-              <div className='mainArticle mt-4 text-lg md:text-xl'> {parser(article.content)}  </div>
+              <img src={article.article_img_url} className='w-full' alt="article_image" />
+              <div className='mt-4 md:text-lg'> {parser(article.content)}  </div>
               <Comments 
                 article={article}
                 setArticle={setArticle}

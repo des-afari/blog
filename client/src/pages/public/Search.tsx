@@ -20,6 +20,8 @@ const Search: FC = () => {
 
     try {
       const response: ArticlesResponse = await axios.get(`/articles?query=${title}`)
+      
+      response?.data?.reverse()
       setArticles(response?.data)
       
     } catch (error) {
@@ -46,34 +48,33 @@ const Search: FC = () => {
           <svg className='animate-spin' xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
         </div> :
         <div className='sm:max-w-3xl mx-auto p-6'>
-          {
-            articles?.map(item => (
-              <div
-                key={item.id}
-                className='grid gap-y-3 py-6 md:grid-cols-4 md:gap-x-3 border-b cursor-pointer'
-                data-id={item.id}
-                onClick={() => navigate(`/article/${item.id}`)}
-                >
-                <div className='md:col-span-1'>
-                  <img className='' src={item.article_img_url} alt="article_image" />
-                </div>
-                <div className='md:col-span-3 grid gap-y-3 md:gap-y-1'>
-                  <div className='flex items-center flex-wrap gap-2'>
-                    {
-                      item.tags.map(tag => (
-                        <Badge className='text-xs' key={tag.id} variant={'outline'}> {tag.name} </Badge>
-                        ))
-                      }
-                  </div>
-                  <h1 className='text-xl font-extrabold leading-tight'> {item.title} </h1>
-                  <p className='sourceSerif'> {item.description} </p>
-                  <p className='text-xs text-muted-foreground'>
-                    {formatDate(item.created_at)} 
-                  </p>
-                </div>
+        {
+          articles?.map(item => (
+            <div
+              key={item.id}
+              className='grid gap-y-3 py-6 md:grid-cols-4 md:gap-x-3 border-b cursor-pointer'
+              onClick={() => navigate(`/article/${item.id}`)}
+              >
+              <div className='md:col-span-1'>
+                <img src={item.article_img_url} alt="article_image" />
               </div>
-            ))
-          }  
+              <div className='md:col-span-3 grid gap-y-3 md:gap-y-1'>
+                <div className='flex items-center flex-wrap gap-2'>
+                  {
+                    item.tags.map(tag => (
+                      <Badge key={tag.id} variant={'outline'}> {tag.name} </Badge>
+                      ))
+                    }
+                </div>
+                <h1 className=' text-2xl font-extrabold'> {item.title} </h1>
+                <p> {item.description} </p>
+                <p className='text-sm text-muted-foreground'>
+                  {formatDate(item.created_at)} 
+                </p>
+              </div>
+            </div>
+          ))
+        }
         </div>
       }
     </main>

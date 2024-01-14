@@ -3,6 +3,8 @@ import { FC, FormEvent, useState } from 'react'
 import axiosError from '@/utils/error'
 import { Input } from '@/components/ui/input'
 import { CommentResponse, AuthorizedCommentComponentInterface } from '@/components/Interfaces'
+import { nameRegex } from '@/utils/config'
+import { toast } from 'sonner'
 
 
 
@@ -11,6 +13,14 @@ const AuthorizedComments: FC<AuthorizedCommentComponentInterface> = ({ article, 
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+
+    if (!nameRegex.test(comment)) {
+      toast('Something went wrong', {
+        description: "Comment must be longer than two characters",
+      })
+      return
+    }
+
 
     const data = {
       "comment": comment
@@ -23,7 +33,7 @@ const AuthorizedComments: FC<AuthorizedCommentComponentInterface> = ({ article, 
         if (prevArticle) {
           return {
             ...prevArticle,
-            comments: [...prevArticle.comments, response?.data]
+            comments: [response?.data, ...prevArticle.comments]
           }
         }
       })

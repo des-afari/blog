@@ -12,7 +12,6 @@ import { Badge } from '@/components/ui/badge'
 const Index: FC = () => {
   const [tags, setTags] = useState<TagsInterface[]>()
   const [articles, setArticles] = useState<ArticlesInterface[]>()
-  const [featuredArticle, setFeaturedArticle] = useState<ArticlesInterface>()
 
   const navigate = useNavigate()
 
@@ -33,14 +32,10 @@ const Index: FC = () => {
     const get_articles = async () => {
       try {
         const response: ArticlesResponse = await axios.get('/articles')
-        const articles = response?.data?.filter(article => article.featured === false)
-        const featuredArticle = response?.data?.find(article => article.featured === true)
 
-        setArticles(articles)
-        setFeaturedArticle(featuredArticle)
-
-        sessionStorage.setItem('articles', JSON.stringify(articles))
-        sessionStorage.setItem('featuredArticle', JSON.stringify(featuredArticle))
+        response?.data?.reverse()
+        setArticles(response?.data)
+        sessionStorage.setItem('articles', JSON.stringify(response?.data))
 
       } catch (error) {
         axiosError(error as Error)
@@ -49,11 +44,9 @@ const Index: FC = () => {
 
     const storedTags = sessionStorage.getItem('tags')
     const storedArticles = sessionStorage.getItem('articles')
-    const storedFeaturedArticle = sessionStorage.getItem('featuredArticle')
 
     storedTags ? setTags(JSON.parse(storedTags)) : get_tags()
     storedArticles ? setArticles(JSON.parse(storedArticles)) : get_articles()
-    storedFeaturedArticle ? setFeaturedArticle(JSON.parse(storedFeaturedArticle)) : get_articles()
   }, [])
 
   return (
@@ -75,25 +68,6 @@ const Index: FC = () => {
       </section>
       <main style={{minHeight: "calc(100vh - 2.75rem - 4rem"}} className='p-6'>
         {
-          featuredArticle && (
-          <div className='articleContainer space-y-3 mb-12 cursor-pointer' onClick={() => navigate(`/article/${featuredArticle.id}`)}>
-            <h1 className='articleTitle text-2xl md:text-3xl lg:text-5xl leading-7 md:leading-8 font-extrabold'> {featuredArticle.title} </h1>
-            <img src={featuredArticle.article_img_url} alt="featured_image" className='articleImage' />
-            <div className='articleTags flex items-center flex-wrap gap-2'>
-              {
-                featuredArticle.tags.map(item => (
-                  <Badge key={item.id} variant={'outline'}> 
-                    {item.name} 
-                  </Badge>
-                ))
-              }
-            </div>
-            <p className='articleDescription text-sm md:text-base'> {featuredArticle.description} </p>
-            <p className='articleDate text-muted-foreground text-sm'> {formatDate(featuredArticle.created_at)}</p>
-          </div>
-          )
-        }
-        {
           articles &&
           <div className='grid gap-y-12 md:grid-cols-2 md:gap-6 lg:grid-cols-3 mb-12'>
             {
@@ -109,7 +83,7 @@ const Index: FC = () => {
                       ))
                     }
                   </div>
-                  <h1 className='text-2xl leading-7 font-extrabold'> {article.title} </h1>
+                  <h1 className='text-2xl font-extrabold'> {article.title} </h1>
                   <p className='text-sm md:text-base'> {article.description} </p>
                   <p className='text-muted-foreground text-sm'> {formatDate(article.created_at)}</p>  
                 </div>

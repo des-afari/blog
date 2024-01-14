@@ -3,7 +3,7 @@ import AuthorizedComments from './AuthorizedComments'
 import UnAuthorizedComments from './UnAuthorizedComments'
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { formatDate } from '@/utils/config'
+import { formatDate, nameRegex } from '@/utils/config'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { DotsHorizontalIcon, TrashIcon, UpdateIcon } from '@radix-ui/react-icons'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import axiosError from '@/utils/error'
 import { CommentResponse, CommentComponentInterface } from '@/components/Interfaces'
+import { toast } from 'sonner'
 
 
 const Comments: FC<CommentComponentInterface> = ({ article, setArticle }) => {
@@ -47,6 +48,13 @@ const Comments: FC<CommentComponentInterface> = ({ article, setArticle }) => {
 
   const handleCommentChange = async (e: FormEvent) => {
     e.preventDefault()
+
+    if (!nameRegex.test(comment)) {
+      toast('Something went wrong', {
+        description: "Comment must be longer than two characters",
+      })
+      return
+    }
 
     const data = {
       "comment": comment

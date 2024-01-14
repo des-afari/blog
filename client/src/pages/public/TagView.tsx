@@ -18,6 +18,7 @@ const TagView: FC = () => {
      try {
       const response: ArticlesResponse = await axios.get(`/tag/articles/${tagId}`)
       
+      response?.data?.reverse()
       setArticles(response?.data)
       setTag(response?.data[0]?.tags?.find(prev => prev.id === tagId)?.name)
 
@@ -43,18 +44,18 @@ const TagView: FC = () => {
             onClick={() => navigate(`/article/${item.id}`)}
             >
             <div className='md:col-span-1'>
-              <img className='' src={item.article_img_url} alt="article_image" />
+              <img src={item.article_img_url} alt="article_image" />
             </div>
             <div className='md:col-span-3 grid gap-y-3 md:gap-y-1'>
               <div className='flex items-center flex-wrap gap-2'>
                 {
                   item.tags.map(tag => (
-                    <Badge className='text-xs' key={tag.id} variant={'outline'}> {tag.name} </Badge>
+                    <Badge key={tag.id} variant={'outline'}> {tag.name} </Badge>
                     ))
                   }
               </div>
-              <h1 className='text-xl font-extrabold leading-tight'> {item.title} </h1>
-              <p className='sourceSerif'> {item.description} </p>
+              <h1 className=' text-2xl font-extrabold'> {item.title} </h1>
+              <p> {item.description} </p>
               <p className='text-sm text-muted-foreground'>
                 {formatDate(item.created_at)} 
               </p>

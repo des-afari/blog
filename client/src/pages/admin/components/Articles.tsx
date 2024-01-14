@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { ChatBubbleIcon, HeartIcon, ScissorsIcon, StarFilledIcon, StarIcon, UpdateIcon } from '@radix-ui/react-icons'
+import { ChatBubbleIcon, HeartIcon, ScissorsIcon, UpdateIcon } from '@radix-ui/react-icons'
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { Link, useNavigate } from 'react-router-dom'
@@ -90,16 +90,6 @@ const Articles: FC = () => {
     navigate(`/article/update`, { state: {item}})
   }
 
-  const handleFeature = async (id: string) => {
-    try {
-      await axiosPrivate.get(`/article/${id}/featured`)
-      get_articles()
-
-    } catch (error) {
-      axiosError(error as Error)
-    }
-  }
-
   return (
     <section style={{height: "calc(100vh - 9rem)"}} className='space-y-4'>
       <div className='flex items-center justify-between'>
@@ -122,12 +112,7 @@ const Articles: FC = () => {
             articles?.map(item => (
               <Card key={item.id} className='pb-1'>
                 <CardContent className='p-0 space-y-3'>
-                  <div className='relative'>
-                    <div className='absolute top-2 left-2'>
-                      {item.featured && <StarFilledIcon width={18} height={18} color='red' />}
-                    </div>
-                    <img src={item.article_img_url} alt="article_image" />
-                  </div>
+                  <img src={item.article_img_url} alt="article_image" />
                   <div className='px-2 flex flex-wrap gap-1'>
                     {
                       item.tags.map(tag => (
@@ -148,9 +133,6 @@ const Articles: FC = () => {
                       </div>
                     </div>
                     <div className='flex gap-x-2'>
-                      <Button title='feature' onClick={() => handleFeature(item.id)} className='rounded-full' variant={'secondary'} size={'icon'}>
-                        <StarIcon />
-                      </Button>
                       <Button title='update' onClick={() => handleUpdate(item)} className='rounded-full' variant={'secondary'} size={'icon'}>
                         <UpdateIcon />
                       </Button>
