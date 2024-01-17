@@ -15,4 +15,4 @@ MYSQL_URL = URL.create(
 )
 
 engine = create_engine(MYSQL_URL)
-DB_LOCAL = sessionmaker(bind=engine, autoflush=False)
+DB_LOCAL = sessionmaker(autocommit=False, autoflush=False, bind=engine)

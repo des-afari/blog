@@ -8,7 +8,7 @@ from api.article.model import Article
 from api.article.schemas import ArticleResponse
 from api.tag.model import Tag
 from api.tag.schemas import TagResponse
-
+from db.models import Base
 
 app = FastAPI()
 
