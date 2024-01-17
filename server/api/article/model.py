@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, TIMESTAMP, TEXT, ForeignKey, func, Table
+from sqlalchemy import Column, String, Integer, TIMESTAMP, TEXT, ForeignKey, func, Table
 from sqlalchemy.orm import relationship
 from db.base import Base
 
@@ -6,6 +6,7 @@ from db.base import Base
 association_table = Table(
     'article_tag_association',
     Base.metadata,
+    Column('id', Integer, primary_key=True),
     Column('article_id', String(255), ForeignKey('articles.id')),
     Column('tag_id', String(255), ForeignKey('tags.id'))
 )
