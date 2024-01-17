@@ -42,9 +42,8 @@ function App() {
           <Route path='/register' element={<Register />} />
         </Route>
 
+        {/* admin routes */}
         <Route element={<PersistLogin />}>
-
-          {/* admin routes */}
           <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
             <Route element={<AdminLayout />}>
               <Route path='/dashboard' element={<Dashboard />} />
@@ -52,7 +51,6 @@ function App() {
             <Route path='/article/create' element={<CreateArticle />} />
             <Route path='/article/update' element={<UpdateArticle />} />
           </Route>
-
         </Route>
 
         <Route path='/unathorized' element={<Unauthorized />} />
