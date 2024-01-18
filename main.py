@@ -8,7 +8,7 @@ from api.article.schemas import ArticleResponse
 from api.tag.model import Tag
 from api.tag.schemas import TagResponse
 
-app = FastAPI()
+app = FastAPI(docs_url=None)
 
 @app.get('/', status_code=200)
 async def root():
