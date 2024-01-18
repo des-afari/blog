@@ -11,6 +11,7 @@ import Footer from '@/components/Footer'
 import { ArticleResponse, ArticleInterface } from '@/components/Interfaces'
 import Votes from './components/Votes'
 import Comments from './components/Comments'
+import { Helmet } from 'react-helmet'
 
 const ArticleView: FC = () => {
   const [article, setArticle] = useState<ArticleInterface>()
@@ -58,6 +59,9 @@ const ArticleView: FC = () => {
             article &&
             <>
             <article className='sm:max-w-3xl mx-auto grid gap-y-3 p-6 pt-10'>
+            <Helmet>
+              <title> {article.title} </title>
+            </Helmet>
               <div className='flex items-center flex-wrap gap-2'>
               {
                 article.tags.map(item => (
