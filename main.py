@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from utils.session import get_db
 from api.api_v1 import api_router
@@ -9,6 +10,20 @@ from api.tag.model import Tag
 from api.tag.schemas import TagResponse
 
 app = FastAPI(docs_url=None)
+
+origins = [
+    "http://localhost",
+    "https://blog.desmondafari.com",
+]
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get('/', status_code=200)
 async def root():
