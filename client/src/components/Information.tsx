@@ -21,6 +21,12 @@ const Information: FC<UserComponentInterface> = ({ user, setUser }) => {
     if (!nameRegex.test(firstName)) {
       toast('Something went wrong', {
         description: "First name must have at least two characters",
+        descriptionClassName: "sonner-desc",
+          style: {
+            backgroundColor: "#dc2626",
+            borderColor: "#dc2626",
+            color: "white"
+          }
       })
       return
     }
@@ -28,6 +34,12 @@ const Information: FC<UserComponentInterface> = ({ user, setUser }) => {
     if (!nameRegex.test(lastName)) {
       toast('Something went wrong', {
         description: "Last name must have at least two characters",
+        descriptionClassName: "sonner-desc",
+          style: {
+            backgroundColor: "#dc2626",
+            borderColor: "#dc2626",
+            color: "white"
+          }
       })
       return
     }

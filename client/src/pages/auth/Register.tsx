@@ -37,6 +37,12 @@ const Register: FC = () => {
     if (!nameRegex.test(firstName)) {
       toast('Something went wrong', {
         description: "First name must have at least two characters",
+        descriptionClassName: "sonner-desc",
+          style: {
+            backgroundColor: "#dc2626",
+            borderColor: "#dc2626",
+            color: "white"
+          }
       })
       setIsLoading(false)
       return
@@ -45,6 +51,12 @@ const Register: FC = () => {
     if (!nameRegex.test(lastName)) {
       toast('Something went wrong', {
         description: "Last name must have at least two characters",
+        descriptionClassName: "sonner-desc",
+          style: {
+            backgroundColor: "#dc2626",
+            borderColor: "#dc2626",
+            color: "white"
+          }
       })
       setIsLoading(false)
       return
@@ -53,6 +65,12 @@ const Register: FC = () => {
     if (!emailRegex.test(email)) {
       toast('Something went wrong', {
         description: "Invalid email",
+        descriptionClassName: "sonner-desc",
+          style: {
+            backgroundColor: "#dc2626",
+            borderColor: "#dc2626",
+            color: "white"
+          }
       })
       setIsLoading(false)
       return
@@ -61,6 +79,12 @@ const Register: FC = () => {
     if (!passwordRegex.test(password)) {
       toast('Something went wrong', {
         description: "Password must have at least 10 characters, one special character, one capital letter and one number",
+        descriptionClassName: "sonner-desc",
+          style: {
+            backgroundColor: "#dc2626",
+            borderColor: "#dc2626",
+            color: "white"
+          }
       })
       setIsLoading(false)
       return
@@ -69,6 +93,12 @@ const Register: FC = () => {
     if (password !== verification) {
       toast('Something went wrong', {
         description: "Passwords do not match",
+        descriptionClassName: "sonner-desc",
+          style: {
+            backgroundColor: "#dc2626",
+            borderColor: "#dc2626",
+            color: "white"
+          }
       })
       setIsLoading(false)
       return

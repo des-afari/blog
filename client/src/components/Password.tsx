@@ -21,6 +21,12 @@ const Password: FC = () => {
     if (!passwordRegex.test(newPassword)) {
       toast('Something went wrong', {
         description: "Password must have at least 10 characters, one special character, one capital letter and one number",
+        descriptionClassName: "sonner-desc",
+          style: {
+            backgroundColor: "#dc2626",
+            borderColor: "#dc2626",
+            color: "white"
+          }
       })
       return
     }

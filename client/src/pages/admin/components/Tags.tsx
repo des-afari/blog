@@ -48,6 +48,12 @@ const Tags: FC = () => {
     if (!nameRegex.test(tag)) {
       toast('Something went wrong', {
         description: "Tag must have at least two characters",
+        descriptionClassName: "sonner-desc",
+          style: {
+            backgroundColor: "#dc2626",
+            borderColor: "#dc2626",
+            color: "white"
+          }
       })
       setIsLoading(false)
       return

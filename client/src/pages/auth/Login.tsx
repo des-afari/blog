@@ -36,6 +36,12 @@ const Login: FC = () => {
     if (!emailRegex.test(email)) {
       toast('Something went wrong', {
         description: "Invalid email",
+        descriptionClassName: "sonner-desc",
+          style: {
+            backgroundColor: "#dc2626",
+            borderColor: "#dc2626",
+            color: "white"
+          }
       })
       setIsLoading(false)
       return
@@ -44,6 +50,12 @@ const Login: FC = () => {
     if (!nameRegex.test(password)) {
       toast('Something went wrong', {
         description: "Password must be longer than two characters",
+        descriptionClassName: "sonner-desc",
+          style: {
+            backgroundColor: "#dc2626",
+            borderColor: "#dc2626",
+            color: "white"
+          }
       })
       setIsLoading(false)
       return

@@ -36,6 +36,10 @@
   }
 
   .mainArticle h2  strong, .ql-size-large {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
   }
+}
+
+.sonner-desc {
+  color: rgb(219, 224, 226) !important;
 }

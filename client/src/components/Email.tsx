@@ -21,6 +21,12 @@ const Email: FC<UserComponentInterface> = ({ user, setUser }) => {
     if (!emailRegex.test(email)) {
       toast('Something went wrong', {
         description: "Invalid email",
+        descriptionClassName: "sonner-desc",
+        style: {
+          backgroundColor: "#dc2626",
+          borderColor: "#dc2626",
+          color: "white"
+        }
       })
       return
     }

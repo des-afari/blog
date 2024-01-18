@@ -52,6 +52,12 @@ const Comments: FC<CommentComponentInterface> = ({ article, setArticle }) => {
     if (!nameRegex.test(comment)) {
       toast('Something went wrong', {
         description: "Comment must be longer than two characters",
+        descriptionClassName: "sonner-desc",
+          style: {
+            backgroundColor: "#dc2626",
+            borderColor: "#dc2626",
+            color: "white"
+          }
       })
       return
     }

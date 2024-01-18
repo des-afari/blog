@@ -80,7 +80,7 @@ const Header: FC = () => {
       <div>
         <a href="/">
           <p className='font-bold text-2xl'>
-            craft
+            blog
             <span className='text-red-600'>.</span>
           </p>
         </a>
