@@ -14,9 +14,9 @@ app = FastAPI(docs_url=None)
 origins = [
     "http://localhost",
     "https://blog.desmondafari.com",
+    "https://www.blog.desmondafari.com",
 ]
 
-# Configure CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
