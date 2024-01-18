@@ -11,7 +11,7 @@ import Footer from '@/components/Footer'
 import { ArticleResponse, ArticleInterface } from '@/components/Interfaces'
 import Votes from './components/Votes'
 import Comments from './components/Comments'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 
 const ArticleView: FC = () => {
   const [article, setArticle] = useState<ArticleInterface>()
@@ -61,6 +61,14 @@ const ArticleView: FC = () => {
             <article className='sm:max-w-3xl mx-auto grid gap-y-3 p-6 pt-10'>
             <Helmet>
               <title> {article.title} </title>
+              <meta name='description' content={article.description} />
+              { /* Twitter tags */ }
+              <meta name="twitter:creator" content="Desmond Afari" />
+              <meta name="twitter:card" content="article" />
+              <meta name="twitter:title" content={article.title} />
+              <meta name="twitter:description" content={article.description} />
+              <meta property="twitter:image" content={article.article_img_url} />
+              { /* End Twitter tags */ }
             </Helmet>
               <div className='flex items-center flex-wrap gap-2'>
               {

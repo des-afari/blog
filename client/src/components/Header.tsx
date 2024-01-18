@@ -35,19 +35,21 @@ const Header: FC = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    try {
-      const get_user = async () => {
-        const response: CurrentUserResponse = await axiosPrivate.get('/current_user')
-
-        setUser(response?.data)
-        sessionStorage.setItem('currentUser', JSON.stringify(response?.data))
+    if (SI) {
+      try {
+        const get_user = async () => {
+          const response: CurrentUserResponse = await axiosPrivate.get('/current_user')
+  
+          setUser(response?.data)
+          sessionStorage.setItem('currentUser', JSON.stringify(response?.data))
+        }
+  
+        const currentUser = sessionStorage.getItem('currentUser')
+        currentUser ? setUser(JSON.parse(currentUser)) : get_user()
+  
+      } catch (error) {
+        axiosError(error as Error)
       }
-
-      const currentUser = sessionStorage.getItem('currentUser')
-      currentUser ? setUser(JSON.parse(currentUser)) : get_user()
-
-    } catch (error) {
-      axiosError(error as Error)
     }
   }, [])
 

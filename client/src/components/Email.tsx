@@ -2,7 +2,7 @@ import { FC, FormEvent, useState } from 'react'
 import { DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from './ui/dialog'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
-import { Button } from './ui/button'
+import { buttonVariants } from './ui/button'
 import { emailRegex } from '@/utils/config'
 import { toast } from 'sonner'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
@@ -58,9 +58,7 @@ const Email: FC<UserComponentInterface> = ({ user, setUser }) => {
           <Input id="email" placeholder='user@example.com' value={email} onChange={e => setEmail(e.target.value)} />
         </div>
         <DialogFooter>
-          <DialogClose>
-            <Button type="submit">Save changes</Button>
-          </DialogClose>
+          <DialogClose className={buttonVariants({})}>Save changes</DialogClose>
         </DialogFooter>
       </form>
     </DialogContent>
