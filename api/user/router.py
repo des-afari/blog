@@ -36,7 +36,7 @@ async def register(response: Response, schema: RegisterSchema, db: Session = Dep
     
     response.set_cookie(
         key='_rt', value=refresh_token, expires=settings.REFRESH_EXPIRY * 60, path='/', secure=True,
-        httponly=True, domain=None, samesite='lax')
+        httponly=True, domain='.blog.desmondafari.com', samesite='lax')
     
     return {"id": user.id, "access_token": access_token, "role": user.role, "auth_type": "Bearer"}
 
@@ -55,7 +55,7 @@ async def login(response: Response, form: OAuth2PasswordRequestForm = Depends(),
     
     response.set_cookie(
         key='_rt', value=refresh_token, expires=settings.REFRESH_EXPIRY * 60, path='/', secure=True,
-        httponly=True, domain=None, samesite='lax')
+        httponly=True, domain='.blog.desmondafari.com', samesite='lax')
     
     user.last_login = datetime.now()
     db.commit()
