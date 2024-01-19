@@ -16,7 +16,6 @@ const DeleteAccount: FC = () => {
 
       localStorage.removeItem('SI')
       localStorage.removeItem('id')
-      sessionStorage.removeItem('currentUser')
 
       navigate(0)
 

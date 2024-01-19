@@ -6,12 +6,12 @@ import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import { nameRegex } from '@/utils/config'
-import { toast } from 'sonner'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from "@/components/ui/badge"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { ScissorsIcon } from '@radix-ui/react-icons'
 import { TagsInterface, TagsResponse, TagInterface } from '@/components/Interfaces'
+import useToast from '@/hooks/useToast'
 
 
 const Tags: FC = () => {
@@ -23,6 +23,7 @@ const Tags: FC = () => {
   const [selected, setSelected] = useState<string>()
 
   const axiosPrivate = useAxiosPrivate()
+  const toast = useToast()
 
   const get_tags = async () => {
     try {
@@ -46,15 +47,7 @@ const Tags: FC = () => {
     setIsLoading(true)
 
     if (!nameRegex.test(tag)) {
-      toast('Something went wrong', {
-        description: "Tag must have at least two characters",
-        descriptionClassName: "sonner-desc",
-          style: {
-            backgroundColor: "#dc2626",
-            borderColor: "#dc2626",
-            color: "white"
-          }
-      })
+      toast('Tag must have at least two characters')
       setIsLoading(false)
       return
     }

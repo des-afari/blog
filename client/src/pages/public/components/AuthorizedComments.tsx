@@ -4,26 +4,19 @@ import axiosError from '@/utils/error'
 import { Input } from '@/components/ui/input'
 import { CommentResponse, AuthorizedCommentComponentInterface } from '@/components/Interfaces'
 import { nameRegex } from '@/utils/config'
-import { toast } from 'sonner'
-
+import useToast from '@/hooks/useToast'
 
 
 const AuthorizedComments: FC<AuthorizedCommentComponentInterface> = ({ article, setArticle }) => {
   const [comment, setComment] = useState<string>('')
 
+  const toast = useToast()
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
     if (!nameRegex.test(comment)) {
-      toast('Something went wrong', {
-        description: "Comment must be longer than two characters",
-        descriptionClassName: "sonner-desc",
-        style: {
-          backgroundColor: "#dc2626",
-          borderColor: "#dc2626",
-          color: "white"
-        }
-      })
+      toast('Comment must be longer than two characters')
       return
     }
 

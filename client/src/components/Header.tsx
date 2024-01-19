@@ -1,57 +1,25 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem,
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Dialog, DialogTrigger } from "@/components/ui/dialog"
-import { EnvelopeClosedIcon, ExitIcon, IdCardIcon, InfoCircledIcon, LockClosedIcon, MagnifyingGlassIcon, PersonIcon, TrashIcon } from '@radix-ui/react-icons'
+import { ExitIcon, IdCardIcon, MagnifyingGlassIcon, PersonIcon, TrashIcon } from '@radix-ui/react-icons'
 import { useNavigate, Link } from 'react-router-dom'
-import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import { useState } from 'react'
 import axiosError from '@/utils/error'
 import useAuth from '@/hooks/useAuth'
 import axios from '@/utils/api'
 import { buttonVariants } from './ui/button'
 import { cn } from '@/lib/utils'
-import { CurrentUserInterface, CurrentUserResponse } from './Interfaces'
-import Information from './Information'
-import Email from './Email'
-import Password from './Password'
 import DeleteAccount from './DeleteAccount'
 
 
-const initialUserState: CurrentUserInterface = {
-  id: "",
-  first_name: "",
-  last_name: "",
-  email: ""
-}
-
 const Header: FC = () => {
-  const [user, setUser] = useState<CurrentUserInterface>(initialUserState)
-  const [modal, setModal] = useState('')
+  const [modal, setModal] = useState<boolean>(false)
 
   const SI = localStorage.getItem('SI')
-  const axiosPrivate = useAxiosPrivate()
   const { auth } = useAuth()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (SI) {
-      try {
-        const get_user = async () => {
-          const response: CurrentUserResponse = await axiosPrivate.get('/current_user')
-  
-          setUser(response?.data)
-          sessionStorage.setItem('currentUser', JSON.stringify(response?.data))
-        }
-  
-        const currentUser = sessionStorage.getItem('currentUser')
-        currentUser ? setUser(JSON.parse(currentUser)) : get_user()
-  
-      } catch (error) {
-        axiosError(error as Error)
-      }
-    }
-  }, [])
 
   const handleLogout = async () => {
     const data = {
@@ -68,7 +36,6 @@ const Header: FC = () => {
 
       localStorage.removeItem('SI')
       localStorage.removeItem('id')
-      sessionStorage.removeItem('currentUser')
 
       navigate('/')
 
@@ -105,44 +72,21 @@ const Header: FC = () => {
               </DropdownMenuTrigger>
             </div>
             <DropdownMenuContent className='w-56'>
-              <DropdownMenuLabel>Update Profile</DropdownMenuLabel>
+              <DropdownMenuLabel>Account Settings</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DialogTrigger asChild onClick={() => setModal('information')}>
-                <DropdownMenuItem className='flex items-center gap-x-2 cursor-pointer'>
-                  <InfoCircledIcon />
-                  Information
-                </DropdownMenuItem>
-              </DialogTrigger>
-              <DialogTrigger asChild onClick={() => setModal('email')}>
-                <DropdownMenuItem className='flex items-center gap-x-2 cursor-pointer'>
-                  <EnvelopeClosedIcon />
-                  Email
-                </DropdownMenuItem>
-              </DialogTrigger>
-              <DialogTrigger asChild onClick={() => setModal('password')}>
-                <DropdownMenuItem className='flex items-center gap-x-2 cursor-pointer'>
-                  <LockClosedIcon />
-                  Password
-                </DropdownMenuItem>
-              </DialogTrigger>
-              <DropdownMenuSeparator />
-              <DialogTrigger asChild onClick={() => setModal('delete')}>
+              <DialogTrigger asChild onClick={() => setModal(true)}>
                 <DropdownMenuItem className='flex items-center gap-x-2 cursor-pointer'>
                   <TrashIcon />
                   Delete Account
                 </DropdownMenuItem>
               </DialogTrigger>
-              <DropdownMenuSeparator />
               <DropdownMenuItem className='flex items-center gap-x-2 cursor-pointer' onClick={handleLogout}>
                 <ExitIcon />
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          {modal === 'information' && <Information user={user} setUser={setUser} />}
-          {modal === 'email' && <Email user={user} setUser={setUser} />}
-          {modal === 'password' && <Password />}
-          {modal === 'delete' && <DeleteAccount />}
+          {modal && <DeleteAccount />}
         </Dialog>
         </div> :
         <div>

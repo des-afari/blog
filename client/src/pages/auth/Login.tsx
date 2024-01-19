@@ -7,8 +7,7 @@ import useAuth from '@/hooks/useAuth'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axiosError from '@/utils/error'
 import { emailRegex, nameRegex } from '@/utils/config'
-import { toast } from 'sonner'
-
+import useToast from '@/hooks/useToast'
 
 interface LoginResponse {
   data: {
@@ -28,35 +27,20 @@ const Login: FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const from = location?.state?.from?.pathname
+  const toast = useToast()
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
     if (!emailRegex.test(email)) {
-      toast('Something went wrong', {
-        description: "Invalid email",
-        descriptionClassName: "sonner-desc",
-          style: {
-            backgroundColor: "#dc2626",
-            borderColor: "#dc2626",
-            color: "white"
-          }
-      })
+      toast('Invalid email')
       setIsLoading(false)
       return
     }
 
     if (!nameRegex.test(password)) {
-      toast('Something went wrong', {
-        description: "Password must be longer than two characters",
-        descriptionClassName: "sonner-desc",
-          style: {
-            backgroundColor: "#dc2626",
-            borderColor: "#dc2626",
-            color: "white"
-          }
-      })
+      toast('Password must be longer than two characters')
       setIsLoading(false)
       return
     }

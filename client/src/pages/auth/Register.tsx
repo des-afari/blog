@@ -3,11 +3,11 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { FC, FormEvent, useState } from 'react'
 import { emailRegex, passwordRegex, nameRegex } from '@/utils/config'
-import { toast } from 'sonner'
 import axios from '@/utils/api'
 import useAuth from '@/hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import axiosError from '@/utils/error'
+import useToast from '@/hooks/useToast'
 
 
 interface RegistrationResponse {
@@ -29,77 +29,38 @@ const Register: FC = () => {
 
   const { setAuth } = useAuth()
   const navigate = useNavigate()
+  const toast = useToast()
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
     if (!nameRegex.test(firstName)) {
-      toast('Something went wrong', {
-        description: "First name must have at least two characters",
-        descriptionClassName: "sonner-desc",
-          style: {
-            backgroundColor: "#dc2626",
-            borderColor: "#dc2626",
-            color: "white"
-          }
-      })
+      toast('First name must have at least two characters')
       setIsLoading(false)
       return
     }
 
     if (!nameRegex.test(lastName)) {
-      toast('Something went wrong', {
-        description: "Last name must have at least two characters",
-        descriptionClassName: "sonner-desc",
-          style: {
-            backgroundColor: "#dc2626",
-            borderColor: "#dc2626",
-            color: "white"
-          }
-      })
+      toast('Last name must have at least two characters')
       setIsLoading(false)
       return
     }
 
     if (!emailRegex.test(email)) {
-      toast('Something went wrong', {
-        description: "Invalid email",
-        descriptionClassName: "sonner-desc",
-          style: {
-            backgroundColor: "#dc2626",
-            borderColor: "#dc2626",
-            color: "white"
-          }
-      })
+      toast('Invalid email')
       setIsLoading(false)
       return
     }
 
     if (!passwordRegex.test(password)) {
-      toast('Something went wrong', {
-        description: "Password must have at least 10 characters, one special character, one capital letter and one number",
-        descriptionClassName: "sonner-desc",
-          style: {
-            backgroundColor: "#dc2626",
-            borderColor: "#dc2626",
-            color: "white"
-          }
-      })
+      toast('Password must have at least 10 characters, one special character, one capital letter and one number')
       setIsLoading(false)
       return
     }
 
     if (password !== verification) {
-      toast('Something went wrong', {
-        description: "Passwords do not match",
-        descriptionClassName: "sonner-desc",
-          style: {
-            backgroundColor: "#dc2626",
-            borderColor: "#dc2626",
-            color: "white"
-          }
-      })
+      toast('Passwords do not match')
       setIsLoading(false)
       return
     }

@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import axiosError from '@/utils/error'
 import { CommentResponse, CommentComponentInterface } from '@/components/Interfaces'
-import { toast } from 'sonner'
+import useToast from '@/hooks/useToast'
 
 
 const Comments: FC<CommentComponentInterface> = ({ article, setArticle }) => {
@@ -23,6 +23,7 @@ const Comments: FC<CommentComponentInterface> = ({ article, setArticle }) => {
   const SI = localStorage.getItem('SI')
   const userId = localStorage.getItem('id')
   const axiosPrivate = useAxiosPrivate()
+  const toast = useToast()
 
   const handleCommentDelete = async ()  => {
     try {
@@ -50,15 +51,7 @@ const Comments: FC<CommentComponentInterface> = ({ article, setArticle }) => {
     e.preventDefault()
 
     if (!nameRegex.test(comment)) {
-      toast('Something went wrong', {
-        description: "Comment must be longer than two characters",
-        descriptionClassName: "sonner-desc",
-          style: {
-            backgroundColor: "#dc2626",
-            borderColor: "#dc2626",
-            color: "white"
-          }
-      })
+      toast('Comment must be longer than two characters')
       return
     }
 
