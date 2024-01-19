@@ -12,6 +12,10 @@ const DeleteAccount: FC = () => {
     try {
       await axiosPrivate.delete('/user/delete')
 
+      localStorage.removeItem('SI')
+      localStorage.removeItem('id')
+      sessionStorage.removeItem('currentUser')
+
     } catch (error) {
       axiosError(error as Error)
     }
