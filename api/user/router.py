@@ -77,7 +77,7 @@ async def refresh(request: Request, response: Response, db: Session = Depends(ge
         
     except HTTPException as e:
         if isinstance(e, ExpiredSignatureError):
-            response.delete_cookie('_rt', path='/', secure=True)
+            response.delete_cookie('_rt', path='/', secure=True, domain='.blog.desmondafari.com', samesite='lax')
             raise HTTPException(404, detail='Sign in to continue', headers={"WWW-Authenticate": "Bearer"})
         
         else:
@@ -180,7 +180,7 @@ async def logout(request: Request, response: Response, schema: LogoutSchema, db:
             else:
                 HTTPException(401, detail='Token error', headers={"WWW-Authenticate": "Bearer"})
 
-    response.delete_cookie('_rt', path='/', secure=True)
+    response.delete_cookie('_rt', path='/', secure=True, domain='.blog.desmondafari.com', samesite='lax')
     db.commit()
 
 
