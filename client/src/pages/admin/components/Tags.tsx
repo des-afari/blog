@@ -9,7 +9,7 @@ import { nameRegex } from '@/utils/config'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from "@/components/ui/badge"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
-import { ScissorsIcon } from '@radix-ui/react-icons'
+import { ScissorsIcon, UpdateIcon } from '@radix-ui/react-icons'
 import { TagsInterface, TagsResponse, TagInterface } from '@/components/Interfaces'
 import useToast from '@/hooks/useToast'
 
@@ -21,6 +21,9 @@ const Tags: FC = () => {
   const [category, setCategory] = useState<string>('')
   const [tag, setTag] = useState<string>('')
   const [selected, setSelected] = useState<string>()
+  const [modal, setModal] = useState<string>() 
+  const [categoryUpdate, setCategoryUpdate] = useState<string>('')
+  const [tagUpdate, setTagUpdate] = useState<string>('')
 
   const axiosPrivate = useAxiosPrivate()
   const toast = useToast()
@@ -86,6 +89,34 @@ const Tags: FC = () => {
     }
   }
 
+  const handleUpdate = async () => {
+    try {
+      if (!nameRegex.test(categoryUpdate)) {
+        toast('Parent must have at least two characters')
+        setIsLoading(false)
+        return
+      }
+
+      const parent_id = categories?.find(value => value.name === categoryUpdate)?.id
+
+      const data = {
+        "parent_id": parent_id,
+        "name": tagUpdate
+      }
+
+      await axiosPrivate.put(`/tag/${selected}/update`, data)
+      
+      get_tags()
+
+    } catch (error) {
+      axiosError(error as Error)
+    
+    } finally {
+      setTagUpdate('')
+      setCategoryUpdate('')
+    }
+  }
+
   return (
     <section className='grid grid-cols-6' style={{height: "calc(100vh - 9rem)"}}>
       <div className='border-r pr-4 col-span-4'>
@@ -114,28 +145,78 @@ const Tags: FC = () => {
                 <CardContent className='h-full relative pt-2 space-y-1'>
                   <Badge className='text-[.6rem]' variant={'secondary'}> {categories?.find(value => value.id === item.parent_id)?.name} </Badge>
                   <h2 className='text-xl font-extrabold'> {item.name} </h2>
-                  <AlertDialogTrigger asChild>
-                    <Button title='delete' onClick={() => setSelected(item.id)} className='absolute bottom-2 right-2 rounded-full' variant={'ghost'} size={'icon'}>
-                      <ScissorsIcon />
-                    </Button>
-                  </AlertDialogTrigger>
+                  <div className='absolute bottom-2 right-2 space-x-1'>
+                    <AlertDialogTrigger asChild>
+                      <Button title='update' onClick={() => {
+                        setModal('update')
+                        setSelected(item.id)
+                        setTagUpdate(item.name)
+                      }} className='rounded-full' variant={'ghost'} size={'icon'}>
+                        <UpdateIcon />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogTrigger asChild>
+                      <Button title='delete' onClick={() => {
+                        setModal('delete')
+                        setSelected(item.id)
+                      }} className='rounded-full' variant={'ghost'} size={'icon'}>
+                        <ScissorsIcon />
+                      </Button>
+                    </AlertDialogTrigger>
+                  </div>
                 </CardContent>
               </Card>
             ))
           }
         </div>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete Tag</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently remove the tag.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
+        {
+          modal === 'delete' &&
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Delete Tag</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently remove the tag.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        } {
+          modal === 'update' && 
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Update Tag</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently update the tag.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <Select value={categoryUpdate} onValueChange={setCategoryUpdate}>
+              <SelectTrigger>
+                <SelectValue placeholder='Select a category' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Categories</SelectLabel>
+                  {
+                    categories?.map(item => (
+                      <SelectItem key={item.id} value={item.name}> {item.name} </SelectItem>
+                    ))
+                  }
+                </SelectGroup>
+              </SelectContent>
+            </Select>         
+            <div>
+              <Input id="tag" type="text" placeholder="Neural Networks" 
+                value={tagUpdate} onChange={e => setTagUpdate(e.target.value)}  />
+            </div>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleUpdate}>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        }
       </AlertDialog>
       </div>
       <div className='col-span-2 mt-20'>
