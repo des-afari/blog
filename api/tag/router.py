@@ -26,7 +26,7 @@ async def create_tag(schema: TagSchema, db: Session = Depends(get_db), user = De
     return tag
 
 
-@router.put('/{tag_id}/update', status_code=204, response_model=TagResponse)
+@router.put('/{tag_id}/update', status_code=200, response_model=TagResponse)
 async def update_tag(
     tag_id: str, schema: TagUpdateSchema, db: Session = Depends(get_db), user = Depends(get_user)):
     check_admin_permission(user)
