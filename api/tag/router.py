@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from api.tag.model import Tag
-from api.tag.schemas import TagResponse, TagSchema
+from api.tag.schemas import TagResponse, TagSchema, TagUpdateSchema
 from typing import List
 from utils.session import get_db
 from api.user.config import check_admin_permission, check_for_conflict
@@ -22,6 +22,26 @@ async def create_tag(schema: TagSchema, db: Session = Depends(get_db), user = De
 
     db.add(tag)
     db.commit()
+
+    return tag
+
+
+@router.put('/{tag_id}/update', status_code=204, response_model=TagResponse)
+async def update_tag(
+    tag_id: str, schema: TagUpdateSchema, db: Session = Depends(get_db), user = Depends(get_user)):
+    check_admin_permission(user)
+
+    tag = db.query(Tag).get(tag_id)
+
+    if not tag:
+        raise HTTPException(404, detail='Tag not found')
+
+    form = schema.model_dump(exclude_unset=True)
+    for key, value in form.items():
+        setattr(tag, key, value)
+
+    db.commit()
+    db.refresh(tag)
 
     return tag
 
