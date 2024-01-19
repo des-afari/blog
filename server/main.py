@@ -7,9 +7,22 @@ from api.article.model import Article
 from api.article.schemas import ArticleResponse
 from api.tag.model import Tag
 from api.tag.schemas import TagResponse
-from db.models import Base
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get('/', status_code=200)
 async def root():

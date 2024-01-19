@@ -76,7 +76,7 @@ const Information: FC<UserComponentInterface> = ({ user, setUser }) => {
           <Input id="name" placeholder='King' value={lastName} onChange={e => setLastName(e.target.value)} />
         </div>
         <DialogFooter>
-          <DialogClose className={buttonVariants({})}>Save changes</DialogClose>
+          <DialogClose type='submit' className={buttonVariants({})}>Save changes</DialogClose>
         </DialogFooter>
       </form>
     </DialogContent>

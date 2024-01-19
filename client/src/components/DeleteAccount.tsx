@@ -3,10 +3,12 @@ import { DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHead
 import { buttonVariants } from './ui/button'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import axiosError from '@/utils/error'
+import { useNavigate } from 'react-router-dom'
 
 
 const DeleteAccount: FC = () => {
   const axiosPrivate = useAxiosPrivate()
+  const navigate = useNavigate()
 
   const handleDelete = async () => {
     try {
@@ -15,6 +17,8 @@ const DeleteAccount: FC = () => {
       localStorage.removeItem('SI')
       localStorage.removeItem('id')
       sessionStorage.removeItem('currentUser')
+
+      navigate(0)
 
     } catch (error) {
       axiosError(error as Error)
