@@ -34,7 +34,7 @@ const Search: FC = () => {
 
   return (
     <main>
-      <form onSubmit={handleSubmit} className='px-6 py-2 flex items-center bg-gray-100 border-b  font-extrabold min-h-24 md:min-h-32'>
+      <form onSubmit={handleSubmit} className='px-4 md:px-6 py-2 flex items-center bg-gray-100 border-b  font-extrabold min-h-24 md:min-h-32'>
         <Input 
           value={title}
           onChange={e => setTitle(e.target.value)}

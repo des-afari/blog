@@ -58,7 +58,7 @@ const ArticleView: FC = () => {
           {
             article &&
             <>
-            <article className='sm:max-w-3xl mx-auto grid gap-y-3 p-6 pt-10'>
+            <article className='sm:max-w-3xl mx-auto grid gap-y-3 p-4 md:p-6 pt-10'>
             <Helmet>
               <title> {article.title} </title>
               <meta name='description' content={article.description} />

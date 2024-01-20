@@ -45,7 +45,7 @@ const Header: FC = () => {
   }
 
   return (
-    <header className='h-16 px-6 border-b flex items-center justify-between'>
+    <header className='h-16 px-4 md:px-6 border-b flex items-center justify-between'>
       <div>
         <a href="/">
           <p className='font-bold text-2xl'>

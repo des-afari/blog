@@ -33,7 +33,7 @@ const TagView: FC = () => {
   return (
     <main>
       <div className='bg-gray-100 border-b'>
-        <h1 className='px-6 py-2 flex items-center justify-center md:justify-start text-center md:text-start sm:max-w-3xl mx-auto text-4xl md:text-5xl font-extrabold min-h-24 md:min-h-32'>{tag}</h1>
+        <h1 className='px-4 md:px-6 py-2 flex items-center justify-center md:justify-start text-center md:text-start sm:max-w-3xl mx-auto text-4xl md:text-5xl font-extrabold min-h-24 md:min-h-32'>{tag}</h1>
       </div>
       <div className='sm:max-w-3xl mx-auto p-6'>
       {

@@ -22,7 +22,6 @@ const Index: FC = () => {
 
         const items = response?.data?.filter(tag => tag.parent_id !== null)
         setTags(items)
-        sessionStorage.setItem('tags', JSON.stringify(items))
 
       } catch (error) {
         axiosError(error as Error)
@@ -35,23 +34,20 @@ const Index: FC = () => {
 
         response?.data?.reverse()
         setArticles(response?.data)
-        sessionStorage.setItem('articles', JSON.stringify(response?.data))
 
       } catch (error) {
         axiosError(error as Error)
       }
     }
 
-    const storedTags = sessionStorage.getItem('tags')
-    const storedArticles = sessionStorage.getItem('articles')
 
-    storedTags ? setTags(JSON.parse(storedTags)) : get_tags()
-    storedArticles ? setArticles(JSON.parse(storedArticles)) : get_articles()
+    get_tags()
+    get_articles()
   }, [])
 
   return (
     <div>
-      <section className='customScroll overflow-y-auto px-6 flex items-center lg:justify-center gap-x-3 h-11 bg-gray-100 border-b'>
+      <section className='customScroll overflow-y-auto px-4 md:px-6 flex items-center lg:justify-center gap-x-3 h-11 bg-gray-100 border-b'>
         {
           tags?.map(item => (
             <Button 

@@ -111,7 +111,7 @@ const Register: FC = () => {
   }
 
   return (
-    <div className='px-6 bg-white'>
+    <div className='px-4 md:px-6 bg-white'>
       <form className='mt-20 pb-10 space-y-1 sm:mx-auto sm:w-full sm:max-w-sm' onSubmit={handleSubmit}>
         <h1 className='text-3xl font-extrabold text-center'>Create an account</h1>
         <p className='text-center text-sm text-muted-foreground'>Enter your email below to create your account</p>
