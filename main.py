@@ -1,5 +1,4 @@
 from fastapi import FastAPI, Depends
-from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from utils.session import get_db
 from api.api_v1 import api_router
@@ -8,11 +7,12 @@ from api.article.model import Article
 from api.article.schemas import ArticleResponse
 from api.tag.model import Tag
 from api.tag.schemas import TagResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(docs_url=None)
 
 origins = [
-    "http://localhost",
+    "http://localhost:8000",
     "https://blog.desmondafari.com",
     "https://www.blog.desmondafari.com",
 ]
