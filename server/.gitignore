@@ -2,4 +2,3 @@
 __pycache__/
 keys/
 .env
-alembic.ini

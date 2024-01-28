@@ -9,11 +9,12 @@ from api.tag.model import Tag
 from api.tag.schemas import TagResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+app = FastAPI(docs_url=None)
 
 origins = [
-    "http://localhost",
     "http://localhost:5173",
+    "https://blog.desmondafari.com",
+    "https://www.blog.desmondafari.com",
 ]
 
 app.add_middleware(

@@ -3,13 +3,12 @@ from sqlalchemy.orm import Session
 from api.tag.model import Tag
 from api.comment.model import Comment
 from api.vote.model import Vote
-from api.article.model import Article
+from api.article.model import Article, association_table
 from api.article.schemas import ArticleSchema, ArticleUpdateSchema, ArticleResponse
 from utils.session import get_db
 from api.user.oauth2 import get_user
 from api.user.config import check_admin_permission
 from secrets import token_hex
-from sqlalchemy.sql import exists
 
 router = APIRouter()
 
@@ -69,9 +68,11 @@ async def delete_article(article_id: str, db: Session = Depends(get_db), user = 
     check_admin_permission(user)
 
     article = db.query(Article).get(article_id)
+    associations = db.query(association_table).filter_by(article_id=article_id).all()
 
     if not article:
         raise HTTPException(404, detail='Article not found')
     
+    db.delete(associations)
     db.delete(article)
     db.commit()

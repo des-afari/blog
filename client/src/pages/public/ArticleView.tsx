@@ -62,6 +62,13 @@ const ArticleView: FC = () => {
             <Helmet>
               <title> {article.title} </title>
               <meta name='description' content={article.description} />
+              {/* Open Graph Meta Tags (for social media sharing) */}
+              <meta property="og:title" content={article.title} />
+              <meta property="og:description" content={article.description} />
+              <meta property="og:image" content={article.article_img_url} />
+              <meta property="og:url" content={`https://blog.desmondafari.com/article/${article.id}`} />
+              <meta property="og:type" content="article" />
+              {/* End Open Graph Meta Tags */}
               { /* Twitter tags */ }
               <meta name="twitter:creator" content="Desmond Afari" />
               <meta name="twitter:card" content="article" />
