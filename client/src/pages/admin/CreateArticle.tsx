@@ -1,5 +1,4 @@
 import { FC, useRef, useState, useEffect, FormEvent } from 'react'
-import 'quill/dist/quill.snow.css'
 import ReactQuill from 'react-quill'
 import useTextAreaExpansion from '@/hooks/useTextAreaExpansion'
 import { Input } from '@/components/ui/input'
@@ -12,7 +11,8 @@ import { useNavigate } from 'react-router-dom'
 import Loader from '@/components/Loader'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
-import useReactQuillModules from '@/hooks/useReactQuillModules'
+import useReactQuillModules, { formats } from '@/hooks/useReactQuillModules'
+import "react-quill/dist/quill.snow.css"
 
 
 const CreateArticle: FC = () => {
@@ -30,13 +30,6 @@ const CreateArticle: FC = () => {
   const axiosPrivate = useAxiosPrivate()
   const navigate = useNavigate()
   const reactQuillModules = useReactQuillModules()
-
-  const formats = [
-    "header", "height", "bold", "italic",
-    "underline", "strike", "blockquote",
-    "list", "color", "bullet", "indent",
-    "link", "image", "align", "size",
-  ]
 
   useEffect(() => {
     const get_tags = async () => {
@@ -93,7 +86,7 @@ const CreateArticle: FC = () => {
       isLoading ?
       <Loader /> :
       <form action='#' method='POST' onSubmit={handleSubmit} className='p-6 mb-20 max-w-3xl mx-auto space-y-4'>
-        <div>
+        <div className='text-6xl'>
           <Textarea
             ref={titleArea}
             value={title}

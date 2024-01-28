@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 import axios from '@/utils/api'
 import { Input } from '@/components/ui/input'
 import ReactQuill from 'react-quill'
-import useReactQuillModules from '@/hooks/useReactQuillModules'
+import useReactQuillModules, { formats } from '@/hooks/useReactQuillModules'
 import Loader from '@/components/Loader'
 
 const UpdateArticle: FC = () => {
@@ -32,13 +32,6 @@ const UpdateArticle: FC = () => {
   const navigate = useNavigate()
   const textAreaExpansion = useTextAreaExpansion()
   const reactQuillModules = useReactQuillModules()
-
-  const formats = [
-    "header", "height", "bold", "italic",
-    "underline", "strike", "blockquote",
-    "list", "color", "bullet", "indent",
-    "link", "image", "align", "size",
-  ]
 
   useEffect(() => {
     const get_tags = async () => {

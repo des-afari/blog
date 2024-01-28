@@ -6,31 +6,3 @@
   width: 0px;
   height: 0px;
 }
-
-.quill > .ql-container > .ql-editor.ql-blank::before{
-  font-style: normal;
-}
-
-.ql-editor {
-  min-height: 245px;
-}
-
-.ql-editor::placeholder {
-  font-style: normal;
-}
-
-.mainArticle h2  strong, .ql-size-large {
-  font-size: 1.4rem;
-}
-
-@media (min-width: 768px) {
-  .ql-toolbar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .mainArticle h2  strong, .ql-size-large {
-    font-size: 1.6rem;
-  }
-}

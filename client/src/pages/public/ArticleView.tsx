@@ -4,7 +4,6 @@ import axios from '@/utils/api'
 import axiosError from '@/utils/error'
 import {ChatBubbleIcon } from '@radix-ui/react-icons'
 import { formatDate } from '@/utils/config'
-import parser from 'html-react-parser'
 import { Badge } from '@/components/ui/badge'
 import 'quill/dist/quill.core.css'
 import Footer from '@/components/Footer'
@@ -12,6 +11,7 @@ import { ArticleResponse, ArticleInterface } from '@/components/Interfaces'
 import Votes from './components/Votes'
 import Comments from './components/Comments'
 import { Helmet } from 'react-helmet-async'
+
 
 const ArticleView: FC = () => {
   const [article, setArticle] = useState<ArticleInterface>()
@@ -46,6 +46,7 @@ const ArticleView: FC = () => {
 
     get_article()
   }, [])
+  
 
   return (
     <main>
@@ -110,7 +111,7 @@ const ArticleView: FC = () => {
                 {formatDate(article.created_at)}
               </p>
               <img src={article.article_img_url} className='w-full' alt="article_image" />
-              <div className='mt-4 mb-12 md:text-lg'> {parser(article.content)}  </div>
+              <div className='content mt-4 mb-12 text-base md:text-lg'> <div dangerouslySetInnerHTML={{__html: article.content}} /> </div>
               <Comments 
                 article={article}
                 setArticle={setArticle}
