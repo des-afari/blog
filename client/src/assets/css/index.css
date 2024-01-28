@@ -104,5 +104,5 @@
 }
 
 .content pre.ql-syntax {
-  @apply bg-[#F6F6F6] text-[85%] pt-8 pr-4 pb-8 pl-8 leading-5;
+  @apply bg-[#F6F6F6] text-[85%] text-wrap pt-8 pr-4 pb-8 pl-8 leading-5;
 }
