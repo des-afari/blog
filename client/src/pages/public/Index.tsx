@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import Footer from '@/components/Footer'
 import { formatDate } from '@/utils/config'
 import { Badge } from '@/components/ui/badge'
-import IndexSkeleton from '@/components/skeletons/IndexSkeleton'
+import IndexSkeleton from '@/components/IndexSkeleton'
 
 
 const Index: FC = () => {
@@ -43,7 +43,7 @@ const Index: FC = () => {
         axiosError(error as Error)
 
       } finally {
-        // setIsLoading(false)
+        setIsLoading(false)
       }
     }
 

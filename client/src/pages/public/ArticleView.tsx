@@ -11,6 +11,7 @@ import { ArticleResponse, ArticleInterface } from '@/components/Interfaces'
 import Votes from './components/Votes'
 import Comments from './components/Comments'
 import { Helmet } from 'react-helmet-async'
+import Loader from '@/components/Loader'
 
 
 const ArticleView: FC = () => {
@@ -40,7 +41,7 @@ const ArticleView: FC = () => {
         axiosError(error as Error)
 
       } finally {
-        setIsLoading(false)
+        // setIsLoading(false)
       }
     }
 
@@ -51,15 +52,12 @@ const ArticleView: FC = () => {
   return (
     <main>
       {
-        isLoading ? 
-        <div style={{height: "calc(100vh - 8rem)"}} className='flex items-center justify-center'>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-spin"><line x1="12" x2="12" y1="2" y2="6"/><line x1="12" x2="12" y1="18" y2="22"/><line x1="4.93" x2="7.76" y1="4.93" y2="7.76"/><line x1="16.24" x2="19.07" y1="16.24" y2="19.07"/><line x1="2" x2="6" y1="12" y2="12"/><line x1="18" x2="22" y1="12" y2="12"/><line x1="4.93" x2="7.76" y1="19.07" y2="16.24"/><line x1="16.24" x2="19.07" y1="7.76" y2="4.93"/></svg>
-        </div> :
+        isLoading ? <Loader height='100vh' styles='absolute top-0 z-100 w-screen' /> :
         <>
           {
             article &&
             <>
-            <article className='sm:max-w-3xl mx-auto grid gap-y-3 p-4 md:p-6 pt-10'>
+            <article className='sm:max-w-3xl mx-auto grid gap-y-3 p-4 sm:p-6 pt-10'>
             <Helmet>
               <title> {article.title} </title>
               <meta name='description' content={article.description} />

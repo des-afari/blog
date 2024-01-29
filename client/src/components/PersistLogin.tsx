@@ -35,7 +35,7 @@ const PersistLogin: FC = () => {
 
   return (
     <div>
-      {isLoading ? <Loader /> : <Outlet />}
+      {isLoading ? <Loader height='100vh' styles='' /> : <Outlet />}
     </div>
   )
 }

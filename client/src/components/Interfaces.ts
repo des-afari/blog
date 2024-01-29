@@ -1,5 +1,11 @@
 import { Dispatch, SetStateAction } from "react"
 
+interface LoaderInterface {
+  height: string
+  styles: string
+}
+
+
 interface ArticlesInterface {
   id: string
   title: string
@@ -158,4 +164,4 @@ interface UserComponentInterface {
 
 export type {ArticlesInterface, ArticlesResponse, ArticleInterface, ArticleResponse, VoteResponse, VoteComponentInterface, CommentResponse,
 CommentComponentInterface, AuthorizedCommentComponentInterface, UsersInterface, UsersResponse, TagsInterface, TagsResponse, TagInterface,
-CurrentUserInterface, CurrentUserResponse, UserComponentInterface}
+CurrentUserInterface, CurrentUserResponse, UserComponentInterface, LoaderInterface}
