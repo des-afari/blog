@@ -87,7 +87,7 @@ const UpdateArticle: FC = () => {
     <div>
       {
       isLoading ?
-        <Loader /> :
+      <Loader height='100vh' styles='' /> :
         <form action='#' method='POST' onSubmit={handleSubmit} className='p-6 mb-20 max-w-3xl mx-auto space-y-4'>
           <div>
             <Textarea
