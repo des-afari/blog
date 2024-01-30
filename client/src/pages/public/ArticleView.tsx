@@ -41,7 +41,7 @@ const ArticleView: FC = () => {
         axiosError(error as Error)
 
       } finally {
-        // setIsLoading(false)
+        setIsLoading(false)
       }
     }
 
