@@ -132,7 +132,7 @@ const UpdateArticle: FC = () => {
             />
           </div>
           <ReactQuill
-              theme="snow"
+              theme="bubble"
               modules={reactQuillModules}
               formats={formats}
               placeholder="Write here"

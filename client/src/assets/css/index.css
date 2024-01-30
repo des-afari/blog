@@ -76,19 +76,23 @@
 }
 
 .content h1 {
-  @apply text-2xl  md:text-3xl;
+  @apply text-xl  md:text-2xl;
 }
 
 .content h2 {
-  @apply text-xl md:text-2xl;
+  @apply text-lg md:text-xl;
 }
 
 .content ul {
-  @apply max-w-md my-2 pl-3 space-y-1 list-disc list-inside;
+  @apply my-2 pl-3 space-y-1 list-disc list-inside;
 }
 
 .content ol {
-  @apply max-w-md my-2 pl-3 space-y-1 list-decimal list-inside;
+  @apply my-2 pl-3 space-y-1 list-decimal list-inside;
+}
+
+.content .ql-indent-1 {
+  @apply ml-[2rem] ;
 }
 
 .content a {
@@ -100,5 +104,24 @@
 }
 
 .content pre.ql-syntax {
-  @apply bg-[#F7F6F3] text-[85%] text-wrap pt-8 pr-4 pb-8 pl-8 leading-5;
+  @apply bg-[#F7F6F3] text-[85%] p-8 pr-4 leading-5  overflow-auto max-w-[91vw] md:max-w-[45rem];
+}
+
+.content pre.ql-syntax::-webkit-scrollbar {
+  height: 7px;
+}
+
+.content pre.ql-syntax::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+.content pre.ql-syntax::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+.content pre.ql-syntax::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+.content .ql-size-small {
+  @apply text-sm text-muted-foreground;
 }

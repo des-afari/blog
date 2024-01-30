@@ -12,7 +12,7 @@ import Loader from '@/components/Loader'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import useReactQuillModules, { formats } from '@/hooks/useReactQuillModules'
-import "react-quill/dist/quill.snow.css"
+import "react-quill/dist/quill.bubble.css"
 
 
 const CreateArticle: FC = () => {
@@ -129,7 +129,7 @@ const CreateArticle: FC = () => {
           />
         </div>
         <ReactQuill
-            theme="snow"
+            theme="bubble"
             modules={reactQuillModules}
             formats={formats}
             placeholder="Write here"

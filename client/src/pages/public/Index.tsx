@@ -35,8 +35,6 @@ const Index: FC = () => {
     const get_articles = async () => {
       try {
         const response: ArticlesResponse = await axios.get('/articles')
-
-        response?.data?.reverse()
         setArticles(response?.data)
 
       } catch (error) {
