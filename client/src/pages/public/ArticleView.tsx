@@ -109,7 +109,7 @@ const ArticleView: FC = () => {
                 {formatDate(article.created_at)}
               </p>
               <img src={article.article_img_url} className='w-full' alt="article_image" />
-              <div className='content mt-4 mb-12'> <div dangerouslySetInnerHTML={{__html: article.content}} /> </div>
+              <div className='content mt-4 mb-20'> <div dangerouslySetInnerHTML={{__html: article.content}} /> </div>
               <Comments 
                 article={article}
                 setArticle={setArticle}
