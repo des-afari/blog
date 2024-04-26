@@ -3,3 +3,4 @@ __pycache__/
 keys/
 .env
 deploy.sh
+pscale_dump_blog_main_20240426_081123/
